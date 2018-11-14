@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>timetable.png</file>
+        <file>bjarne-stroustrup.svg</file>
+    </qresource>
+</RCC>
