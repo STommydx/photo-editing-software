@@ -8,13 +8,14 @@
 #include "svgsticker.h"
 #include "textsticker.h"
 
-MyGraphicsScene::MyGraphicsScene(QObject *parent) : QGraphicsScene(0, 0, 1080, 1920, parent)
+MyGraphicsScene::MyGraphicsScene(QObject *parent) : QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent), background(nullptr)
 {
 
 }
 
 void MyGraphicsScene::undo()
 {
+    if (items.empty()) return;
     Sticker* sticker = items.back();
     items.pop_back();
     removeItem(sticker);
@@ -22,7 +23,6 @@ void MyGraphicsScene::undo()
 }
 
 void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    // qDebug() << "wtf" << endl;
     QFont font;
     font.setPixelSize(64);
 
@@ -44,4 +44,11 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     }
 
     QGraphicsScene::mousePressEvent(event);
+}
+
+void MyGraphicsScene::setImage(const QImage &image)
+{
+    if (background) removeItem(background);
+    background = addPixmap(QPixmap::fromImage(image).scaledToWidth(1080));
+    background->setTransformationMode(Qt::SmoothTransformation);
 }

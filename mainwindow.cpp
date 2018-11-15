@@ -19,12 +19,9 @@ MainWindow::MainWindow(QWidget *parent) :
     gps = new MyGraphicsScene;
     ui->graphicsView->setScene(gps);
 
-    gps->addRect(0, 900, 100, 100, QPen(), QBrush(QColor(255, 0, 0, 30)));
-
     QImage inp(":assets/img/timetable.png");
-    gps->addPixmap(QPixmap::fromImage(inp).scaledToWidth(1080))->setTransformationMode(Qt::SmoothTransformation);
+    gps->setImage(inp);
 
-    qDebug() << gps->sceneRect() << endl;
 }
 
 void MainWindow::on_actionTest_triggered() {
