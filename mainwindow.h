@@ -13,7 +13,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
@@ -22,6 +22,7 @@ private:
 
 private slots:
     void on_actionTest_triggered();
+    void on_actionSave_triggered();
 };
 
 #endif // MAINWINDOW_H
