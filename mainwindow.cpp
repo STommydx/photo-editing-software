@@ -21,17 +21,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QImage inp(":assets/img/timetable.png");
     gps->setImage(inp);
-
 }
 
 void MainWindow::on_actionTest_triggered() {
-//    QImage img(1080, 1920, QImage::Format_ARGB32_Premultiplied);
-//    QPainter qp;
-//    qp.begin(&img);
-//    ui->graphicsView->scene()->render(&qp);
-//    qp.end();
-//    img.save("wtf.png");
     gps->undo();
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    QImage *snapshot = gps->createSnapshot();
+    snapshot->save("output.png");
+    delete snapshot;
 }
 
 MainWindow::~MainWindow()

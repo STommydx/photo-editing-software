@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QGraphicsScene>
+#include <QImage>
 #include <vector>
 #include "sticker.h"
 
@@ -16,6 +17,7 @@ public:
     vector<Sticker*> items;
     void undo();
     void setImage(const QImage &image);
+    QImage *createSnapshot();
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *) override;

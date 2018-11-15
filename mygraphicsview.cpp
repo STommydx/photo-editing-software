@@ -7,7 +7,6 @@ MyGraphicsView::MyGraphicsView(QWidget *parent) : QGraphicsView(parent)
 }
 
 void MyGraphicsView::resizeEvent(QResizeEvent *event) {
-    // qDebug() << "hello" << endl;
     fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
     QGraphicsView::resizeEvent(event);
 }
