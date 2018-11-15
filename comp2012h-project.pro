@@ -9,7 +9,7 @@ QT += svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = comp2012h-pp-sandbox
+TARGET = comp2012h-project
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use

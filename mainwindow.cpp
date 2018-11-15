@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     gps->addRect(0, 900, 100, 100, QPen(), QBrush(QColor(255, 0, 0, 30)));
 
-    QImage inp(":/img/timetable.png");
+    QImage inp(":assets/img/timetable.png");
     gps->addPixmap(QPixmap::fromImage(inp).scaledToWidth(1080))->setTransformationMode(Qt::SmoothTransformation);
 
     qDebug() << gps->sceneRect() << endl;

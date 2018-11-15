@@ -30,7 +30,7 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
     if(event->button() == Qt::MiddleButton)
     {
-        item = new SvgSticker(":/img/bjarne-stroustrup.svg");
+        item = new SvgSticker(":/assets/img/bjarne-stroustrup.svg");
     }
     else if(event->button() == Qt::RightButton)
     {
