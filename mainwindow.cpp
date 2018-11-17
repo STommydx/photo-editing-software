@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setCentralWidget(ui->graphicsView);
+    // setCentralWidget(ui->graphicsView);
 
     gps = new MyGraphicsScene;
     ui->graphicsView->setScene(gps);
