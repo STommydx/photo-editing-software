@@ -4,6 +4,7 @@ TextSticker::TextSticker(const QString &text) :
     textItem(text)
 {
     textItem.setFont(QFont("Times", 72, QFont::Bold));
+    transformHandler->init();
 }
 
 void TextSticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

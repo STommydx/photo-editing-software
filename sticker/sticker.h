@@ -7,17 +7,22 @@
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
 
-//template<typename T, typename std::enable_if<std::is_base_of<QGraphicsItem, T>::value>::type* = nullptr>
+#include "transformhandler.h"
+
+class TransformHandler;
+
 class Sticker : public QGraphicsItem
 {
 public:
     Sticker();
+    virtual ~Sticker();
     void setPos(const QPointF& pos);
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-//    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    TransformHandler* transformHandler;
 };
 
 #endif // STICKER_H

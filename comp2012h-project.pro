@@ -4,8 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-QT += svg
+QT       += core gui svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,23 +22,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH += sticker
 
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
     mygraphicsview.cpp \
     mygraphicsscene.cpp \
-    sticker.cpp \
-    svgsticker.cpp \
-    textsticker.cpp
+    sticker/anchor.cpp \
+    sticker/sticker.cpp \
+    sticker/svgsticker.cpp \
+    sticker/textsticker.cpp \
+    sticker/transformhandler.cpp
 
 HEADERS += \
         mainwindow.h \
     mygraphicsview.h \
     mygraphicsscene.h \
-    sticker.h \
-    svgsticker.h \
-    textsticker.h
+    sticker/anchor.h \
+    sticker/sticker.h \
+    sticker/svgsticker.h \
+    sticker/textsticker.h \
+    sticker/transformhandler.h
 
 FORMS += \
         mainwindow.ui
