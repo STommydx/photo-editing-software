@@ -1,9 +1,10 @@
 #include "textsticker.h"
 
-TextSticker::TextSticker(const QString &text) :
+TextSticker::TextSticker(const QString &text, const QFont &font, const QColor &color) :
     textItem(text)
 {
-    textItem.setFont(QFont("Times", 72, QFont::Bold));
+    textItem.setFont(font);
+    textItem.setDefaultTextColor(color);
     transformHandler->init();
 }
 

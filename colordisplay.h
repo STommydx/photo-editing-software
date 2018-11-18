@@ -12,6 +12,8 @@ public:
     ColorDisplay(QWidget *parent);
     virtual void mousePressEvent(QMouseEvent *event) override;
 
+    QColor getColor() const;
+
 private:
     QColor color;
 };

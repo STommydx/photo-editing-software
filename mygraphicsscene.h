@@ -15,6 +15,7 @@ class MyGraphicsScene : public QGraphicsScene
 public:
     MyGraphicsScene(QObject *parent = nullptr);
     vector<Sticker*> items;
+    void addSticker(Sticker *sticker);
     void undo();
     void setImage(const QImage &image);
     QImage *createSnapshot();

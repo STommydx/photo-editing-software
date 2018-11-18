@@ -22,3 +22,8 @@ void ColorDisplay::mousePressEvent(QMouseEvent *)
     QBrush brush{color};
     setBackgroundBrush(brush);
 }
+
+QColor ColorDisplay::getColor() const
+{
+    return color;
+}
