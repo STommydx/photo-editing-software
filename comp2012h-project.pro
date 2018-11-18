@@ -33,7 +33,8 @@ SOURCES += \
     sticker/sticker.cpp \
     sticker/svgsticker.cpp \
     sticker/textsticker.cpp \
-    sticker/transformhandler.cpp
+    sticker/transformhandler.cpp \
+    colordisplay.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
     sticker/sticker.h \
     sticker/svgsticker.h \
     sticker/textsticker.h \
-    sticker/transformhandler.h
+    sticker/transformhandler.h \
+    colordisplay.h
 
 FORMS += \
         mainwindow.ui
