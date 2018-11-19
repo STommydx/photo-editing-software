@@ -44,6 +44,16 @@ void MainWindow::on_textEnterButton_clicked()
     gps->addSticker(sticker);
 }
 
+void MainWindow::on_horizontalSlider_valueChanged(int x)
+{
+    ui->spinBox->setValue(x);
+}
+
+void MainWindow::on_spinBox_valueChanged(int x)
+{
+    ui->horizontalSlider->setValue(x);
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
