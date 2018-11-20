@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
+#include <QFileDialog>
 
 #include "mygraphicsscene.h"
 #include "textsticker.h"
@@ -52,6 +53,13 @@ void MainWindow::on_horizontalSlider_valueChanged(int x)
 void MainWindow::on_spinBox_valueChanged(int x)
 {
     ui->horizontalSlider->setValue(x);
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "Import Image from File System", QString(), "Images (*.png *.xpm *.jpg)");
+    QImage image{fileName};
+    gps->setImage(image);
 }
 
 MainWindow::~MainWindow()
