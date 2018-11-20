@@ -23,6 +23,9 @@ private:
 private slots:
     void on_actionTest_triggered();
     void on_actionSave_triggered();
+    void on_textEnterButton_clicked();
+    void on_horizontalSlider_valueChanged(int x);
+    void on_spinBox_valueChanged(int x);
 };
 
 #endif // MAINWINDOW_H

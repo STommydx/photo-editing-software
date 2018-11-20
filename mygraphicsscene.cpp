@@ -14,6 +14,14 @@ MyGraphicsScene::MyGraphicsScene(QObject *parent) : QGraphicsScene(0, 0, SCENE_W
 
 }
 
+void MyGraphicsScene::addSticker(Sticker *item)
+{
+    if (item != nullptr) {
+        addItem(item);
+        items.push_back(item);
+    }
+}
+
 void MyGraphicsScene::undo()
 {
     if (items.empty()) return;
@@ -38,11 +46,8 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         item = new TextSticker("Hello World");
     }
 
-    if(item != nullptr) {
-        addItem(item);
-        item->setPos(event->scenePos());
-        items.push_back(item);
-    }
+    addSticker(item);
+    if (item) item->setPos(event->scenePos());
 
     QGraphicsScene::mousePressEvent(event);
 }

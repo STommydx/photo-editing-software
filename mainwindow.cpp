@@ -8,13 +8,14 @@
 #include <QGraphicsPixmapItem>
 
 #include "mygraphicsscene.h"
+#include "textsticker.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setCentralWidget(ui->graphicsView);
+    // setCentralWidget(ui->graphicsView);
 
     gps = new MyGraphicsScene;
     ui->graphicsView->setScene(gps);
@@ -32,6 +33,25 @@ void MainWindow::on_actionSave_triggered()
     QImage *snapshot = gps->createSnapshot();
     snapshot->save("output.png");
     delete snapshot;
+}
+
+void MainWindow::on_textEnterButton_clicked()
+{
+    QFont font = ui->fontComboBox->currentFont();
+    font.setPointSize(ui->spinBox->value());
+    QColor color = ui->textColor->getColor();
+    Sticker *sticker = new TextSticker(ui->textEdit->text(), font, color);
+    gps->addSticker(sticker);
+}
+
+void MainWindow::on_horizontalSlider_valueChanged(int x)
+{
+    ui->spinBox->setValue(x);
+}
+
+void MainWindow::on_spinBox_valueChanged(int x)
+{
+    ui->horizontalSlider->setValue(x);
 }
 
 MainWindow::~MainWindow()
