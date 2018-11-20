@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
+#include <QFileDialog>
 
 #include "mygraphicsscene.h"
 
@@ -32,6 +33,13 @@ void MainWindow::on_actionSave_triggered()
     QImage *snapshot = gps->createSnapshot();
     snapshot->save("output.png");
     delete snapshot;
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "Import Image from File System");
+    QImage image{fileName};
+    gps->setImage(image);
 }
 
 MainWindow::~MainWindow()

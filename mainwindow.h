@@ -23,6 +23,7 @@ private:
 private slots:
     void on_actionTest_triggered();
     void on_actionSave_triggered();
+    void on_actionOpen_triggered();
 };
 
 #endif // MAINWINDOW_H
