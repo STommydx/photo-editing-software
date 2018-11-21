@@ -25,7 +25,9 @@ private slots:
     void on_actionSave_triggered();
     void on_textEnterButton_clicked();
     void on_horizontalSlider_valueChanged(int x);
+    void on_penSlider_valueChanged(int x);
     void on_spinBox_valueChanged(int x);
+    void on_penSpinner_valueChanged(int x);
     void on_actionOpen_triggered();
 };
 
