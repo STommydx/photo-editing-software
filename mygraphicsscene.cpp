@@ -55,7 +55,7 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 void MyGraphicsScene::setImage(const QImage &image)
 {
     if (background) removeItem(background);
-    background = addPixmap(QPixmap::fromImage(image).scaledToWidth(1080));
+    background = addPixmap(QPixmap::fromImage(image.scaledToWidth(SCENE_WIDTH, Qt::SmoothTransformation)));
     background->setTransformationMode(Qt::SmoothTransformation);
 }
 

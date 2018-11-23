@@ -50,9 +50,19 @@ void MainWindow::on_horizontalSlider_valueChanged(int x)
     ui->spinBox->setValue(x);
 }
 
+void MainWindow::on_penSlider_valueChanged(int x)
+{
+    ui->penSpinner->setValue(x);
+}
+
 void MainWindow::on_spinBox_valueChanged(int x)
 {
     ui->horizontalSlider->setValue(x);
+}
+
+void MainWindow::on_penSpinner_valueChanged(int x)
+{
+    ui->penSlider->setValue(x);
 }
 
 void MainWindow::on_actionOpen_triggered()
