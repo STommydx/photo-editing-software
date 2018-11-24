@@ -30,16 +30,26 @@ ImageKernel ImageKernel::gaussianBlur(int size, double sd)
     return kernel;
 }
 
-QImage ImageKernel::convolution(const QImage &img)
+ImageKernel ImageKernel::sharpen(int size)
+{
+    ImageKernel kernel{size};
+    for (int dx=-size+1;dx<size;dx++) for (int dy=-size+1;dy<size;dy++) {
+        kernel.data(dx, dy) = -1;
+    }
+    kernel.data(0, 0) = kernel.mat.size() * kernel.mat.size();
+    return kernel;
+}
+
+QImage ImageKernel::convolution(const QImage &img, bool normalized)
 {
     QImage newImage{img};
     for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
-        *ImageUtil::getPixel(newImage, i, j) = convolution(img, i, j);
+        *ImageUtil::getPixel(newImage, i, j) = convolution(img, i, j, normalized);
     }
     return newImage;
 }
 
-QRgb ImageKernel::convolution(const QImage &img, int x, int y)
+QRgb ImageKernel::convolution(const QImage &img, int x, int y, bool normalized)
 {
     int normFact = 0;
     int rsum = 0, gsum = 0, bsum = 0;
@@ -52,7 +62,15 @@ QRgb ImageKernel::convolution(const QImage &img, int x, int y)
         gsum += data(dx, dy) * qGreen(pix);
         bsum += data(dx, dy) * qBlue(pix);
     }
-    return qRgba(rsum / normFact, gsum / normFact, bsum / normFact, qAlpha(*ImageUtil::getPixel(img, x, y)));
+    if (normalized && normFact) {
+        rsum /= normFact;
+        gsum /= normFact;
+        bsum /= normFact;
+    }
+    rsum = qBound(0, rsum, 255);
+    gsum = qBound(0, gsum, 255);
+    bsum = qBound(0, bsum, 255);
+    return qRgba(rsum, gsum, bsum, qAlpha(*ImageUtil::getPixel(img, x, y)));
 }
 
 int &ImageKernel::data(int x, int y)

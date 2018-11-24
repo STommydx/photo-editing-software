@@ -13,6 +13,7 @@ public:
     static QImage weirdize(const QImage &img);
     static QImage meanBlur(const QImage &img, int size = 3);
     static QImage gaussianBlur(const QImage &img, int size = 3, double stDev = 1.0);
+    static QImage sharpen(const QImage &img, int size = 2);
 
 };
 

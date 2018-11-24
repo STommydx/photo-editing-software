@@ -32,3 +32,8 @@ QImage ImageUtil::gaussianBlur(const QImage &img, int size, double sd)
 {
     return ImageKernel::gaussianBlur(size, sd).convolution(img);
 }
+
+QImage ImageUtil::sharpen(const QImage &img, int size)
+{
+    return ImageKernel::sharpen(size).convolution(img);
+}
