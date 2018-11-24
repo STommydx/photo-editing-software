@@ -16,17 +16,23 @@ void TransformHandler::init()
     anchor = new Anchor(this);
 }
 
-void TransformHandler::dragScale(QPointF point)
-{
-    QRectF tmpRect = rect();
-    tmpRect.setTopLeft(point);
+#include <QDebug>
 
-    QSizeF size(rect().width(), rect().height());
-    size.scale(tmpRect.width(), tmpRect.height(), Qt::KeepAspectRatioByExpanding);
-    qreal scale = parentItem()->scale() * (size.width() / rect().width());
+void TransformHandler::dragScale(QPointF scenePos)
+{
+    QRectF rect0 = mapToScene(rect()).boundingRect();
+    QRectF rect1 = rect0;
+    rect1.setTopLeft(scenePos);
+
+    QSizeF size(rect0.width(), rect0.height());
+    size.scale(rect1.width(), rect1.height(), Qt::KeepAspectRatioByExpanding);
+
+    qreal scale = parentItem()->scale() * (size.width() / rect0.width());
 
     if(scale > minScale) {
         parentItem()->setTransformOriginPoint(rect().bottomRight());
         parentItem()->setScale(scale);
     }
+
+
 }

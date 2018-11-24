@@ -22,7 +22,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-INCLUDEPATH += sticker
+INCLUDEPATH += sticker ui
 
 SOURCES += \
         main.cpp \
@@ -34,7 +34,10 @@ SOURCES += \
     sticker/svgsticker.cpp \
     sticker/textsticker.cpp \
     sticker/transformhandler.cpp \
-    colordisplay.cpp
+    colordisplay.cpp \
+    ui/stickerthumbnailsmodel.cpp \
+    ui/stickerthumbnailsview.cpp \
+    ui/stickerthumbnailsdelegate.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +48,10 @@ HEADERS += \
     sticker/svgsticker.h \
     sticker/textsticker.h \
     sticker/transformhandler.h \
-    colordisplay.h
+    colordisplay.h \
+    ui/stickerthumbnailsmodel.h \
+    ui/stickerthumbnailsview.h \
+    ui/stickerthumbnailsdelegate.h
 
 FORMS += \
         mainwindow.ui

@@ -17,7 +17,7 @@ public:
     TransformHandler(Sticker* parent);
     virtual ~TransformHandler();
     void init();
-    void dragScale(QPointF corner);
+    void dragScale(QPointF scenePos);
 
 private:
     Anchor* anchor;

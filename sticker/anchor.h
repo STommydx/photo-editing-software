@@ -16,9 +16,13 @@ public:
 
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
     static const int RADIUS = 8;
+
+
+
 };
 
 #endif // ANCHOR_H

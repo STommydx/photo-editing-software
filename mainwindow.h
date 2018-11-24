@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "mygraphicsscene.h"
+#include "stickerthumbnailsmodel.h"
+#include "stickerthumbnailsdelegate.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,9 +18,18 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QString getStickerPath();
+
+public slots:
+    void processGraphicsSceneEvent(QPointF scenePos);
+
 private:
     Ui::MainWindow *ui;
     MyGraphicsScene *gps;
+    StickerThumbnailsModel* model;
+    StickerThumbnailsDelegate* delegate;
+
+    void initStickerTab();
 
 private slots:
     void on_actionTest_triggered();
