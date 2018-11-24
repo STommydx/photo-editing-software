@@ -15,6 +15,7 @@ CameraWindow::CameraWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->listWidget->setViewMode(QListWidget::IconMode);
     ui->listWidget->setResizeMode(QListWidget::Adjust);
+    ui->listWidget->setIconSize(QSize(150, 150));
 
     QList<QCameraInfo> camInfo = QCameraInfo::availableCameras();
     if (camInfo.size() > 0) {
