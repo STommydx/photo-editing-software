@@ -71,11 +71,11 @@ void CameraWindow::cameraImageCaptured(int id, const QImage &preview)
 {
     captureMap[id] = captureList.count();
     captureList.push_back(id);
-    ui->listWidget->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(preview)), QString::number(id)));
+    ui->listWidget->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(preview)), "Capture " + QString::number(id)));
 }
 
 void CameraWindow::cameraImageSaved(int id, const QString &fileName)
 {
     fileNameMap[id] = fileName;
-    ui->listWidget->item(captureMap[id])->setText(fileName);
+    ui->listWidget->item(captureMap[id])->setToolTip(fileName);
 }
