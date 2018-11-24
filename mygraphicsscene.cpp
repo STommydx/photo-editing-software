@@ -8,6 +8,7 @@
 
 #include "svgsticker.h"
 #include "textsticker.h"
+#include "imageutil.h"
 
 const QString MyGraphicsScene::DEFAULT_PHOTO = ":/assets/img/default.png";
 
