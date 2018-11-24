@@ -1,3 +1,5 @@
+#include <QtMath>
+
 #include "imagekernel.h"
 
 ImageKernel::ImageKernel(int size) :
@@ -12,6 +14,18 @@ ImageKernel ImageKernel::meanBlur(int size)
     ImageKernel kernel{size};
     for (int dx=-size+1;dx<size;dx++) for (int dy=-size+1;dy<size;dy++) {
         kernel.data(dx, dy) = 1;
+    }
+    return kernel;
+}
+
+ImageKernel ImageKernel::gaussianBlur(int size, double sd)
+{
+    ImageKernel kernel{size};
+    const int MULTIPLIER = 1000;
+    for (int dx=-size+1;dx<size;dx++) for (int dy=-size+1;dy<size;dy++) {
+        int sqDist = dx * dx + dy * dy;
+        double density = 1.0 / qSqrt(2.0 * M_PI * sd * sd) * qExp(-sqDist / 2.0 / sd / sd);
+        kernel.data(dx, dy) = qFloor(density * MULTIPLIER);
     }
     return kernel;
 }

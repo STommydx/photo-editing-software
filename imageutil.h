@@ -12,6 +12,7 @@ public:
     static QRgb *getPixel(QImage &img, int x, int y);
     static QImage weirdize(const QImage &img);
     static QImage meanBlur(const QImage &img, int size = 3);
+    static QImage gaussianBlur(const QImage &img, int size = 3, double stDev = 1.0);
 
 };
 

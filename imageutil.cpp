@@ -27,3 +27,8 @@ QImage ImageUtil::meanBlur(const QImage &img, int size)
 {
     return ImageKernel::meanBlur(size).convolution(img);
 }
+
+QImage ImageUtil::gaussianBlur(const QImage &img, int size, double sd)
+{
+    return ImageKernel::gaussianBlur(size, sd).convolution(img);
+}

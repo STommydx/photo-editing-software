@@ -12,6 +12,7 @@ class ImageKernel
 public:
     ImageKernel(int size = 1);
     static ImageKernel meanBlur(int size = 3);
+    static ImageKernel gaussianBlur(int size = 3, double sd = 1.0);
     QImage convolution(const QImage &img);
 
 private:
