@@ -13,16 +13,11 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    gps(new MyGraphicsScene)
 {
     ui->setupUi(this);
-    // setCentralWidget(ui->graphicsView);
-
-    gps = new MyGraphicsScene;
     ui->graphicsView->setScene(gps);
-
-    QImage inp(":assets/img/timetable.png");
-    gps->setImage(inp);
 }
 
 void MainWindow::on_actionTest_triggered() {
@@ -75,4 +70,5 @@ void MainWindow::on_actionOpen_triggered()
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete gps;
 }

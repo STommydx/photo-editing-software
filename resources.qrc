@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>assets/img/timetable.png</file>
         <file>assets/img/bjarne-stroustrup.svg</file>
+        <file>assets/img/default.png</file>
     </qresource>
 </RCC>
