@@ -329,6 +329,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpen"/>
+   <addaction name="actionCamera"/>
    <addaction name="actionTest"/>
    <addaction name="actionSave"/>
   </widget>
@@ -345,6 +346,11 @@
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
+   </property>
+  </action>
+  <action name="actionCamera">
+   <property name="text">
+    <string>Camera</string>
    </property>
   </action>
  </widget>
