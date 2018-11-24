@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui svg
+QT       += core gui svg multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,7 +34,8 @@ SOURCES += \
     sticker/svgsticker.cpp \
     sticker/textsticker.cpp \
     sticker/transformhandler.cpp \
-    colordisplay.cpp
+    colordisplay.cpp \
+    camerawindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,10 +46,12 @@ HEADERS += \
     sticker/svgsticker.h \
     sticker/textsticker.h \
     sticker/transformhandler.h \
-    colordisplay.h
+    colordisplay.h \
+    camerawindow.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    camerawindow.ui
 
 RESOURCES += \
     resources.qrc
