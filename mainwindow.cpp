@@ -13,12 +13,11 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    gps(new MyGraphicsScene),
+    cw(nullptr)
 {
     ui->setupUi(this);
-    // setCentralWidget(ui->graphicsView);
-
-    gps = new MyGraphicsScene;
     ui->graphicsView->setScene(gps);
 
     QImage inp(":assets/img/timetable.png");
@@ -34,6 +33,14 @@ void MainWindow::on_actionSave_triggered()
     QImage *snapshot = gps->createSnapshot();
     snapshot->save("output.png");
     delete snapshot;
+}
+
+void MainWindow::on_actionCamera_triggered()
+{
+    if (cw) return;
+    cw = new CameraWindow(this);
+    cw->show();
+    connect(cw, &CameraWindow::closed, this, &MainWindow::onCameraCaptured);
 }
 
 void MainWindow::on_textEnterButton_clicked()
@@ -70,6 +77,13 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, "Import Image from File System", QString(), "Images (*.png *.xpm *.jpg)");
     QImage image{fileName};
     gps->setImage(image);
+}
+
+void MainWindow::onCameraCaptured()
+{
+    gps->setImage(cw->result());
+    delete cw;
+    cw = nullptr;
 }
 
 MainWindow::~MainWindow()

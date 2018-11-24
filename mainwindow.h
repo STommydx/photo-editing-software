@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "mygraphicsscene.h"
+#include "camerawindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,16 +20,19 @@ public:
 private:
     Ui::MainWindow *ui;
     MyGraphicsScene *gps;
+    CameraWindow *cw;
 
 private slots:
     void on_actionTest_triggered();
     void on_actionSave_triggered();
+    void on_actionCamera_triggered();
     void on_textEnterButton_clicked();
     void on_horizontalSlider_valueChanged(int x);
     void on_penSlider_valueChanged(int x);
     void on_spinBox_valueChanged(int x);
     void on_penSpinner_valueChanged(int x);
     void on_actionOpen_triggered();
+    void onCameraCaptured();
 };
 
 #endif // MAINWINDOW_H
