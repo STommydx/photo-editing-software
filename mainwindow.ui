@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Image Editing Software (IES)</string>
+   <string>Photo Editing Software (PES)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">

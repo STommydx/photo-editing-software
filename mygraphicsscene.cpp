@@ -9,9 +9,11 @@
 #include "svgsticker.h"
 #include "textsticker.h"
 
+const QString MyGraphicsScene::DEFAULT_PHOTO = ":/assets/img/default.png";
+
 MyGraphicsScene::MyGraphicsScene(QObject *parent) : QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent), background(nullptr)
 {
-
+    setImage(QImage(DEFAULT_PHOTO));
 }
 
 void MyGraphicsScene::addSticker(Sticker *item)

@@ -26,6 +26,7 @@ protected:
 private:
     static const int SCENE_WIDTH = 1080;
     static const int SCENE_HEIGHT = 1920;
+    static const QString DEFAULT_PHOTO;
     QGraphicsPixmapItem *background;
 
 };

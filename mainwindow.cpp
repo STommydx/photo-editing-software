@@ -19,9 +19,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->graphicsView->setScene(gps);
-
-    QImage inp(":assets/img/timetable.png");
-    gps->setImage(inp);
 }
 
 void MainWindow::on_actionTest_triggered() {
@@ -89,4 +86,5 @@ void MainWindow::onCameraCaptured()
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete gps;
 }
