@@ -21,14 +21,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     // setCentralWidget(ui->graphicsView);
 
-    gps = new MyGraphicsScene(this);
-    ui->graphicsView->setScene(gps);
-    connect(gps, SIGNAL(clicked(QPointF)), this, SLOT(processGraphicsSceneEvent(QPointF)));
-
-    QImage inp(":assets/img/timetable.png");
-    gps->setImage(inp);
-
+    initGraphicsScene();
     initStickerTab();
+
+    ui->stickerToolbar->hide();
 }
 
 void MainWindow::on_actionTest_triggered() {
@@ -56,19 +52,21 @@ void MainWindow::on_horizontalSlider_valueChanged(int x)
     ui->spinBox->setValue(x);
 }
 
-void MainWindow::on_penSlider_valueChanged(int x)
-{
-    ui->penSpinner->setValue(x);
-}
-
 void MainWindow::on_spinBox_valueChanged(int x)
 {
     ui->horizontalSlider->setValue(x);
 }
 
+void MainWindow::on_penSlider_valueChanged(int x)
+{
+    ui->penSpinner->setValue(x);
+    gps->setStrokeWidth(x);
+}
+
 void MainWindow::on_penSpinner_valueChanged(int x)
 {
     ui->penSlider->setValue(x);
+    gps->setStrokeWidth(x);
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -76,6 +74,35 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, "Import Image from File System", QString(), "Images (*.png *.xpm *.jpg)");
     QImage image{fileName};
     gps->setImage(image);
+}
+
+void MainWindow::on_penColor_colorChanged(QColor color)
+{
+    gps->setPenColor(color);
+}
+
+void MainWindow::on_actionDelete_triggered()
+{
+    gps->deleteSelected();
+}
+
+void MainWindow::on_actionToFront_triggered()
+{
+    gps->bringToFrontSelected();
+}
+
+void MainWindow::on_actionToBack_triggered()
+{
+    gps->sendToBackSelected();
+}
+
+void MainWindow::m_on_gps_selectionChanged()
+{
+    QList<QGraphicsItem *> selections = gps->selectedItems();
+    if(selections.isEmpty())
+        ui->stickerToolbar->hide();
+    else
+        ui->stickerToolbar->show();
 }
 
 MainWindow::~MainWindow()
@@ -94,6 +121,18 @@ void MainWindow::processGraphicsSceneEvent(QPointF scenePos)
     SvgSticker* sticker = new SvgSticker(getStickerPath());
     sticker->setPos(scenePos);
     gps->addSticker(sticker);
+}
+
+void MainWindow::initGraphicsScene()
+{
+    gps = new MyGraphicsScene(this);
+    gps->setImage(QImage(":assets/img/timetable.png"));
+    gps->setStrokeWidth(ui->penSlider->value());
+
+    connect(gps, SIGNAL(selectionChanged()), this, SLOT(m_on_gps_selectionChanged()));
+    connect(gps, SIGNAL(clicked(QPointF)), this, SLOT(processGraphicsSceneEvent(QPointF)));
+
+    ui->graphicsView->setScene(gps);
 }
 
 void MainWindow::initStickerTab()

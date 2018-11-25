@@ -29,6 +29,7 @@ private:
     StickerThumbnailsModel* model;
     StickerThumbnailsDelegate* delegate;
 
+    void initGraphicsScene();
     void initStickerTab();
 
 private slots:
@@ -40,6 +41,14 @@ private slots:
     void on_spinBox_valueChanged(int x);
     void on_penSpinner_valueChanged(int x);
     void on_actionOpen_triggered();
+    void on_penColor_colorChanged(QColor color);
+
+    // Sticker toolbar
+    void on_actionDelete_triggered();
+    void on_actionToFront_triggered();
+    void on_actionToBack_triggered();
+
+    void m_on_gps_selectionChanged();
 };
 
 #endif // MAINWINDOW_H

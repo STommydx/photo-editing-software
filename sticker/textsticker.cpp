@@ -18,3 +18,9 @@ QRectF TextSticker::boundingRect() const
     return textItem.boundingRect();
 }
 
+
+
+Sticker::Type TextSticker::getType() const
+{
+    return Sticker::Text;
+}

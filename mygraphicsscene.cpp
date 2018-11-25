@@ -48,36 +48,84 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-//    qInfo() << "Start drawing";
     if(event->buttons() & Qt::RightButton) {
 
-    if(lastPoint.isNull()) {
-        lastPoint = event->scenePos();
-//        qInfo() << event->pos();
-//        qInfo() << event->scenePos();
-        return;
+        if(lastPoint.isNull()) {
+            lastPoint = event->scenePos();
+            return;
+        }
+
+        QPointF endPoint = event->scenePos();
+
+        QPen pen = QPen(penColor, strokeWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+        addLine(lastPoint.x(), lastPoint.y(), endPoint.x(), endPoint.y(), pen);
+
+        lastPoint = endPoint;
     }
-    qInfo() << lastPoint;
-
-    QPointF endPoint = event->scenePos();
-    QPointF ctrlPoint = (lastPoint + endPoint) / 2;
-
-    QPainterPath painterPath(lastPoint);
-    painterPath.quadTo(ctrlPoint, endPoint);
-
-    QPen pen = QPen(Qt::blue, 24, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-    addPath(painterPath, pen);
-//    addLine(lastPoint.x(), lastPoint.y(), endPoint.x(), endPoint.y(), pen);
-
-    lastPoint = endPoint;
-
-    }
-
+    else
+        QGraphicsScene::mouseMoveEvent(event);
 }
 
 void MyGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     lastPoint = QPoint(0,0);
+}
+
+void MyGraphicsScene::setPenColor(const QColor &value)
+{
+    penColor = value;
+}
+
+Sticker *MyGraphicsScene::getSelected()
+{
+    if(!selectedItems().empty())
+        return dynamic_cast<Sticker*>(selectedItems().first());
+    else
+        return nullptr;
+}
+
+void MyGraphicsScene::deleteSelected()
+{
+    Sticker* sticker = getSelected();
+    if(sticker != nullptr)
+        delete sticker;
+}
+
+// copied from http://doc.qt.io/qt-5/qtwidgets-graphicsview-diagramscene-example.html
+void MyGraphicsScene::bringToFrontSelected()
+{
+    if(selectedItems().isEmpty()) return;
+
+    QGraphicsItem *selectedItem = selectedItems().first();
+    QList<QGraphicsItem *> overlapItems = selectedItem->collidingItems();
+
+    qreal zValue = 0;
+    foreach (QGraphicsItem *item, overlapItems) {
+        if (item->zValue() >= zValue /*&& item->type() == DiagramItem::Type*/)
+            zValue = item->zValue() + 0.1;
+    }
+    selectedItem->setZValue(zValue);
+}
+
+
+void MyGraphicsScene::sendToBackSelected()
+{
+    if(selectedItems().isEmpty()) return;
+
+    QGraphicsItem *selectedItem = selectedItems().first();
+    QList<QGraphicsItem *> overlapItems = selectedItem->collidingItems();
+
+    qreal zValue = 0;
+    foreach (QGraphicsItem *item, overlapItems) {
+        if (item->zValue() <= zValue /*&& item->type() == DiagramItem::Type*/)
+            zValue = item->zValue() - 0.1;
+    }
+    selectedItem->setZValue(zValue);
+}
+
+void MyGraphicsScene::setStrokeWidth(int value)
+{
+    strokeWidth = value;
 }
 
 void MyGraphicsScene::setImage(const QImage &image)

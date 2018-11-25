@@ -24,6 +24,15 @@ public:
     void setImage(const QImage &image);
     QImage *createSnapshot();
 
+
+    void setStrokeWidth(int value);
+    void setPenColor(const QColor &value);
+
+    Sticker* getSelected();
+    void deleteSelected();
+    void bringToFrontSelected();
+    void sendToBackSelected();
+
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
@@ -35,10 +44,13 @@ private:
     QGraphicsPixmapItem *background;
 
     //
-    bool startDraw;
     QPointF lastPoint;
+    int strokeWidth;
+    QColor penColor;
+
 signals:
     void clicked(QPointF);
+
 };
 
 #endif // MYGRAPHICSSCENE_H

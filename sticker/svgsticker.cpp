@@ -26,3 +26,7 @@ QRectF SvgSticker::boundingRect() const
     return svgItem.boundingRect();
 }
 
+Sticker::Type SvgSticker::getType() const
+{
+    return Sticker::Svg;
+}

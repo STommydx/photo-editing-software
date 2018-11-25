@@ -11,10 +11,11 @@ public:
     SvgSticker(const QString& filename);
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     virtual QRectF boundingRect() const override;
-//    virtual void setScale(qreal factor) override;
+    virtual Sticker::Type getType() const override;
 
 private:
     QGraphicsSvgItem svgItem;
+
 };
 
 #endif // SVGSTICKER_H

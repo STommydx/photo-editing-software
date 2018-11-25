@@ -12,6 +12,10 @@ public:
 
 private:
     QGraphicsTextItem textItem;
+
+    // Sticker interface
+public:
+    virtual Sticker::Type getType() const override;
 };
 
 #endif // TEXTSTICKER_H

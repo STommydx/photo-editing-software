@@ -52,4 +52,9 @@
         <file>assets/img/1/1f648.svg</file>
         <file>assets/img/1/1f649.svg</file>
     </qresource>
+    <qresource prefix="/toolbar">
+        <file alias="delete.png">assets/img/2/1f239.png</file>
+        <file alias="to_front.png">assets/img/2/2b06.png</file>
+        <file alias="to_back.png">assets/img/2/2b07.png</file>
+    </qresource>
 </RCC>

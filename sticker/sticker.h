@@ -14,9 +14,17 @@ class TransformHandler;
 class Sticker : public QGraphicsItem
 {
 public:
+    enum Type {
+        Text,
+        Svg,
+        Pen,
+        None
+    };
+
     Sticker();
     virtual ~Sticker();
     void setPos(const QPointF& pos);
+    virtual Sticker::Type getType() const = 0;
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
