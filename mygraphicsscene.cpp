@@ -12,7 +12,8 @@
 MyGraphicsScene::MyGraphicsScene(QObject *parent) :
     QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent),
     background(nullptr),
-    lastPoint(QPointF(0,0))
+    lastPoint(QPointF(0,0)),
+    penSticker(new PenSticker())
 {
 }
 
@@ -48,27 +49,28 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(event->buttons() & Qt::RightButton) {
-
-        if(lastPoint.isNull()) {
-            lastPoint = event->scenePos();
-            return;
-        }
-
-        QPointF endPoint = event->scenePos();
-
-        QPen pen = QPen(penColor, strokeWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-        addLine(lastPoint.x(), lastPoint.y(), endPoint.x(), endPoint.y(), pen);
-
-        lastPoint = endPoint;
-    }
-    else
+    if((event->buttons() & Qt::RightButton) == 0) {
         QGraphicsScene::mouseMoveEvent(event);
+        return;
+    }
+
+    QPainterPath path = penSticker->path();
+    if(path.elementCount() == 0) {
+        penSticker->setPen(QPen(penColor, strokeWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        addSticker(penSticker);
+        path.moveTo(event->scenePos());
+    }
+    else {
+        path.lineTo(event->scenePos());
+    }
+    penSticker->setPath(path);
+    penSticker->update();
+    qInfo() << penSticker->boundingRect();
 }
 
 void MyGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    lastPoint = QPoint(0,0);
+    penSticker = new PenSticker();
 }
 
 void MyGraphicsScene::setPenColor(const QColor &value)

@@ -37,7 +37,8 @@ SOURCES += \
     colordisplay.cpp \
     ui/stickerthumbnailsmodel.cpp \
     ui/stickerthumbnailsview.cpp \
-    ui/stickerthumbnailsdelegate.cpp
+    ui/stickerthumbnailsdelegate.cpp \
+    sticker/pensticker.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
     colordisplay.h \
     ui/stickerthumbnailsmodel.h \
     ui/stickerthumbnailsview.h \
-    ui/stickerthumbnailsdelegate.h
+    ui/stickerthumbnailsdelegate.h \
+    sticker/pensticker.h
 
 FORMS += \
         mainwindow.ui

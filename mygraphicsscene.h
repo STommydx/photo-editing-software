@@ -8,7 +8,9 @@
 #include <QString>
 #include <vector>
 #include "sticker.h"
-
+#include "pensticker.h"
+#include <QPainterPath>
+#include <QGraphicsPathItem>
 using std::vector;
 
 class MyGraphicsScene : public QGraphicsScene
@@ -47,6 +49,9 @@ private:
     QPointF lastPoint;
     int strokeWidth;
     QColor penColor;
+    QPainterPath painterPath;
+    PenSticker* penSticker;
+    QPen pen;
 
 signals:
     void clicked(QPointF);
