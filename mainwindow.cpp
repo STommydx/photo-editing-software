@@ -28,7 +28,8 @@ void MainWindow::on_actionTest_triggered() {
 void MainWindow::on_actionSave_triggered()
 {
     QImage *snapshot = gps->createSnapshot();
-    snapshot->save("output.png");
+    QString fileName = QFileDialog::getSaveFileName(this, "Save Image to File System", "untitled.png", "Images (*.png *.xpm *.jpg)");
+    snapshot->save(fileName);
     delete snapshot;
 }
 
