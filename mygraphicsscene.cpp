@@ -61,6 +61,7 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 void MyGraphicsScene::setImage(const QImage &image)
 {
     this->image = image;
+    if (image.isNull()) return;
     if (background) removeItem(background);
     if (foreground) removeItem(foreground);
 
