@@ -5,6 +5,7 @@
 #include "mygraphicsscene.h"
 #include "stickerthumbnailsmodel.h"
 #include "stickerthumbnailsdelegate.h"
+#include "camerawindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,10 +20,13 @@ public:
     ~MainWindow();
 
 private:
+    static const int TAB_PEN = 0;
+    static const int TAB_STICKER = 1;
     Ui::MainWindow *ui;
     MyGraphicsScene *gps;
     StickerThumbnailsModel* model;
     StickerThumbnailsDelegate* delegate;
+    CameraWindow *cw;
 
 private slots:
     void on_actionSave_triggered();
@@ -45,9 +49,9 @@ private slots:
     void on_spinBox_valueChanged(int x);
     void on_penSpinner_valueChanged(int x);
 
-private:
-    static const int TAB_PEN = 0;
-    static const int TAB_STICKER = 1;
+    // Camera
+    void onCameraCaptured();
+    void on_actionCamera_triggered();
 };
 
 #endif // MAINWINDOW_H

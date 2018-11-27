@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Image Editing Software (IES)</string>
+   <string>Photo Editing Software (PES)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -356,6 +356,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpen"/>
+   <addaction name="actionCamera"/>
    <addaction name="actionTest"/>
    <addaction name="actionSave"/>
    <addaction name="actionDummy"/>
@@ -390,6 +391,11 @@
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
+   </property>
+  </action>
+  <action name="actionCamera">
+   <property name="text">
+    <string>Camera</string>
    </property>
   </action>
   <action name="actionDelete">

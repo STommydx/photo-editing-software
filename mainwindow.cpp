@@ -14,8 +14,10 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    gps(new MyGraphicsScene),
     model(new StickerThumbnailsModel(this)),
-    delegate(new StickerThumbnailsDelegate(this))
+    delegate(new StickerThumbnailsDelegate(this)),
+    cw(nullptr)
 {
     ui->setupUi(this);
     ui->stickerToolbar->hide();
@@ -38,7 +40,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // Graphics scene
     gps = new MyGraphicsScene(this);
     gps->setStickerPath(model->index(0,0).data().toString());
-    gps->setImage(QImage(":assets/img/timetable.png"));
     gps->setPenColor(ui->penColor->getColor());
     gps->setStrokeWidth(ui->penSlider->value());
     ui->graphicsView->setScene(gps);
@@ -49,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete gps;
+    delete cw;
 }
 
 void MainWindow::on_actionTest_triggered()
@@ -59,8 +62,17 @@ void MainWindow::on_actionTest_triggered()
 void MainWindow::on_actionSave_triggered()
 {
     QImage *snapshot = gps->createSnapshot();
-    snapshot->save("output.png");
+    QString fileName = QFileDialog::getSaveFileName(this, "Save Image to File System", "untitled.png", "Images (*.png *.xpm *.jpg)");
+    snapshot->save(fileName);
     delete snapshot;
+}
+
+void MainWindow::on_actionCamera_triggered()
+{
+    if (cw) return;
+    cw = new CameraWindow(this);
+    cw->show();
+    connect(cw, &CameraWindow::closed, this, &MainWindow::onCameraCaptured);
 }
 
 void MainWindow::on_textEnterButton_clicked()
@@ -149,3 +161,11 @@ void MainWindow::on_stickerTableView_clicked(const QModelIndex &index)
 {
     gps->setStickerPath(index.data().toString());
 }
+
+void MainWindow::onCameraCaptured()
+{
+    gps->setImage(cw->result());
+    delete cw;
+    cw = nullptr;
+}
+

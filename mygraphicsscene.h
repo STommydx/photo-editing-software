@@ -21,6 +21,7 @@ public:
     virtual ~MyGraphicsScene();
     void undo();
     void setImage(const QImage &image);
+    QImage getImage() const;
     QImage *createSnapshot();
 
 protected:
@@ -31,7 +32,10 @@ protected:
 private:
     static const int SCENE_WIDTH = 1080;
     static const int SCENE_HEIGHT = 1920;
+    static const QString DEFAULT_PHOTO;
+    QImage image;
     QGraphicsPixmapItem *background;
+    QGraphicsPixmapItem *foreground;
 
 // Sticker mode and options
 public:
