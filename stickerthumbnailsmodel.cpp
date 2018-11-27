@@ -1,7 +1,6 @@
 #include "stickerthumbnailsmodel.h"
 
 #include <QDir>
-#include <QDebug>
 
 const QString StickerThumbnailsModel::BASE_PATH = ":/stickers/assets/img/1/";
 

@@ -1,134 +1,28 @@
 #include "mygraphicsscene.h"
 #include <QGraphicsTextItem>
+#include <QGraphicsSvgItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QFont>
 #include <QPainter>
 #include <QImage>
 
-#include "svgsticker.h"
-#include "textsticker.h"
+#include "teststicker.h"
 
 MyGraphicsScene::MyGraphicsScene(QObject *parent) :
     QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent),
     background(nullptr),
-    lastPoint(QPointF(0,0)),
-    penSticker(new PenSticker())
+    pathSticker(nullptr),
+    isSelecting(false),
+    mode(Mode::Sticker)
 {
+    pen.setCapStyle(Qt::RoundCap);
+    pen.setJoinStyle(Qt::RoundJoin);
+
+    connect(this, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 }
 
-MyGraphicsScene::~MyGraphicsScene()
-{
-}
-
-void MyGraphicsScene::addSticker(Sticker *item)
-{
-    if (item != nullptr) {
-        addItem(item);
-        items.push_back(item);
-    }
-}
-
-void MyGraphicsScene::undo()
-{
-    if (items.empty()) return;
-    Sticker* sticker = items.back();
-    items.pop_back();
-    removeItem(sticker);
-    delete sticker;
-}
-
-
-void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    if(event->button() == Qt::MiddleButton) {
-        emit clicked(event->scenePos());
-    }
-
-    QGraphicsScene::mousePressEvent(event);
-}
-
-void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    if((event->buttons() & Qt::RightButton) == 0) {
-        QGraphicsScene::mouseMoveEvent(event);
-        return;
-    }
-
-    QPainterPath path = penSticker->path();
-    if(path.elementCount() == 0) {
-        penSticker->setPen(QPen(penColor, strokeWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-        addSticker(penSticker);
-        path.moveTo(event->scenePos());
-    }
-    else {
-        path.lineTo(event->scenePos());
-    }
-    penSticker->setPath(path);
-    penSticker->update();
-    qInfo() << penSticker->boundingRect();
-}
-
-void MyGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    penSticker = new PenSticker();
-}
-
-void MyGraphicsScene::setPenColor(const QColor &value)
-{
-    penColor = value;
-}
-
-Sticker *MyGraphicsScene::getSelected()
-{
-    if(!selectedItems().empty())
-        return dynamic_cast<Sticker*>(selectedItems().first());
-    else
-        return nullptr;
-}
-
-void MyGraphicsScene::deleteSelected()
-{
-    Sticker* sticker = getSelected();
-    if(sticker != nullptr)
-        delete sticker;
-}
-
-// copied from http://doc.qt.io/qt-5/qtwidgets-graphicsview-diagramscene-example.html
-void MyGraphicsScene::bringToFrontSelected()
-{
-    if(selectedItems().isEmpty()) return;
-
-    QGraphicsItem *selectedItem = selectedItems().first();
-    QList<QGraphicsItem *> overlapItems = selectedItem->collidingItems();
-
-    qreal zValue = 0;
-    foreach (QGraphicsItem *item, overlapItems) {
-        if (item->zValue() >= zValue /*&& item->type() == DiagramItem::Type*/)
-            zValue = item->zValue() + 0.1;
-    }
-    selectedItem->setZValue(zValue);
-}
-
-
-void MyGraphicsScene::sendToBackSelected()
-{
-    if(selectedItems().isEmpty()) return;
-
-    QGraphicsItem *selectedItem = selectedItems().first();
-    QList<QGraphicsItem *> overlapItems = selectedItem->collidingItems();
-
-    qreal zValue = 0;
-    foreach (QGraphicsItem *item, overlapItems) {
-        if (item->zValue() <= zValue /*&& item->type() == DiagramItem::Type*/)
-            zValue = item->zValue() - 0.1;
-    }
-    selectedItem->setZValue(zValue);
-}
-
-void MyGraphicsScene::setStrokeWidth(int value)
-{
-    strokeWidth = value;
-}
+MyGraphicsScene::~MyGraphicsScene() { /* TODO */ }
 
 void MyGraphicsScene::setImage(const QImage &image)
 {
@@ -146,3 +40,101 @@ QImage *MyGraphicsScene::createSnapshot()
     qp.end();
     return img;
 }
+
+/* Sticker build options */
+
+void MyGraphicsScene::setStickerPath(const QString &value) { svgPath = value; }
+
+void MyGraphicsScene::setStrokeWidth(int value) { pen.setWidth(value); }
+
+void MyGraphicsScene::setPenColor(const QColor &value) { pen.setColor(value); }
+
+void MyGraphicsScene::setMode(MyGraphicsScene::Mode mode) { this->mode = mode; }
+
+/* Process sticker actions */
+
+void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(mode == Mode::Pen || event->button() != Qt::RightButton) {
+        QGraphicsScene::mousePressEvent(event);
+        return;
+    }
+
+    TestSticker<QGraphicsSvgItem> *svgSticker = new TestSticker<QGraphicsSvgItem>(svgPath);
+    svgSticker->setPos(event->scenePos());
+    addSticker(svgSticker);
+
+    QGraphicsScene::mousePressEvent(event);
+}
+
+void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(mode == Mode::Sticker || (event->buttons() & Qt::RightButton) == 0) {
+        QGraphicsScene::mouseMoveEvent(event);
+        return;
+    }
+
+    QPainterPath path;
+    if(pathSticker == nullptr) {
+        path.moveTo(event->scenePos());
+        pathSticker = new TestSticker<QGraphicsPathItem>();
+        pathSticker->get().setPen(pen);
+        pathSticker->get().setPath(path);
+        addSticker(pathSticker);
+    }
+
+    path = pathSticker->get().path();
+    path.lineTo(event->scenePos());
+    pathSticker->get().setPath(path);
+    pathSticker->updateGeometry();
+
+    QGraphicsScene::mouseMoveEvent(event);
+}
+
+void MyGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(mode == Mode::Pen)
+        pathSticker = nullptr;
+    QGraphicsScene::mouseReleaseEvent(event);
+}
+
+void MyGraphicsScene::onSelectionChanged()
+{
+    isSelecting = !selectedItems().isEmpty();
+}
+
+/* Sticker toolbar */
+void MyGraphicsScene::deleteSelected()
+{
+    if(!selectedItems().isEmpty())
+        delete selectedItems().first();
+}
+
+void MyGraphicsScene::bringToFrontSelected()
+{
+    if(selectedItems().isEmpty()) return;
+    QGraphicsItem* selected = selectedItems().first();
+    qreal zValue = 0;
+    for(QGraphicsItem *item : selected->collidingItems()) {
+        if (item->zValue() >= zValue)
+            zValue = item->zValue() + 0.1;
+    }
+    selected->setZValue(zValue);
+}
+
+void MyGraphicsScene::sendToBackSelected()
+{
+    if(selectedItems().isEmpty()) return;
+    QGraphicsItem* selected = selectedItems().first();
+    qreal zValue = 0;
+    for(QGraphicsItem *item : selected->collidingItems()) {
+        if (item->zValue() <= zValue)
+            zValue = item->zValue() - 0.1;
+    }
+    selected->setZValue(zValue);
+}
+
+void MyGraphicsScene::undo()
+{
+}
+

@@ -10,6 +10,7 @@ class StickerThumbnailsDelegate : public QAbstractItemDelegate
 
 public:
     StickerThumbnailsDelegate(QObject *parent = 0);
+    ~StickerThumbnailsDelegate();
     virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 

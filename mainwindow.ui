@@ -64,7 +64,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -299,7 +299,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item alignment="Qt::AlignHCenter">
-         <widget class="QTableView" name="stickersPreviewWidget">
+         <widget class="QTableView" name="stickerTableView">
           <property name="minimumSize">
            <size>
             <width>228</width>
@@ -358,6 +358,7 @@
    <addaction name="actionOpen"/>
    <addaction name="actionTest"/>
    <addaction name="actionSave"/>
+   <addaction name="actionDummy"/>
   </widget>
   <widget class="QToolBar" name="stickerToolbar">
    <property name="windowTitle">
@@ -425,6 +426,15 @@
    </property>
    <property name="toolTip">
     <string>Send to back</string>
+   </property>
+  </action>
+  <action name="actionDummy">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/toolbar/to_front.png</normaloff>:/toolbar/to_front.png</iconset>
+   </property>
+   <property name="text">
+    <string>dummy</string>
    </property>
   </action>
  </widget>

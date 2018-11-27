@@ -10,24 +10,49 @@
 #include <QTableView>
 
 #include "mygraphicsscene.h"
-#include "textsticker.h"
-#include "svgsticker.h"
-#include "stickerthumbnailsview.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    model(new StickerThumbnailsModel(this)),
+    delegate(new StickerThumbnailsDelegate(this))
 {
     ui->setupUi(this);
-    // setCentralWidget(ui->graphicsView);
-
-    initGraphicsScene();
-    initStickerTab();
-
     ui->stickerToolbar->hide();
+
+    // Sticker tab
+    QTableView *tableView = ui->stickerTableView;
+    int width = tableView->width()/2.2;
+
+    tableView->setShowGrid(false);
+    tableView->horizontalHeader()->hide();
+    tableView->verticalHeader()->hide();
+    tableView->verticalHeader()->setDefaultSectionSize(width);
+    tableView->horizontalHeader()->setDefaultSectionSize(width);
+
+    tableView->setModel(model);
+    tableView->setItemDelegate(delegate);
+    tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    tableView->setCurrentIndex(model->index(0,0));
+
+    // Graphics scene
+    gps = new MyGraphicsScene(this);
+    gps->setStickerPath(model->index(0,0).data().toString());
+    gps->setImage(QImage(":assets/img/timetable.png"));
+    gps->setPenColor(ui->penColor->getColor());
+    gps->setStrokeWidth(ui->penSlider->value());
+    ui->graphicsView->setScene(gps);
+
+    connect(gps, SIGNAL(selectionChanged()), this, SLOT(m_on_gps_selectionChanged()));
 }
 
-void MainWindow::on_actionTest_triggered() {
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_actionTest_triggered()
+{
     gps->undo();
 }
 
@@ -43,8 +68,15 @@ void MainWindow::on_textEnterButton_clicked()
     QFont font = ui->fontComboBox->currentFont();
     font.setPointSize(ui->spinBox->value());
     QColor color = ui->textColor->getColor();
-    Sticker *sticker = new TextSticker(ui->textEdit->text(), font, color);
-    gps->addSticker(sticker);
+
+    TestSticker<QGraphicsTextItem> *textSticker =
+            new TestSticker<QGraphicsTextItem>(ui->textEdit->text());
+
+    textSticker->get().setFont(font);
+    textSticker->get().setDefaultTextColor(color);
+    textSticker->updateGeometry();
+
+    gps->addSticker(textSticker);
 }
 
 void MainWindow::on_horizontalSlider_valueChanged(int x)
@@ -105,55 +137,15 @@ void MainWindow::m_on_gps_selectionChanged()
         ui->stickerToolbar->show();
 }
 
-MainWindow::~MainWindow()
+void MainWindow::on_tabWidget_currentChanged(int tab)
 {
-    delete ui;
+    if(tab == TAB_PEN)
+        gps->setMode(MyGraphicsScene::Mode::Pen);
+    else if(tab == TAB_STICKER)
+        gps->setMode(MyGraphicsScene::Mode::Sticker);
 }
 
-QString MainWindow::getStickerPath()
+void MainWindow::on_stickerTableView_clicked(const QModelIndex &index)
 {
-    QModelIndex index = ui->stickersPreviewWidget->currentIndex();
-    return index.data().toString();
-}
-
-void MainWindow::processGraphicsSceneEvent(QPointF scenePos)
-{
-    SvgSticker* sticker = new SvgSticker(getStickerPath());
-    sticker->setPos(scenePos);
-    gps->addSticker(sticker);
-}
-
-void MainWindow::initGraphicsScene()
-{
-    gps = new MyGraphicsScene(this);
-    gps->setImage(QImage(":assets/img/timetable.png"));
-    gps->setStrokeWidth(ui->penSlider->value());
-
-    connect(gps, SIGNAL(selectionChanged()), this, SLOT(m_on_gps_selectionChanged()));
-    connect(gps, SIGNAL(clicked(QPointF)), this, SLOT(processGraphicsSceneEvent(QPointF)));
-
-    ui->graphicsView->setScene(gps);
-}
-
-void MainWindow::initStickerTab()
-{
-    model = new StickerThumbnailsModel(this);
-    delegate = new StickerThumbnailsDelegate(this);
-
-    QTableView *tableView = ui->stickersPreviewWidget;
-
-    tableView->setShowGrid(false);
-    tableView->horizontalHeader()->hide();
-    tableView->verticalHeader()->hide();
-
-    tableView->setModel(model);
-    tableView->setItemDelegate(delegate);
-
-    int width = tableView->width()/2.2;
-    tableView->verticalHeader()->setDefaultSectionSize(width);
-    tableView->horizontalHeader()->setDefaultSectionSize(width);
-
-    tableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    tableView->setCurrentIndex(model->index(0,0));
-
+    gps->setStickerPath(index.data().toString());
 }

@@ -7,11 +7,10 @@
 #include <QImage>
 #include <QString>
 #include <vector>
-#include "sticker.h"
-#include "pensticker.h"
 #include <QPainterPath>
 #include <QGraphicsPathItem>
-using std::vector;
+
+#include "teststicker.h"
 
 class MyGraphicsScene : public QGraphicsScene
 {
@@ -20,20 +19,9 @@ class MyGraphicsScene : public QGraphicsScene
 public:
     MyGraphicsScene(QObject *parent = nullptr);
     virtual ~MyGraphicsScene();
-    vector<Sticker*> items;
-    void addSticker(Sticker *sticker);
     void undo();
     void setImage(const QImage &image);
     QImage *createSnapshot();
-
-
-    void setStrokeWidth(int value);
-    void setPenColor(const QColor &value);
-
-    Sticker* getSelected();
-    void deleteSelected();
-    void bringToFrontSelected();
-    void sendToBackSelected();
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -45,17 +33,36 @@ private:
     static const int SCENE_HEIGHT = 1920;
     QGraphicsPixmapItem *background;
 
-    //
-    QPointF lastPoint;
-    int strokeWidth;
-    QColor penColor;
-    QPainterPath painterPath;
-    PenSticker* penSticker;
-    QPen pen;
+// Sticker mode and options
+public:
+    enum Mode { Pen, Sticker };
 
-signals:
-    void clicked(QPointF);
+    template<typename T>
+    void addSticker(TestSticker<T> *sticker);
+    void setMode(MyGraphicsScene::Mode mode);
+    void setStrokeWidth(int value);
+    void setPenColor(const QColor &value);
+    void deleteSelected();
+    void bringToFrontSelected();
+    void sendToBackSelected();
+    void setStickerPath(const QString &value);
+
+private:
+    bool isSelecting;
+    Mode mode;
+    QPen pen;
+    TestSticker<QGraphicsPathItem>* pathSticker;
+    QString svgPath;
+
+private slots:
+    void onSelectionChanged();
 
 };
+
+template<typename T>
+void MyGraphicsScene::addSticker(TestSticker<T> *sticker)
+{
+    addItem(sticker);
+}
 
 #endif // MYGRAPHICSSCENE_H

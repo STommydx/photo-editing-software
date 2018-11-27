@@ -29,31 +29,19 @@ SOURCES += \
         mainwindow.cpp \
     mygraphicsview.cpp \
     mygraphicsscene.cpp \
-    sticker/anchor.cpp \
-    sticker/sticker.cpp \
-    sticker/svgsticker.cpp \
-    sticker/textsticker.cpp \
-    sticker/transformhandler.cpp \
     colordisplay.cpp \
     ui/stickerthumbnailsmodel.cpp \
-    ui/stickerthumbnailsview.cpp \
-    ui/stickerthumbnailsdelegate.cpp \
-    sticker/pensticker.cpp
+    ui/stickerthumbnailsdelegate.cpp
 
 HEADERS += \
         mainwindow.h \
     mygraphicsview.h \
     mygraphicsscene.h \
     sticker/anchor.h \
-    sticker/sticker.h \
-    sticker/svgsticker.h \
-    sticker/textsticker.h \
-    sticker/transformhandler.h \
     colordisplay.h \
     ui/stickerthumbnailsmodel.h \
-    ui/stickerthumbnailsview.h \
     ui/stickerthumbnailsdelegate.h \
-    sticker/pensticker.h
+    sticker/teststicker.h
 
 FORMS += \
         mainwindow.ui

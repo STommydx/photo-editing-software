@@ -18,37 +18,36 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QString getStickerPath();
-
-public slots:
-    void processGraphicsSceneEvent(QPointF scenePos);
-
 private:
     Ui::MainWindow *ui;
     MyGraphicsScene *gps;
     StickerThumbnailsModel* model;
     StickerThumbnailsDelegate* delegate;
 
-    void initGraphicsScene();
-    void initStickerTab();
-
 private slots:
-    void on_actionTest_triggered();
     void on_actionSave_triggered();
+    void on_actionOpen_triggered();
+
+    // Sticker toolbars
+    void on_actionTest_triggered();
+    void m_on_gps_selectionChanged();
+    void on_actionDelete_triggered();
+    void on_actionToFront_triggered();
+    void on_actionToBack_triggered();
+
+    // Sticker build options
+    void on_stickerTableView_clicked(const QModelIndex &index);
+    void on_tabWidget_currentChanged(int tab);
+    void on_penColor_colorChanged(QColor color);
     void on_textEnterButton_clicked();
     void on_horizontalSlider_valueChanged(int x);
     void on_penSlider_valueChanged(int x);
     void on_spinBox_valueChanged(int x);
     void on_penSpinner_valueChanged(int x);
-    void on_actionOpen_triggered();
-    void on_penColor_colorChanged(QColor color);
 
-    // Sticker toolbar
-    void on_actionDelete_triggered();
-    void on_actionToFront_triggered();
-    void on_actionToBack_triggered();
-
-    void m_on_gps_selectionChanged();
+private:
+    static const int TAB_PEN = 0;
+    static const int TAB_STICKER = 1;
 };
 
 #endif // MAINWINDOW_H
