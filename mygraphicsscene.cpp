@@ -8,10 +8,14 @@
 
 #include "svgsticker.h"
 #include "textsticker.h"
+#include "imageutil.h"
 
 const QString MyGraphicsScene::DEFAULT_PHOTO = ":/assets/img/default.png";
 
-MyGraphicsScene::MyGraphicsScene(QObject *parent) : QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent), background(nullptr)
+MyGraphicsScene::MyGraphicsScene(QObject *parent) :
+    QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent),
+    background(nullptr),
+    foreground(nullptr)
 {
     setImage(QImage(DEFAULT_PHOTO));
 }
@@ -56,10 +60,26 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 void MyGraphicsScene::setImage(const QImage &image)
 {
+    this->image = image;
     if (image.isNull()) return;
     if (background) removeItem(background);
-    background = addPixmap(QPixmap::fromImage(image.scaledToWidth(SCENE_WIDTH, Qt::SmoothTransformation)));
+    if (foreground) removeItem(foreground);
+
+    QImage &&enlargedImage = image.scaled(SCENE_WIDTH, SCENE_HEIGHT, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    QImage &&choppedImage = enlargedImage.copy(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
+    QImage &&processedImage = ImageUtil::multipassMeanBlur(choppedImage, 40);
+    background = addPixmap(QPixmap::fromImage(processedImage));
     background->setTransformationMode(Qt::SmoothTransformation);
+
+    QImage &&scaledImage = image.scaled(SCENE_WIDTH, SCENE_HEIGHT, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    foreground = addPixmap(QPixmap::fromImage(scaledImage));
+    foreground->setTransformationMode(Qt::SmoothTransformation);
+    foreground->setPos({SCENE_WIDTH / 2.0 - scaledImage.width() / 2.0, SCENE_HEIGHT / 2.0 - scaledImage.height() / 2.0});
+}
+
+QImage MyGraphicsScene::getImage() const
+{
+    return image;
 }
 
 QImage *MyGraphicsScene::createSnapshot()

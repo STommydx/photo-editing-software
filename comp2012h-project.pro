@@ -35,7 +35,9 @@ SOURCES += \
     sticker/textsticker.cpp \
     sticker/transformhandler.cpp \
     colordisplay.cpp \
-    camerawindow.cpp
+    camerawindow.cpp \
+    imageutil.cpp \
+    imagekernel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -47,7 +49,9 @@ HEADERS += \
     sticker/textsticker.h \
     sticker/transformhandler.h \
     colordisplay.h \
-    camerawindow.h
+    camerawindow.h \
+    imageutil.h \
+    imagekernel.h
 
 FORMS += \
         mainwindow.ui \
