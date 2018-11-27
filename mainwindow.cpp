@@ -10,6 +10,7 @@
 
 #include "mygraphicsscene.h"
 #include "textsticker.h"
+#include "imageutil.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->graphicsView->setScene(gps);
+    setupEffectList();
 }
 
 void MainWindow::on_actionTest_triggered() {
@@ -84,8 +86,45 @@ void MainWindow::onCameraCaptured()
     cw = nullptr;
 }
 
+void MainWindow::on_effectList_currentRowChanged(int row)
+{
+    if (row == -1) {
+        ui->applyButton->setEnabled(false);
+        return;
+    }
+    ui->applyButton->setEnabled(true);
+    FilterEffect &effect = effectList[row];
+    ui->effectSizeSlider->setEnabled(effect.sizeEnabled());
+    ui->effectStrengthSlider->setEnabled(effect.strengthEnabled());
+}
+
+void MainWindow::on_applyButton_clicked()
+{
+    FilterEffect &filter = effectList[ui->effectList->currentRow()];
+    int size = ui->effectSizeSlider->value();
+    int strength = ui->effectStrengthSlider->value();
+    gps->applyEffect(filter, size, strength);
+}
+
+void MainWindow::on_clearButton_clicked()
+{
+    gps->clearEffect();
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
     delete gps;
+}
+
+void MainWindow::setupEffectList()
+{
+    effectList.append(FilterEffect{"Gaussian Blur", ImageUtil::gaussianBlur});
+    effectList.append(FilterEffect{"Mean Blur", ImageUtil::meanBlur});
+    effectList.append(FilterEffect{"Sharpen", ImageUtil::sharpen});
+    effectList.append(FilterEffect{"Pixelize", ImageUtil::pixelize});
+
+    for (const FilterEffect &filter : effectList) {
+        ui->effectList->addItem(filter.getName());
+    }
 }

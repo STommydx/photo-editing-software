@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "mygraphicsscene.h"
 #include "camerawindow.h"
+#include "filtereffect.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +22,9 @@ private:
     Ui::MainWindow *ui;
     MyGraphicsScene *gps;
     CameraWindow *cw;
+    QVector<FilterEffect> effectList;
+
+    void setupEffectList();
 
 private slots:
     void on_actionTest_triggered();
@@ -33,6 +37,9 @@ private slots:
     void on_penSpinner_valueChanged(int x);
     void on_actionOpen_triggered();
     void onCameraCaptured();
+    void on_effectList_currentRowChanged(int row);
+    void on_applyButton_clicked();
+    void on_clearButton_clicked();
 };
 
 #endif // MAINWINDOW_H

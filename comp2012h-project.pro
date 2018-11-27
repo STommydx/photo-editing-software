@@ -37,7 +37,8 @@ SOURCES += \
     colordisplay.cpp \
     camerawindow.cpp \
     imageutil.cpp \
-    imagekernel.cpp
+    imagekernel.cpp \
+    filtereffect.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
     colordisplay.h \
     camerawindow.h \
     imageutil.h \
-    imagekernel.h
+    imagekernel.h \
+    filtereffect.h
 
 FORMS += \
         mainwindow.ui \

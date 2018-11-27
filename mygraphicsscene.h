@@ -5,8 +5,12 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QImage>
+#include <QVector>
+#include <QPair>
 #include <vector>
+
 #include "sticker.h"
+#include "filtereffect.h"
 
 using std::vector;
 
@@ -20,6 +24,8 @@ public:
     void setImage(const QImage &image);
     QImage getImage() const;
     QImage *createSnapshot();
+    void applyEffect(const FilterEffect &filter, int size, double strength);
+    void clearEffect();
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *) override;
@@ -31,7 +37,7 @@ private:
     QImage image;
     QGraphicsPixmapItem *background;
     QGraphicsPixmapItem *foreground;
-
+    QVector<QPair<FilterEffect, QPair<int, double>>> applyEffectList;
 };
 
 #endif // MYGRAPHICSSCENE_H
