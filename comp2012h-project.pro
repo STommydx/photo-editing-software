@@ -35,7 +35,8 @@ SOURCES += \
     camerawindow.cpp \
     imageutil.cpp \
     imagekernel.cpp \
-    filtereffect.cpp
+    filtereffect.cpp \
+    avl.tpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,7 +50,8 @@ HEADERS += \
     camerawindow.h \
     imageutil.h \
     imagekernel.h \
-    filtereffect.h
+    filtereffect.h \
+    avl.h
 
 FORMS += \
         mainwindow.ui \

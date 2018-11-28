@@ -17,6 +17,7 @@ public:
     static QImage meanBlur(const QImage &img, int size = 3);
     static QImage gaussianBlur(const QImage &img, int size = 3, double stDev = 1.0);
     static QImage fastMeanBlur(const QImage &img, int size = 10);
+    static QImage medianBlur(const QImage &img, int size = 3);
     static QImage multipassMeanBlur(const QImage &img, int size = 10, int pass = 3);
     static QImage sharpen(const QImage &img, int size = 2);
     static QImage edgeDetect(const QImage &img, int size = 2);
