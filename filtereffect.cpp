@@ -28,7 +28,7 @@ FilterEffect::FilterEffect(const QString &name, std::function<QImage (const QIma
 }
 
 FilterEffect::FilterEffect(const QString &name, std::function<QImage (const QImage &)> effect) :
-    FilterEffect{name, [effect](const QImage &img, int, double) { return effect(img); }, false, true}
+    FilterEffect{name, [effect](const QImage &img, int, double) { return effect(img); }, false, false}
 {
 
 }
