@@ -16,6 +16,8 @@ public:
     static QImage fastMeanBlur(const QImage &img, int size = 10);
     static QImage multipassMeanBlur(const QImage &img, int size = 10, int pass = 3);
     static QImage sharpen(const QImage &img, int size = 2);
+    static QImage edgeDetect(const QImage &img, int size = 2);
+    static QImage emboss(const QImage &img, int size = 2);
     static QImage pixelize(const QImage &img, int size = 4);
 
 };

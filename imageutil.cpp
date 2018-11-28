@@ -82,6 +82,16 @@ QImage ImageUtil::sharpen(const QImage &img, int size)
     return ImageKernel::sharpen(size).convolution(img);
 }
 
+QImage ImageUtil::edgeDetect(const QImage &img, int size)
+{
+    return ImageKernel::edgeDetect(size).convolution(img);
+}
+
+QImage ImageUtil::emboss(const QImage &img, int size)
+{
+    return ImageKernel::emboss(size).convolution(img);
+}
+
 QImage ImageUtil::pixelize(const QImage &img, int size)
 {
     QImage newImg{img};

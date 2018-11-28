@@ -123,7 +123,9 @@ void MainWindow::setupEffectList()
     effectList.append(FilterEffect{"Gaussian Blur", ImageUtil::gaussianBlur});
     effectList.append(FilterEffect{"Mean Blur", ImageUtil::meanBlur});
     effectList.append(FilterEffect{"Sharpen", ImageUtil::sharpen});
+    effectList.append(FilterEffect{"Emboss", ImageUtil::emboss});
     effectList.append(FilterEffect{"Pixelize", ImageUtil::pixelize});
+    effectList.append(FilterEffect{"Edge Highlight", ImageUtil::edgeDetect});
 
     for (const FilterEffect &filter : effectList) {
         ui->effectList->addItem(filter.getName());
