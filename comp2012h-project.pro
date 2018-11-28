@@ -61,3 +61,5 @@ FORMS += \
 
 RESOURCES += \
     resources.qrc
+
+QMAKE_CXXFLAGS_DEBUG += -O2
