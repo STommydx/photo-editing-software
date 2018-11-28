@@ -121,6 +121,8 @@ void MainWindow::setupEffectList()
 {
     effectList.append(FilterEffect{"Grayscale", ImageUtil::grayscale});
     effectList.append(FilterEffect{"Invert", ImageUtil::invert});
+    effectList.append(FilterEffect{"Brighten", ImageUtil::brighten, 0});
+    effectList.append(FilterEffect{"Darken", ImageUtil::darken, 0});
     effectList.append(FilterEffect{"Gaussian Blur", ImageUtil::gaussianBlur});
     effectList.append(FilterEffect{"Mean Blur", ImageUtil::meanBlur});
     effectList.append(FilterEffect{"Sharpen", ImageUtil::sharpen});
