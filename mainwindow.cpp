@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QFileDialog>
+#include <QTableView>
 
 #include "mygraphicsscene.h"
 #include "textsticker.h"
@@ -16,14 +17,48 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     gps(new MyGraphicsScene),
+    model(new StickerThumbnailsModel(this)),
+    delegate(new StickerThumbnailsDelegate(this)),
     cw(nullptr)
 {
     ui->setupUi(this);
+    ui->stickerToolbar->hide();
+
+    // Sticker tab
+    QTableView *tableView = ui->stickerTableView;
+    int width = tableView->width()/2.2;
+
+    tableView->setShowGrid(false);
+    tableView->horizontalHeader()->hide();
+    tableView->verticalHeader()->hide();
+    tableView->verticalHeader()->setDefaultSectionSize(width);
+    tableView->horizontalHeader()->setDefaultSectionSize(width);
+
+    tableView->setModel(model);
+    tableView->setItemDelegate(delegate);
+    tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    tableView->setCurrentIndex(model->index(0,0));
+
+    // Graphics scene
+    gps = new MyGraphicsScene(this);
+    gps->setStickerPath(model->index(0,0).data().toString());
+    gps->setPenColor(ui->penColor->getColor());
+    gps->setStrokeWidth(ui->penSlider->value());
     ui->graphicsView->setScene(gps);
     setupEffectList();
+
+    connect(gps, SIGNAL(selectionChanged()), this, SLOT(m_on_gps_selectionChanged()));
 }
 
-void MainWindow::on_actionTest_triggered() {
+MainWindow::~MainWindow()
+{
+    delete ui;
+    delete gps;
+    delete cw;
+}
+
+void MainWindow::on_actionTest_triggered()
+{
     gps->undo();
 }
 
@@ -48,8 +83,15 @@ void MainWindow::on_textEnterButton_clicked()
     QFont font = ui->fontComboBox->currentFont();
     font.setPointSize(ui->spinBox->value());
     QColor color = ui->textColor->getColor();
-    Sticker *sticker = new TextSticker(ui->textEdit->text(), font, color);
-    gps->addSticker(sticker);
+
+    TestSticker<QGraphicsTextItem> *textSticker =
+            new TestSticker<QGraphicsTextItem>(ui->textEdit->text());
+
+    textSticker->setFont(font);
+    textSticker->setDefaultTextColor(color);
+//    textSticker->updateGeometry();
+
+    gps->addSticker(textSticker);
 }
 
 void MainWindow::on_horizontalSlider_valueChanged(int x)
@@ -57,19 +99,21 @@ void MainWindow::on_horizontalSlider_valueChanged(int x)
     ui->spinBox->setValue(x);
 }
 
-void MainWindow::on_penSlider_valueChanged(int x)
-{
-    ui->penSpinner->setValue(x);
-}
-
 void MainWindow::on_spinBox_valueChanged(int x)
 {
     ui->horizontalSlider->setValue(x);
 }
 
+void MainWindow::on_penSlider_valueChanged(int x)
+{
+    ui->penSpinner->setValue(x);
+    gps->setStrokeWidth(x);
+}
+
 void MainWindow::on_penSpinner_valueChanged(int x)
 {
     ui->penSlider->setValue(x);
+    gps->setStrokeWidth(x);
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -77,6 +121,48 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, "Import Image from File System", QString(), "Images (*.png *.xpm *.jpg)");
     QImage image{fileName};
     gps->setImage(image);
+}
+
+void MainWindow::on_penColor_colorChanged(QColor color)
+{
+    gps->setPenColor(color);
+}
+
+void MainWindow::on_actionDelete_triggered()
+{
+    gps->deleteSelected();
+}
+
+void MainWindow::on_actionToFront_triggered()
+{
+    gps->bringToFrontSelected();
+}
+
+void MainWindow::on_actionToBack_triggered()
+{
+    gps->sendToBackSelected();
+}
+
+void MainWindow::m_on_gps_selectionChanged()
+{
+    QList<QGraphicsItem *> selections = gps->selectedItems();
+    if(selections.isEmpty())
+        ui->stickerToolbar->hide();
+    else
+        ui->stickerToolbar->show();
+}
+
+void MainWindow::on_tabWidget_currentChanged(int tab)
+{
+    if(tab == TAB_PEN)
+        gps->setMode(MyGraphicsScene::Mode::Pen);
+    else if(tab == TAB_STICKER)
+        gps->setMode(MyGraphicsScene::Mode::Sticker);
+}
+
+void MainWindow::on_stickerTableView_clicked(const QModelIndex &index)
+{
+    gps->setStickerPath(index.data().toString());
 }
 
 void MainWindow::onCameraCaptured()
@@ -110,12 +196,6 @@ void MainWindow::on_applyButton_clicked()
 void MainWindow::on_clearButton_clicked()
 {
     gps->clearEffect();
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-    delete gps;
 }
 
 void MainWindow::setupEffectList()
