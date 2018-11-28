@@ -24,6 +24,16 @@ QImage ImageUtil::grayscale(const QImage &img)
     return newImg;
 }
 
+QImage ImageUtil::invert(const QImage &img)
+{
+    QImage newImg{img};
+    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
+        QRgb pix = *getPixel(img, i, j);
+        *getPixel(newImg, i, j) = qRgba(255 - qRed(pix), 255 - qGreen(pix), 255 - qBlue(pix), qAlpha(pix));
+    }
+    return newImg;
+}
+
 QImage ImageUtil::meanBlur(const QImage &img, int size)
 {
     return ImageKernel::meanBlur(size).convolution(img);
