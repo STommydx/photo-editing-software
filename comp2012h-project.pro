@@ -49,8 +49,7 @@ HEADERS += \
     camerawindow.h \
     imageutil.h \
     imagekernel.h \
-    filtereffect.h \
-    test.h
+    filtereffect.h
 
 FORMS += \
         mainwindow.ui \

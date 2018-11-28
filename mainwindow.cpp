@@ -10,7 +10,6 @@
 #include <QTableView>
 
 #include "mygraphicsscene.h"
-#include "textsticker.h"
 #include "imageutil.h"
 
 MainWindow::MainWindow(QWidget *parent) :
