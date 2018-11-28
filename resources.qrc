@@ -4,4 +4,58 @@
         <file>assets/img/bjarne-stroustrup.svg</file>
         <file>assets/img/default.png</file>
     </qresource>
+    <qresource prefix="/stickers">
+        <file>assets/img/1/1f600.svg</file>
+        <file>assets/img/1/1f601.svg</file>
+        <file>assets/img/1/1f602.svg</file>
+        <file>assets/img/1/1f603.svg</file>
+        <file>assets/img/1/1f604.svg</file>
+        <file>assets/img/1/1f605.svg</file>
+        <file>assets/img/1/1f606.svg</file>
+        <file>assets/img/1/1f607.svg</file>
+        <file>assets/img/1/1f608.svg</file>
+        <file>assets/img/1/1f609.svg</file>
+        <file>assets/img/1/1f610.svg</file>
+        <file>assets/img/1/1f611.svg</file>
+        <file>assets/img/1/1f612.svg</file>
+        <file>assets/img/1/1f613.svg</file>
+        <file>assets/img/1/1f614.svg</file>
+        <file>assets/img/1/1f615.svg</file>
+        <file>assets/img/1/1f616.svg</file>
+        <file>assets/img/1/1f617.svg</file>
+        <file>assets/img/1/1f618.svg</file>
+        <file>assets/img/1/1f619.svg</file>
+        <file>assets/img/1/1f620.svg</file>
+        <file>assets/img/1/1f621.svg</file>
+        <file>assets/img/1/1f622.svg</file>
+        <file>assets/img/1/1f623.svg</file>
+        <file>assets/img/1/1f624.svg</file>
+        <file>assets/img/1/1f625.svg</file>
+        <file>assets/img/1/1f626.svg</file>
+        <file>assets/img/1/1f627.svg</file>
+        <file>assets/img/1/1f628.svg</file>
+        <file>assets/img/1/1f629.svg</file>
+        <file>assets/img/1/1f630.svg</file>
+        <file>assets/img/1/1f631.svg</file>
+        <file>assets/img/1/1f632.svg</file>
+        <file>assets/img/1/1f633.svg</file>
+        <file>assets/img/1/1f634.svg</file>
+        <file>assets/img/1/1f635.svg</file>
+        <file>assets/img/1/1f636.svg</file>
+        <file>assets/img/1/1f637.svg</file>
+        <file>assets/img/1/1f638.svg</file>
+        <file>assets/img/1/1f639.svg</file>
+        <file>assets/img/1/1f641.svg</file>
+        <file>assets/img/1/1f642.svg</file>
+        <file>assets/img/1/1f645.svg</file>
+        <file>assets/img/1/1f646.svg</file>
+        <file>assets/img/1/1f647.svg</file>
+        <file>assets/img/1/1f648.svg</file>
+        <file>assets/img/1/1f649.svg</file>
+    </qresource>
+    <qresource prefix="/toolbar">
+        <file alias="delete.png">assets/img/2/1f239.png</file>
+        <file alias="to_front.png">assets/img/2/2b06.png</file>
+        <file alias="to_back.png">assets/img/2/2b07.png</file>
+    </qresource>
 </RCC>
