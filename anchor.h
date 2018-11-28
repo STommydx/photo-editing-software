@@ -19,12 +19,20 @@ public:
         setFlag(QGraphicsItem::ItemIsSelectable);
         setFlag(QGraphicsItem::ItemIsMovable);
         setFlag(QGraphicsItem::ItemIgnoresTransformations);
+        setVisible(false);
     }
     virtual ~Anchor() {}
 
 protected:
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override
+    {
+       parentItem()->setVisible(true);
+       event->accept();
+    }
+
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override
     {
+        parentItem()->setVisible(true);
         switch(type)
         {
             case RESIZE:
@@ -35,8 +43,14 @@ protected:
         event->accept();
     }
 
+//    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override
+//    {
+//        setSelected(false);
+//    }
+
 private:
     static const int RADIUS = 8;
+    constexpr static const double MIN_SCALE = 0.2;
     const int type;
     void dragScale(QPointF scenePos)
     {
@@ -46,7 +60,8 @@ private:
         QSizeF size(rect0.width(), rect0.height());
         size.scale(rect1.width(), rect1.height(), Qt::KeepAspectRatioByExpanding);
         qreal scale1 = parentItem()->scale() * (size.width() / rect0.width());
-        parentItem()->setScale(scale1);
+        if(scale1 > MIN_SCALE)
+            parentItem()->setScale(scale1);
     }
     void dragRotate(QPointF pos)
     {
@@ -55,5 +70,6 @@ private:
             lastPoint = pos;
     }
 };
+
 
 #endif // ANCHOR_H

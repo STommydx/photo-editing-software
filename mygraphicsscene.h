@@ -52,10 +52,10 @@ public:
     void setStickerPath(const QString &value);
 
 private:
-    bool isSelecting;
     Mode mode;
-    QPen pen;
+    bool isSelecting;
     TestSticker<QGraphicsPathItem>* pathSticker;
+    QPen pen;
     QString svgPath;
 
 private slots:

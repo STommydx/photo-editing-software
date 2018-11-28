@@ -84,9 +84,9 @@ void MainWindow::on_textEnterButton_clicked()
     TestSticker<QGraphicsTextItem> *textSticker =
             new TestSticker<QGraphicsTextItem>(ui->textEdit->text());
 
-    textSticker->get().setFont(font);
-    textSticker->get().setDefaultTextColor(color);
-    textSticker->updateGeometry();
+    textSticker->setFont(font);
+    textSticker->setDefaultTextColor(color);
+//    textSticker->updateGeometry();
 
     gps->addSticker(textSticker);
 }

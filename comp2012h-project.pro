@@ -47,7 +47,8 @@ HEADERS += \
     teststicker.h \
     camerawindow.h \
     imageutil.h \
-    imagekernel.h
+    imagekernel.h \
+    test.h
 
 FORMS += \
         mainwindow.ui \

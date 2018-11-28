@@ -1,6 +1,7 @@
 #include "mygraphicsscene.h"
 #include <QGraphicsTextItem>
 #include <QGraphicsSvgItem>
+#include <QGraphicsPathItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QFont>
@@ -16,8 +17,8 @@ MyGraphicsScene::MyGraphicsScene(QObject *parent) :
     QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent),
     background(nullptr),
     foreground(nullptr),
-    pathSticker(nullptr),
     isSelecting(false),
+    pathSticker(nullptr),
     mode(Mode::Sticker)
 {
     pen.setCapStyle(Qt::RoundCap);
@@ -27,7 +28,6 @@ MyGraphicsScene::MyGraphicsScene(QObject *parent) :
 
     setImage(QImage(DEFAULT_PHOTO));
 }
-
 
 MyGraphicsScene::~MyGraphicsScene() { /* TODO */ }
 
@@ -97,15 +97,15 @@ void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     if(pathSticker == nullptr) {
         path.moveTo(event->scenePos());
         pathSticker = new TestSticker<QGraphicsPathItem>();
-        pathSticker->get().setPen(pen);
-        pathSticker->get().setPath(path);
+        pathSticker->setPen(pen);
+        pathSticker->setPath(path);
         addSticker(pathSticker);
     }
 
-    path = pathSticker->get().path();
+    path = pathSticker->path();
     path.lineTo(event->scenePos());
-    pathSticker->get().setPath(path);
-    pathSticker->updateGeometry();
+    pathSticker->setPath(path);
+    pathSticker->update();
 
     QGraphicsScene::mouseMoveEvent(event);
 }
@@ -131,7 +131,7 @@ void MyGraphicsScene::onSelectionChanged()
 void MyGraphicsScene::deleteSelected()
 {
     if(!selectedItems().isEmpty())
-        delete selectedItems().first();
+        removeItem(selectedItems().first());
 }
 
 void MyGraphicsScene::bringToFrontSelected()
