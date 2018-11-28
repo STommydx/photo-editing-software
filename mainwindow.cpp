@@ -102,7 +102,7 @@ void MainWindow::on_applyButton_clicked()
 {
     FilterEffect &filter = effectList[ui->effectList->currentRow()];
     int size = ui->effectSizeSlider->value();
-    int strength = ui->effectStrengthSlider->value();
+    double strength = ui->effectStrengthSlider->value() / 1000.0;
     gps->applyEffect(filter, size, strength);
 }
 
@@ -121,9 +121,9 @@ void MainWindow::setupEffectList()
 {
     effectList.append(FilterEffect{"Grayscale", ImageUtil::grayscale});
     effectList.append(FilterEffect{"Invert", ImageUtil::invert});
-    effectList.append(FilterEffect{"Brighten", ImageUtil::brighten, 0});
-    effectList.append(FilterEffect{"Darken", ImageUtil::darken, 0});
-    effectList.append(FilterEffect{"Gaussian Blur", ImageUtil::gaussianBlur});
+    effectList.append(FilterEffect{"Brighten", ImageUtil::brighten, 10});
+    effectList.append(FilterEffect{"Darken", ImageUtil::darken, 10});
+    effectList.append(FilterEffect{"Gaussian Blur", ImageUtil::gaussianBlur, 5});
     effectList.append(FilterEffect{"Mean Blur", ImageUtil::meanBlur});
     effectList.append(FilterEffect{"Sharpen", ImageUtil::sharpen});
     effectList.append(FilterEffect{"Emboss", ImageUtil::emboss});
