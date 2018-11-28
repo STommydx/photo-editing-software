@@ -37,7 +37,7 @@ private slots:
     void on_actionOpen_triggered();
 
     // Sticker toolbars
-    void on_actionTest_triggered();
+    void onActionUndoTriggered();
     void m_on_gps_selectionChanged();
     void on_actionDelete_triggered();
     void on_actionToFront_triggered();

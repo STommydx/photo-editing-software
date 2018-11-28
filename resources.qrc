@@ -54,8 +54,14 @@
         <file>assets/img/1/1f649.svg</file>
     </qresource>
     <qresource prefix="/toolbar">
-        <file alias="delete.png">assets/img/2/1f239.png</file>
-        <file alias="to_front.png">assets/img/2/2b06.png</file>
-        <file alias="to_back.png">assets/img/2/2b07.png</file>
+        <file alias="camera.png">assets/img/2/camera.png</file>
+        <file alias="delete.png">assets/img/2/delete.png</file>
+        <file alias="share.png">assets/img/2/network.png</file>
+        <file alias="open.png">assets/img/2/open.png</file>
+        <file alias="redo.png">assets/img/2/redo.png</file>
+        <file alias="save.png">assets/img/2/save.png</file>
+        <file>assets/img/2/search.png</file>
+        <file alias="front.png">assets/img/2/tofront.png</file>
+        <file alias="undo.png">assets/img/2/undo.png</file>
     </qresource>
 </RCC>
