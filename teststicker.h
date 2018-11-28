@@ -43,7 +43,6 @@ public:
 protected:
     virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override
     {
-        qInfo() << change;
         if(change == QGraphicsItem::ItemSelectedHasChanged)
         {
             resizeAnchor.setVisible(this->isSelected());
