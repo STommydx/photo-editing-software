@@ -14,6 +14,8 @@ public:
     static ImageKernel meanBlur(int size = 3);
     static ImageKernel gaussianBlur(int size = 3, double sd = 1.0);
     static ImageKernel sharpen(int size = 2);
+    static ImageKernel edgeDetect(int size = 2);
+    static ImageKernel emboss(int size = 2);
     QImage convolution(const QImage &img, bool normalized = true);
 
 private:

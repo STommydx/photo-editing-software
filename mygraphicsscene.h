@@ -5,12 +5,15 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QImage>
-#include <QString>
+#include <QVector>
+#include <QPair>
 #include <vector>
+#include <QString>
 #include <QPainterPath>
 #include <QGraphicsPathItem>
 
 #include "teststicker.h"
+#include "filtereffect.h"
 
 class MyGraphicsScene : public QGraphicsScene
 {
@@ -23,6 +26,8 @@ public:
     void setImage(const QImage &image);
     QImage getImage() const;
     QImage *createSnapshot();
+    void applyEffect(const FilterEffect &filter, int size, double strength);
+    void clearEffect();
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -36,6 +41,7 @@ private:
     QImage image;
     QGraphicsPixmapItem *background;
     QGraphicsPixmapItem *foreground;
+    QVector<QPair<FilterEffect, QPair<int, double>>> applyEffectList;
 
 // Sticker mode and options
 public:

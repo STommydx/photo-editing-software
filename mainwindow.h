@@ -6,6 +6,7 @@
 #include "stickerthumbnailsmodel.h"
 #include "stickerthumbnailsdelegate.h"
 #include "camerawindow.h"
+#include "filtereffect.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +28,9 @@ private:
     StickerThumbnailsModel* model;
     StickerThumbnailsDelegate* delegate;
     CameraWindow *cw;
+    QVector<FilterEffect> effectList;
+
+    void setupEffectList();
 
 private slots:
     void on_actionSave_triggered();
@@ -52,6 +56,10 @@ private slots:
     // Camera
     void onCameraCaptured();
     void on_actionCamera_triggered();
+
+    void on_effectList_currentRowChanged(int row);
+    void on_applyButton_clicked();
+    void on_clearButton_clicked();
 };
 
 #endif // MAINWINDOW_H

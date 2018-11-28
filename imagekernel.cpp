@@ -40,6 +40,26 @@ ImageKernel ImageKernel::sharpen(int size)
     return kernel;
 }
 
+ImageKernel ImageKernel::edgeDetect(int size)
+{
+    ImageKernel kernel{size};
+    for (int dx=-size+1;dx<size;dx++) for (int dy=-size+1;dy<size;dy++) {
+        kernel.data(dx, dy) = -1;
+    }
+    kernel.data(0, 0) = kernel.mat.size() * kernel.mat.size() - 1;
+    return kernel;
+}
+
+ImageKernel ImageKernel::emboss(int size)
+{
+    ImageKernel kernel{size};
+    for (int dx=-size+1;dx<size;dx++) for (int dy=-size+1;dy<size;dy++) {
+        kernel.data(dx, dy) = dx + dy;
+    }
+    kernel.data(0, 0) = 1;
+    return kernel;
+}
+
 QImage ImageKernel::convolution(const QImage &img, bool normalized)
 {
     QImage newImage{img};

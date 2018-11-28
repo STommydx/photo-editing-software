@@ -34,7 +34,8 @@ SOURCES += \
     colordisplay.cpp \
     camerawindow.cpp \
     imageutil.cpp \
-    imagekernel.cpp
+    imagekernel.cpp \
+    filtereffect.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +49,7 @@ HEADERS += \
     camerawindow.h \
     imageutil.h \
     imagekernel.h \
-    test.h
+    filtereffect.h
 
 FORMS += \
         mainwindow.ui \
@@ -56,3 +57,5 @@ FORMS += \
 
 RESOURCES += \
     resources.qrc
+
+QMAKE_CXXFLAGS_DEBUG += -O2

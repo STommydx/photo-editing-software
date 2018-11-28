@@ -2,6 +2,7 @@
 #include "imagekernel.h"
 
 #include <QVector>
+#include <QtMath>
 
 const QRgb *ImageUtil::getPixel(const QImage &img, int x, int y)
 {
@@ -13,14 +14,43 @@ QRgb *ImageUtil::getPixel(QImage &img, int x, int y)
     return reinterpret_cast<QRgb*>(img.scanLine(x)) + y;
 }
 
-QImage ImageUtil::weirdize(const QImage &img)
+QImage ImageUtil::grayscale(const QImage &img)
 {
     QImage newImg{img};
     for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
-        if ((i + j) & 1) continue;
         QRgb pix = *getPixel(img, i, j);
         int avg = (qRed(pix) + qGreen(pix) + qBlue(pix)) / 3;
-        *getPixel(newImg, i, j) = qRgba(avg, 255, avg, qAlpha(pix));
+        *getPixel(newImg, i, j) = qRgba(avg, avg, avg, qAlpha(pix));
+    }
+    return newImg;
+}
+
+QImage ImageUtil::invert(const QImage &img)
+{
+    QImage newImg{img};
+    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
+        QRgb pix = *getPixel(img, i, j);
+        *getPixel(newImg, i, j) = qRgba(255 - qRed(pix), 255 - qGreen(pix), 255 - qBlue(pix), qAlpha(pix));
+    }
+    return newImg;
+}
+
+QImage ImageUtil::darken(const QImage &img, double strength)
+{
+    QImage newImg{img};
+    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
+        QColor pix{*getPixel(img, i, j)};
+        *getPixel(newImg, i, j) = pix.darker(qFloor(strength * 100)).rgba();
+    }
+    return newImg;
+}
+
+QImage ImageUtil::brighten(const QImage &img, double strength)
+{
+    QImage newImg{img};
+    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
+        QColor pix{*getPixel(img, i, j)};
+        *getPixel(newImg, i, j) = pix.lighter(qFloor(strength * 100)).rgba();
     }
     return newImg;
 }
@@ -81,6 +111,16 @@ QImage ImageUtil::multipassMeanBlur(const QImage &img, int size, int pass)
 QImage ImageUtil::sharpen(const QImage &img, int size)
 {
     return ImageKernel::sharpen(size).convolution(img);
+}
+
+QImage ImageUtil::edgeDetect(const QImage &img, int size)
+{
+    return ImageKernel::edgeDetect(size).convolution(img);
+}
+
+QImage ImageUtil::emboss(const QImage &img, int size)
+{
+    return ImageKernel::emboss(size).convolution(img);
 }
 
 QImage ImageUtil::pixelize(const QImage &img, int size)
