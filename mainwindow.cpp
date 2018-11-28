@@ -56,7 +56,7 @@ MainWindow::~MainWindow()
     delete cw;
 }
 
-void MainWindow::on_actionTest_triggered()
+void MainWindow::onActionUndoTriggered()
 {
     gps->undo();
 }
