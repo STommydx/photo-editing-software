@@ -95,6 +95,7 @@ void MainWindow::on_effectList_currentRowChanged(int row)
     ui->applyButton->setEnabled(true);
     FilterEffect &effect = effectList[row];
     ui->effectSizeSlider->setEnabled(effect.sizeEnabled());
+    ui->effectSizeSlider->setMaximum(effect.getMaxSize());
     ui->effectStrengthSlider->setEnabled(effect.strengthEnabled());
 }
 
@@ -121,14 +122,15 @@ void MainWindow::setupEffectList()
 {
     effectList.append(FilterEffect{"Grayscale", ImageUtil::grayscale});
     effectList.append(FilterEffect{"Invert", ImageUtil::invert});
-    effectList.append(FilterEffect{"Brighten", ImageUtil::brighten, 10});
-    effectList.append(FilterEffect{"Darken", ImageUtil::darken, 10});
-    effectList.append(FilterEffect{"Gaussian Blur", ImageUtil::gaussianBlur, 5});
-    effectList.append(FilterEffect{"Mean Blur", ImageUtil::meanBlur});
-    effectList.append(FilterEffect{"Sharpen", ImageUtil::sharpen});
-    effectList.append(FilterEffect{"Emboss", ImageUtil::emboss});
-    effectList.append(FilterEffect{"Pixelize", ImageUtil::pixelize});
-    effectList.append(FilterEffect{"Edge Highlight", ImageUtil::edgeDetect});
+    effectList.append(FilterEffect{"Brighten", ImageUtil::brighten, 10.0});
+    effectList.append(FilterEffect{"Darken", ImageUtil::darken, 10.0});
+    effectList.append(FilterEffect{"Gaussian Blur", ImageUtil::gaussianBlur, 5, 5.0});
+    effectList.append(FilterEffect{"Mean Blur", ImageUtil::meanBlur, 5});
+    effectList.append(FilterEffect{"Mean Blur (Large Size)", ImageUtil::fastMeanBlur, 100});
+    effectList.append(FilterEffect{"Sharpen", ImageUtil::sharpen, 5});
+    effectList.append(FilterEffect{"Emboss", ImageUtil::emboss, 5});
+    effectList.append(FilterEffect{"Pixelize", ImageUtil::pixelize, 100});
+    effectList.append(FilterEffect{"Edge Highlight", ImageUtil::edgeDetect, 5});
 
     for (const FilterEffect &filter : effectList) {
         ui->effectList->addItem(filter.getName());

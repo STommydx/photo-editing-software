@@ -1,8 +1,9 @@
 #include "filtereffect.h"
 
-FilterEffect::FilterEffect(const QString &name, FilterEffect::EffectFunction effect, double normFactor, bool sizeOption, bool strengthOption) :
+FilterEffect::FilterEffect(const QString &name, FilterEffect::EffectFunction effect, int maxSize, double normFactor, bool sizeOption, bool strengthOption) :
     name(name),
     effect(effect),
+    maxSize(maxSize),
     normFactor(normFactor),
     sizeOption(sizeOption),
     strengthOption(strengthOption)
@@ -10,26 +11,26 @@ FilterEffect::FilterEffect(const QString &name, FilterEffect::EffectFunction eff
 
 }
 
-FilterEffect::FilterEffect(const QString &name, FilterEffect::EffectFunction effect, double normFactor) :
-    FilterEffect{name, effect, normFactor, true, true}
+FilterEffect::FilterEffect(const QString &name, FilterEffect::EffectFunction effect, int maxSize, double normFactor) :
+    FilterEffect{name, effect, maxSize, normFactor, true, true}
 {
 
 }
 
-FilterEffect::FilterEffect(const QString &name, std::function<QImage (const QImage &, int)> effect) :
-    FilterEffect{name, [effect](const QImage &img, int size, double) { return effect(img, size); }, 0, true, false}
+FilterEffect::FilterEffect(const QString &name, std::function<QImage (const QImage &, int)> effect, int maxSize) :
+    FilterEffect{name, [effect](const QImage &img, int size, double) { return effect(img, size); }, maxSize, 0, true, false}
 {
 
 }
 
 FilterEffect::FilterEffect(const QString &name, std::function<QImage (const QImage &, double)> effect, double normFactor) :
-    FilterEffect{name, [effect](const QImage &img, int, double strength) { return effect(img, strength); }, normFactor, false, true}
+    FilterEffect{name, [effect](const QImage &img, int, double strength) { return effect(img, strength); }, 10, normFactor, false, true}
 {
 
 }
 
 FilterEffect::FilterEffect(const QString &name, std::function<QImage (const QImage &)> effect) :
-    FilterEffect{name, [effect](const QImage &img, int, double) { return effect(img); }, 0, false, false}
+    FilterEffect{name, [effect](const QImage &img, int, double) { return effect(img); }, 10, 0, false, false}
 {
 
 }
@@ -52,4 +53,9 @@ bool FilterEffect::strengthEnabled() const
 QString FilterEffect::getName() const
 {
     return name;
+}
+
+int FilterEffect::getMaxSize() const
+{
+    return maxSize;
 }
