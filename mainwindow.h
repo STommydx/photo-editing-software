@@ -35,6 +35,7 @@ private:
 private slots:
     void on_actionSave_triggered();
     void on_actionOpen_triggered();
+    void on_actionShare_triggered();
 
     // Sticker toolbars
     void onActionUndoTriggered();

@@ -35,7 +35,8 @@ SOURCES += \
     camerawindow.cpp \
     imageutil.cpp \
     imagekernel.cpp \
-    filtereffect.cpp
+    filtereffect.cpp \
+    exportdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,11 +50,13 @@ HEADERS += \
     camerawindow.h \
     imageutil.h \
     imagekernel.h \
-    filtereffect.h
+    filtereffect.h \
+    exportdialog.h
 
 FORMS += \
         mainwindow.ui \
-    camerawindow.ui
+    camerawindow.ui \
+    exportdialog.ui
 
 RESOURCES += \
     resources.qrc

@@ -64,7 +64,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -429,7 +429,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -454,6 +454,7 @@
    <addaction name="actionCamera"/>
    <addaction name="actionUndo"/>
    <addaction name="actionSave"/>
+   <addaction name="actionShare"/>
   </widget>
   <widget class="QToolBar" name="stickerToolbar">
    <property name="windowTitle">
@@ -536,6 +537,14 @@
    </property>
    <property name="toolTip">
     <string>Bring to front</string>
+   </property>
+  </action>
+  <action name="actionShare">
+   <property name="text">
+    <string>Share</string>
+   </property>
+   <property name="toolTip">
+    <string>Share</string>
    </property>
   </action>
  </widget>

@@ -11,6 +11,7 @@
 
 #include "mygraphicsscene.h"
 #include "imageutil.h"
+#include "exportdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -120,6 +121,12 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, "Import Image from File System", QString(), "Images (*.png *.xpm *.jpg)");
     QImage image{fileName};
     gps->setImage(image);
+}
+
+void MainWindow::on_actionShare_triggered()
+{
+    ExportDialog dialog;
+    dialog.exec();
 }
 
 void MainWindow::on_penColor_colorChanged(QColor color)
