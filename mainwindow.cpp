@@ -167,7 +167,7 @@ void MainWindow::on_stickerTableView_clicked(const QModelIndex &index)
 void MainWindow::onCameraCaptured()
 {
     gps->setImage(cw->result());
-    delete cw;
+    cw->deleteLater();
     cw = nullptr;
 }
 
