@@ -39,9 +39,9 @@ void ImgurWrapper::shareImage(const QImage &img, const QString &title, const QSt
     multipart->append(titlePart);
 
     QHttpPart descPart;
-    titlePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
-    titlePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"description\""));
-    titlePart.setBody(desc.toUtf8());
+    descPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/plain"));
+    descPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"description\""));
+    descPart.setBody(desc.toUtf8());
     multipart->append(descPart);
 
     QHttpPart imagePart;
