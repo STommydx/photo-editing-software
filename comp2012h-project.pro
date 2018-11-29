@@ -36,6 +36,8 @@ SOURCES += \
     imageutil.cpp \
     imagekernel.cpp \
     filtereffect.cpp \
+    exportdialog.cpp \
+    imgurwrapper.cpp \
     avl.tpp
 
 HEADERS += \
@@ -51,11 +53,14 @@ HEADERS += \
     imageutil.h \
     imagekernel.h \
     filtereffect.h \
+    exportdialog.h \
+    imgurwrapper.h \
     avl.h
 
 FORMS += \
         mainwindow.ui \
-    camerawindow.ui
+    camerawindow.ui \
+    exportdialog.ui
 
 RESOURCES += \
     resources.qrc

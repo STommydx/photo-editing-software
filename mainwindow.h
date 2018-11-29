@@ -7,6 +7,7 @@
 #include "stickerthumbnailsdelegate.h"
 #include "camerawindow.h"
 #include "filtereffect.h"
+#include "imgurwrapper.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,12 +30,14 @@ private:
     StickerThumbnailsDelegate* delegate;
     CameraWindow *cw;
     QVector<FilterEffect> effectList;
+    ImgurWrapper *imgur;
 
     void setupEffectList();
 
 private slots:
     void on_actionSave_triggered();
     void on_actionOpen_triggered();
+    void on_actionShare_triggered();
 
     // Sticker toolbars
     void onActionUndoTriggered();
@@ -60,6 +63,8 @@ private slots:
     void on_effectList_currentRowChanged(int row);
     void on_applyButton_clicked();
     void on_clearButton_clicked();
+
+    void onImageUploaded(QString imgId, QString imgLink);
 };
 
 #endif // MAINWINDOW_H

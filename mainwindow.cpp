@@ -11,6 +11,7 @@
 
 #include "mygraphicsscene.h"
 #include "imageutil.h"
+#include "exportdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,7 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     gps(new MyGraphicsScene),
     model(new StickerThumbnailsModel(this)),
     delegate(new StickerThumbnailsDelegate(this)),
-    cw(nullptr)
+    cw(nullptr),
+    imgur(new ImgurWrapper(this))
 {
     ui->setupUi(this);
     ui->stickerToolbar->hide();
@@ -47,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setupEffectList();
 
     connect(gps, SIGNAL(selectionChanged()), this, SLOT(m_on_gps_selectionChanged()));
+
+    connect(imgur, &ImgurWrapper::imageUploaded, this, &MainWindow::onImageUploaded);
 }
 
 MainWindow::~MainWindow()
@@ -122,6 +126,11 @@ void MainWindow::on_actionOpen_triggered()
     gps->setImage(image);
 }
 
+void MainWindow::on_actionShare_triggered()
+{
+    imgur->shareImage(gps->getImage());
+}
+
 void MainWindow::on_penColor_colorChanged(QColor color)
 {
     gps->setPenColor(color);
@@ -195,6 +204,12 @@ void MainWindow::on_applyButton_clicked()
 void MainWindow::on_clearButton_clicked()
 {
     gps->clearEffect();
+}
+
+void MainWindow::onImageUploaded(QString imgId, QString imgLink)
+{
+    ExportDialog dialog(this, imgId, imgLink);
+    dialog.exec();
 }
 
 void MainWindow::setupEffectList()
