@@ -25,7 +25,7 @@ public:
     void undo();
     void setImage(const QImage &image);
     QImage getImage() const;
-    QImage *createSnapshot();
+    QImage createSnapshot();
     void applyEffect(const FilterEffect &filter, int size, double strength);
     void clearEffect();
 

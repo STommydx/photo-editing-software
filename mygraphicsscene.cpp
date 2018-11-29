@@ -56,11 +56,11 @@ void MyGraphicsScene::setImage(const QImage &image)
     foreground->setPos({SCENE_WIDTH / 2.0 - scaledImage.width() / 2.0, SCENE_HEIGHT / 2.0 - scaledImage.height() / 2.0});
 }
 
-QImage *MyGraphicsScene::createSnapshot()
+QImage MyGraphicsScene::createSnapshot()
 {
-    QImage *img = new QImage(SCENE_WIDTH, SCENE_HEIGHT, QImage::Format_ARGB32_Premultiplied);
+    QImage img(SCENE_WIDTH, SCENE_HEIGHT, QImage::Format_ARGB32_Premultiplied);
     QPainter qp;
-    qp.begin(img);
+    qp.begin(&img);
     render(&qp);
     qp.end();
     return img;

@@ -67,10 +67,9 @@ void MainWindow::onActionUndoTriggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    QImage *snapshot = gps->createSnapshot();
+    QImage &&snapshot = gps->createSnapshot();
     QString fileName = QFileDialog::getSaveFileName(this, "Save Image to File System", "untitled.png", "Images (*.png *.xpm *.jpg)");
-    snapshot->save(fileName);
-    delete snapshot;
+    snapshot.save(fileName);
 }
 
 void MainWindow::on_actionCamera_triggered()
@@ -128,7 +127,7 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionShare_triggered()
 {
-    imgur->shareImage(gps->getImage());
+    imgur->shareImage(gps->createSnapshot());
 }
 
 void MainWindow::on_penColor_colorChanged(QColor color)
