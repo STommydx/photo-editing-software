@@ -37,7 +37,8 @@ SOURCES += \
     imagekernel.cpp \
     filtereffect.cpp \
     exportdialog.cpp \
-    imgurwrapper.cpp
+    imgurwrapper.cpp \
+    avl.tpp
 
 HEADERS += \
         mainwindow.h \
@@ -53,7 +54,8 @@ HEADERS += \
     imagekernel.h \
     filtereffect.h \
     exportdialog.h \
-    imgurwrapper.h
+    imgurwrapper.h \
+    avl.h
 
 FORMS += \
         mainwindow.ui \

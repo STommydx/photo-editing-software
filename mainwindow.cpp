@@ -221,6 +221,7 @@ void MainWindow::setupEffectList()
     effectList.append(FilterEffect{"Gaussian Blur", ImageUtil::gaussianBlur, 5, 5.0});
     effectList.append(FilterEffect{"Mean Blur", ImageUtil::meanBlur, 5});
     effectList.append(FilterEffect{"Mean Blur (Large Size)", ImageUtil::fastMeanBlur, 100});
+    effectList.append(FilterEffect{"Median Blur", ImageUtil::medianBlur, 5});
     effectList.append(FilterEffect{"Sharpen", ImageUtil::sharpen, 5});
     effectList.append(FilterEffect{"Emboss", ImageUtil::emboss, 5});
     effectList.append(FilterEffect{"Pixelize", ImageUtil::pixelize, 100});
