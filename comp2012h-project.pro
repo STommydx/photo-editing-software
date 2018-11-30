@@ -46,7 +46,9 @@ SOURCES += \
     filter/imagestrengthfilter.cpp \
     filter/brightenfilter.cpp \
     filter/imagepurefilter.cpp \
-    filter/grayscalefilter.cpp
+    filter/grayscalefilter.cpp \
+    filter/invertfilter.cpp \
+    filter/darkenfilter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -71,7 +73,9 @@ HEADERS += \
     filter/imagestrengthfilter.h \
     filter/brightenfilter.h \
     filter/imagepurefilter.h \
-    filter/grayscalefilter.h
+    filter/grayscalefilter.h \
+    filter/invertfilter.h \
+    filter/darkenfilter.h
 
 FORMS += \
         mainwindow.ui \

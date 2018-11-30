@@ -15,26 +15,6 @@ QRgb *ImageUtil::getPixel(QImage &img, int x, int y)
     return reinterpret_cast<QRgb*>(img.scanLine(x)) + y;
 }
 
-QImage ImageUtil::invert(const QImage &img)
-{
-    QImage newImg{img};
-    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
-        QRgb pix = *getPixel(img, i, j);
-        *getPixel(newImg, i, j) = qRgba(255 - qRed(pix), 255 - qGreen(pix), 255 - qBlue(pix), qAlpha(pix));
-    }
-    return newImg;
-}
-
-QImage ImageUtil::darken(const QImage &img, double strength)
-{
-    QImage newImg{img};
-    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
-        QColor pix{*getPixel(img, i, j)};
-        *getPixel(newImg, i, j) = pix.darker(qFloor(strength * 100)).rgba();
-    }
-    return newImg;
-}
-
 QImage ImageUtil::fastMeanBlur(const QImage &img, int size)
 {
     typedef QVector<QVector<int>> QMat;
