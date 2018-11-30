@@ -9,7 +9,7 @@
 #include <QImage>
 
 #include "teststicker.h"
-#include "imageutil.h"
+#include "filter/fastmeanblurfilter.h"
 
 const QString MyGraphicsScene::DEFAULT_PHOTO = ":/assets/img/default.png";
 
@@ -43,7 +43,7 @@ void MyGraphicsScene::setImage(const QImage &image)
     for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
         choppedImage = (*applyFilter.first)(choppedImage, applyFilter.second.first, applyFilter.second.second);
     }
-    QImage &&processedImage = ImageUtil::multipassMeanBlur(choppedImage, 40);
+    QImage &&processedImage = FastMeanBlurFilter{}(choppedImage, 40, 0, 3);
     background = addPixmap(QPixmap::fromImage(processedImage));
     background->setTransformationMode(Qt::SmoothTransformation);
 

@@ -9,7 +9,7 @@ public:
     ImageFilter() = default;
     virtual ~ImageFilter() = default;
 
-    virtual QImage operator()(const QImage &img, int size, double strength) const;
+    virtual QImage operator()(const QImage &img, int size, double strength, int pass = 1) const;
     virtual QImage apply(const QImage &img, int size, double strength) const = 0;
     virtual QString getName() const = 0;
     virtual int getMaxSize() const = 0;
