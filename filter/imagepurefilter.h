@@ -8,6 +8,7 @@ class ImagePureFilter : public ImageSizeFilter
 public:
     virtual int getMaxSize() const override;
     virtual bool sizeEnabled() const override;
+    virtual QImage apply(const QImage &img, int size, double strength) const override;
     virtual QImage apply(const QImage &img, int size) const override;
     virtual QImage apply(const QImage &img) const = 0;
 };
