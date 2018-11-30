@@ -1,11 +1,13 @@
 #include "gaussianblurfilter.h"
-#include "imagekernel.h"
+#include "gaussiankernel.h"
 
 GaussianBlurFilter::GaussianBlurFilter(QObject *parent) : ImageFilter{parent} {}
 
 QImage GaussianBlurFilter::apply(const QImage &img, int size, double strength) const
 {
-    return ImageKernel::gaussianBlur(size, strength).convolution(img);
+    GaussianKernel kernel{size, strength};
+    connect(&kernel, &ImageKernel::progressUpdated, this, &ImageFilter::progressUpdated);
+    return kernel.convolution(img);
 }
 
 QString GaussianBlurFilter::getName() const

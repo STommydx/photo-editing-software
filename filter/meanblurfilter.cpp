@@ -1,5 +1,5 @@
 #include "meanblurfilter.h"
-#include "imagekernel.h"
+#include "meankernel.h"
 
 MeanBlurFilter::MeanBlurFilter(QObject *parent) : ImageSizeFilter{parent} {}
 
@@ -15,5 +15,7 @@ int MeanBlurFilter::getMaxSize() const
 
 QImage MeanBlurFilter::apply(const QImage &img, int size) const
 {
-    return ImageKernel::meanBlur(size).convolution(img);
+    MeanKernel kernel{size};
+    connect(&kernel, &ImageKernel::progressUpdated, this, &ImageFilter::progressUpdated);
+    return kernel.convolution(img);
 }

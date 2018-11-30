@@ -1,5 +1,5 @@
 #include "embossfilter.h"
-#include "imagekernel.h"
+#include "embosskernel.h"
 
 EmbossFilter::EmbossFilter(QObject *parent) : ImageSizeFilter{parent} {}
 
@@ -15,5 +15,7 @@ int EmbossFilter::getMaxSize() const
 
 QImage EmbossFilter::apply(const QImage &img, int size) const
 {
-    return ImageKernel::emboss(size).convolution(img);
+    EmbossKernel kernel{size};
+    connect(&kernel, &ImageKernel::progressUpdated, this, &ImageFilter::progressUpdated);
+    return kernel.convolution(img);
 }

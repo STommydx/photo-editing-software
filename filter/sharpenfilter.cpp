@@ -1,5 +1,5 @@
 #include "sharpenfilter.h"
-#include "imagekernel.h"
+#include "sharpenkernel.h"
 
 SharpenFilter::SharpenFilter(QObject *parent) : ImageSizeFilter{parent} {}
 
@@ -15,5 +15,7 @@ int SharpenFilter::getMaxSize() const
 
 QImage SharpenFilter::apply(const QImage &img, int size) const
 {
-    return ImageKernel::sharpen(size).convolution(img);
+    SharpenKernel kernel{size};
+    connect(&kernel, &ImageKernel::progressUpdated, this, &ImageFilter::progressUpdated);
+    return kernel.convolution(img);
 }
