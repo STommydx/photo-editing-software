@@ -201,12 +201,20 @@ void MainWindow::on_applyButton_clicked()
     ImageFilter *filter = effectList[ui->effectList->currentRow()];
     int size = ui->effectSizeSlider->value();
     double strength = ui->effectStrengthSlider->value() / 1000.0;
+    ui->applyButton->setEnabled(false);
+    ui->clearButton->setEnabled(false);
     gps->applyEffect(filter, size, strength);
+    ui->applyButton->setEnabled(true);
+    ui->clearButton->setEnabled(true);
 }
 
 void MainWindow::on_clearButton_clicked()
 {
+    ui->applyButton->setEnabled(false);
+    ui->clearButton->setEnabled(false);
     gps->clearEffect();
+    ui->applyButton->setEnabled(true);
+    ui->clearButton->setEnabled(true);
 }
 
 void MainWindow::onImageUploaded(QString imgId, QString imgLink)
