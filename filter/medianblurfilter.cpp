@@ -2,6 +2,8 @@
 #include "avl.h"
 #include "imageutil.h"
 
+MedianBlurFilter::MedianBlurFilter(QObject *parent) : ImageSizeFilter{parent} {}
+
 QString MedianBlurFilter::getName() const
 {
     return "Median Blur";
@@ -16,6 +18,7 @@ QImage MedianBlurFilter::apply(const QImage &img, int size) const
 {
     QImage newImage{img};
     for (int i=0;i<img.height();i++) {
+        emit progressUpdated(i);
         AVL<int> red, green, blue;
         int lox = qMax(0, i - size + 1);
         int hix = qMin(i + size - 1, img.height() - 1);
@@ -35,5 +38,6 @@ QImage MedianBlurFilter::apply(const QImage &img, int size) const
             }
         }
     }
+    emit progressUpdated(img.height());
     return newImage;
 }

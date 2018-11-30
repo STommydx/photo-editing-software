@@ -1,6 +1,8 @@
 #include "pixelizefilter.h"
 #include "imageutil.h"
 
+PixelizeFilter::PixelizeFilter(QObject *parent) : ImageSizeFilter{parent} {}
+
 QString PixelizeFilter::getName() const
 {
     return "Pixelize";

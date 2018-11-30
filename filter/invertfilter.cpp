@@ -1,6 +1,8 @@
 #include "invertfilter.h"
 #include "imageutil.h"
 
+InvertFilter::InvertFilter(QObject *parent) : ImagePureFilter{parent} {}
+
 QString InvertFilter::getName() const
 {
     return "Invert";

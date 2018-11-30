@@ -3,6 +3,8 @@
 #include <QVector>
 #include "imageutil.h"
 
+FastMeanBlurFilter::FastMeanBlurFilter(QObject *parent) : ImageSizeFilter{parent} {}
+
 QString FastMeanBlurFilter::getName() const
 {
     return "Mean Blur (Large Size)";

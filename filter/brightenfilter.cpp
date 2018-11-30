@@ -2,6 +2,8 @@
 #include <QtMath>
 #include "imageutil.h"
 
+BrightenFilter::BrightenFilter(QObject *parent) : ImageStrengthFilter{parent} {}
+
 QString BrightenFilter::getName() const
 {
     return "Brighten";

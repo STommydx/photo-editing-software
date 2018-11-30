@@ -1,6 +1,8 @@
 #include "sharpenfilter.h"
 #include "imagekernel.h"
 
+SharpenFilter::SharpenFilter(QObject *parent) : ImageSizeFilter{parent} {}
+
 QString SharpenFilter::getName() const
 {
     return "Sharpen";

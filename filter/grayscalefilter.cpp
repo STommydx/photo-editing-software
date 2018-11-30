@@ -1,6 +1,8 @@
 #include "grayscalefilter.h"
 #include "imageutil.h"
 
+GrayscaleFilter::GrayscaleFilter(QObject *parent) : ImagePureFilter{parent} {}
+
 QString GrayscaleFilter::getName() const
 {
     return "Grayscale";

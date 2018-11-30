@@ -1,5 +1,7 @@
 #include "imagefilter.h"
 
+ImageFilter::ImageFilter(QObject *parent) : QObject{parent} {}
+
 QImage ImageFilter::operator()(const QImage &img, int size, double strength, int pass) const
 {
     QImage &&modImg = QImage{img};

@@ -1,6 +1,8 @@
 #include "embossfilter.h"
 #include "imagekernel.h"
 
+EmbossFilter::EmbossFilter(QObject *parent) : ImageSizeFilter{parent} {}
+
 QString EmbossFilter::getName() const
 {
     return "Emboss";

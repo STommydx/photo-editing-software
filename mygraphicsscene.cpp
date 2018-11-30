@@ -7,6 +7,8 @@
 #include <QFont>
 #include <QPainter>
 #include <QImage>
+#include <QProgressDialog>
+#include <QApplication>
 
 #include "teststicker.h"
 #include "filter/fastmeanblurfilter.h"
@@ -35,22 +37,38 @@ void MyGraphicsScene::setImage(const QImage &image)
 {
     this->image = image;
     if (image.isNull()) return;
-    if (background) removeItem(background);
-    if (foreground) removeItem(foreground);
 
     QImage &&enlargedImage = image.scaled(SCENE_WIDTH, SCENE_HEIGHT, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
     QImage &&choppedImage = enlargedImage.copy(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
     for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
+        QProgressDialog progress("Applying " + applyFilter.first->getName() + "...", "Cancel", 0, choppedImage.height());
+        progress.setWindowTitle("Applying Filter...");
+        progress.setMinimumDuration(0);
+        connect(applyFilter.first, &ImageFilter::progressUpdated, [&](int x){
+            progress.setValue(x);
+            QApplication::processEvents();
+        });
+
         choppedImage = (*applyFilter.first)(choppedImage, applyFilter.second.first, applyFilter.second.second);
     }
     QImage &&processedImage = FastMeanBlurFilter{}(choppedImage, 40, 0, 3);
+    if (background) removeItem(background);
     background = addPixmap(QPixmap::fromImage(processedImage));
     background->setTransformationMode(Qt::SmoothTransformation);
 
     QImage &&scaledImage = image.scaled(SCENE_WIDTH, SCENE_HEIGHT, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
+        QProgressDialog progress("Applying " + applyFilter.first->getName() + "...", "Cancel", 0, scaledImage.height());
+        progress.setWindowTitle("Applying Filter...");
+        progress.setMinimumDuration(0);
+        connect(applyFilter.first, &ImageFilter::progressUpdated, [&](int x){
+            progress.setValue(x);
+            QApplication::processEvents();
+        });
+
         scaledImage = (*applyFilter.first)(scaledImage, applyFilter.second.first, applyFilter.second.second);
     }
+    if (foreground) removeItem(foreground);
     foreground = addPixmap(QPixmap::fromImage(scaledImage));
     foreground->setTransformationMode(Qt::SmoothTransformation);
     foreground->setPos({SCENE_WIDTH / 2.0 - scaledImage.width() / 2.0, SCENE_HEIGHT / 2.0 - scaledImage.height() / 2.0});

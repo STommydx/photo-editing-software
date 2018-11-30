@@ -1,6 +1,8 @@
 #include "meanblurfilter.h"
 #include "imagekernel.h"
 
+MeanBlurFilter::MeanBlurFilter(QObject *parent) : ImageSizeFilter{parent} {}
+
 QString MeanBlurFilter::getName() const
 {
     return "Mean Blur";

@@ -2,6 +2,8 @@
 #include <QtMath>
 #include "imageutil.h"
 
+DarkenFilter::DarkenFilter(QObject *parent) : ImageStrengthFilter{parent} {}
+
 QString DarkenFilter::getName() const
 {
     return "Darken";
