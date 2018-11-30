@@ -52,7 +52,9 @@ SOURCES += \
     filter/fastmeanblurfilter.cpp \
     filter/medianblurfilter.cpp \
     filter/sharpenfilter.cpp \
-    filter/edgehighlightfilter.cpp
+    filter/edgehighlightfilter.cpp \
+    filter/embossfilter.cpp \
+    filter/pixelizefilter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -83,7 +85,9 @@ HEADERS += \
     filter/fastmeanblurfilter.h \
     filter/medianblurfilter.h \
     filter/sharpenfilter.h \
-    filter/edgehighlightfilter.h
+    filter/edgehighlightfilter.h \
+    filter/embossfilter.h \
+    filter/pixelizefilter.h
 
 FORMS += \
         mainwindow.ui \

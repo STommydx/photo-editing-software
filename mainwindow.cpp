@@ -46,7 +46,11 @@ MainWindow::MainWindow(QWidget *parent) :
     gps->setPenColor(ui->penColor->getColor());
     gps->setStrokeWidth(ui->penSlider->value());
     ui->graphicsView->setScene(gps);
-    setupEffectList();
+
+    // Effect list
+    for (ImageFilter *filter : effectList) {
+        ui->effectList->addItem(filter->getName());
+    }
 
     connect(gps, SIGNAL(selectionChanged()), this, SLOT(m_on_gps_selectionChanged()));
 
@@ -209,11 +213,4 @@ void MainWindow::onImageUploaded(QString imgId, QString imgLink)
 {
     ExportDialog dialog(this, imgId, imgLink);
     dialog.exec();
-}
-
-void MainWindow::setupEffectList()
-{
-    for (ImageFilter *filter : effectList) {
-        ui->effectList->addItem(filter->getName());
-    }
 }

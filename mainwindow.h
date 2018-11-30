@@ -32,8 +32,6 @@ private:
     DefaultFilterList effectList;
     ImgurWrapper *imgur;
 
-    void setupEffectList();
-
 private slots:
     void on_actionSave_triggered();
     void on_actionOpen_triggered();
