@@ -11,9 +11,13 @@ QString InvertFilter::getName() const
 QImage InvertFilter::apply(const QImage &img) const
 {
     QImage newImg{img};
-    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
-        QRgb pix = *ImageUtil::getPixel(img, i, j);
-        *ImageUtil::getPixel(newImg, i, j) = qRgba(255 - qRed(pix), 255 - qGreen(pix), 255 - qBlue(pix), qAlpha(pix));
+    for (int i=0;i<img.height();i++) {
+        emit progressUpdated(i);
+        for (int j=0;j<img.width();j++) {
+            QRgb pix = *ImageUtil::getPixel(img, i, j);
+            *ImageUtil::getPixel(newImg, i, j) = qRgba(255 - qRed(pix), 255 - qGreen(pix), 255 - qBlue(pix), qAlpha(pix));
+        }
     }
+    emit progressUpdated(img.height());
     return newImg;
 }
