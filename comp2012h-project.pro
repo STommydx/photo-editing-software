@@ -35,10 +35,26 @@ SOURCES += \
     camerawindow.cpp \
     imageutil.cpp \
     imagekernel.cpp \
-    filtereffect.cpp \
     exportdialog.cpp \
     imgurwrapper.cpp \
-    avl.tpp
+    avl.tpp \
+    filter/imagefilter.cpp \
+    filter/defaultfilterlist.cpp \
+    filter/gaussianblurfilter.cpp \
+    filter/imagesizefilter.cpp \
+    filter/meanblurfilter.cpp \
+    filter/imagestrengthfilter.cpp \
+    filter/brightenfilter.cpp \
+    filter/imagepurefilter.cpp \
+    filter/grayscalefilter.cpp \
+    filter/invertfilter.cpp \
+    filter/darkenfilter.cpp \
+    filter/fastmeanblurfilter.cpp \
+    filter/medianblurfilter.cpp \
+    filter/sharpenfilter.cpp \
+    filter/edgehighlightfilter.cpp \
+    filter/embossfilter.cpp \
+    filter/pixelizefilter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -52,10 +68,26 @@ HEADERS += \
     camerawindow.h \
     imageutil.h \
     imagekernel.h \
-    filtereffect.h \
     exportdialog.h \
     imgurwrapper.h \
-    avl.h
+    avl.h \
+    filter/imagefilter.h \
+    filter/defaultfilterlist.h \
+    filter/gaussianblurfilter.h \
+    filter/imagesizefilter.h \
+    filter/meanblurfilter.h \
+    filter/imagestrengthfilter.h \
+    filter/brightenfilter.h \
+    filter/imagepurefilter.h \
+    filter/grayscalefilter.h \
+    filter/invertfilter.h \
+    filter/darkenfilter.h \
+    filter/fastmeanblurfilter.h \
+    filter/medianblurfilter.h \
+    filter/sharpenfilter.h \
+    filter/edgehighlightfilter.h \
+    filter/embossfilter.h \
+    filter/pixelizefilter.h
 
 FORMS += \
         mainwindow.ui \

@@ -46,7 +46,11 @@ MainWindow::MainWindow(QWidget *parent) :
     gps->setPenColor(ui->penColor->getColor());
     gps->setStrokeWidth(ui->penSlider->value());
     ui->graphicsView->setScene(gps);
-    setupEffectList();
+
+    // Effect list
+    for (ImageFilter *filter : effectList) {
+        ui->effectList->addItem(filter->getName());
+    }
 
     connect(gps, SIGNAL(selectionChanged()), this, SLOT(m_on_gps_selectionChanged()));
 
@@ -186,15 +190,15 @@ void MainWindow::on_effectList_currentRowChanged(int row)
         return;
     }
     ui->applyButton->setEnabled(true);
-    FilterEffect &effect = effectList[row];
-    ui->effectSizeSlider->setEnabled(effect.sizeEnabled());
-    ui->effectSizeSlider->setMaximum(effect.getMaxSize());
-    ui->effectStrengthSlider->setEnabled(effect.strengthEnabled());
+    ImageFilter *effect = effectList[row];
+    ui->effectSizeSlider->setEnabled(effect->sizeEnabled());
+    ui->effectSizeSlider->setMaximum(effect->getMaxSize());
+    ui->effectStrengthSlider->setEnabled(effect->strengthEnabled());
 }
 
 void MainWindow::on_applyButton_clicked()
 {
-    FilterEffect &filter = effectList[ui->effectList->currentRow()];
+    ImageFilter *filter = effectList[ui->effectList->currentRow()];
     int size = ui->effectSizeSlider->value();
     double strength = ui->effectStrengthSlider->value() / 1000.0;
     gps->applyEffect(filter, size, strength);
@@ -209,24 +213,4 @@ void MainWindow::onImageUploaded(QString imgId, QString imgLink)
 {
     ExportDialog dialog(this, imgId, imgLink);
     dialog.exec();
-}
-
-void MainWindow::setupEffectList()
-{
-    effectList.append(FilterEffect{"Grayscale", ImageUtil::grayscale});
-    effectList.append(FilterEffect{"Invert", ImageUtil::invert});
-    effectList.append(FilterEffect{"Brighten", ImageUtil::brighten, 10.0});
-    effectList.append(FilterEffect{"Darken", ImageUtil::darken, 10.0});
-    effectList.append(FilterEffect{"Gaussian Blur", ImageUtil::gaussianBlur, 5, 5.0});
-    effectList.append(FilterEffect{"Mean Blur", ImageUtil::meanBlur, 5});
-    effectList.append(FilterEffect{"Mean Blur (Large Size)", ImageUtil::fastMeanBlur, 100});
-    effectList.append(FilterEffect{"Median Blur", ImageUtil::medianBlur, 5});
-    effectList.append(FilterEffect{"Sharpen", ImageUtil::sharpen, 5});
-    effectList.append(FilterEffect{"Emboss", ImageUtil::emboss, 5});
-    effectList.append(FilterEffect{"Pixelize", ImageUtil::pixelize, 100});
-    effectList.append(FilterEffect{"Edge Highlight", ImageUtil::edgeDetect, 5});
-
-    for (const FilterEffect &filter : effectList) {
-        ui->effectList->addItem(filter.getName());
-    }
 }

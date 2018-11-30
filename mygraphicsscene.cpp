@@ -9,7 +9,7 @@
 #include <QImage>
 
 #include "teststicker.h"
-#include "imageutil.h"
+#include "filter/fastmeanblurfilter.h"
 
 const QString MyGraphicsScene::DEFAULT_PHOTO = ":/assets/img/default.png";
 
@@ -40,16 +40,16 @@ void MyGraphicsScene::setImage(const QImage &image)
 
     QImage &&enlargedImage = image.scaled(SCENE_WIDTH, SCENE_HEIGHT, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
     QImage &&choppedImage = enlargedImage.copy(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
-    for (const QPair<FilterEffect, QPair<int, double>> &applyFilter : applyEffectList) {
-        choppedImage = applyFilter.first.apply(choppedImage, applyFilter.second.first, applyFilter.second.second);
+    for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
+        choppedImage = (*applyFilter.first)(choppedImage, applyFilter.second.first, applyFilter.second.second);
     }
-    QImage &&processedImage = ImageUtil::multipassMeanBlur(choppedImage, 40);
+    QImage &&processedImage = FastMeanBlurFilter{}(choppedImage, 40, 0, 3);
     background = addPixmap(QPixmap::fromImage(processedImage));
     background->setTransformationMode(Qt::SmoothTransformation);
 
     QImage &&scaledImage = image.scaled(SCENE_WIDTH, SCENE_HEIGHT, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    for (const QPair<FilterEffect, QPair<int, double>> &applyFilter : applyEffectList) {
-        scaledImage = applyFilter.first.apply(scaledImage, applyFilter.second.first, applyFilter.second.second);
+    for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
+        scaledImage = (*applyFilter.first)(scaledImage, applyFilter.second.first, applyFilter.second.second);
     }
     foreground = addPixmap(QPixmap::fromImage(scaledImage));
     foreground->setTransformationMode(Qt::SmoothTransformation);
@@ -66,7 +66,7 @@ QImage MyGraphicsScene::createSnapshot()
     return img;
 }
 
-void MyGraphicsScene::applyEffect(const FilterEffect &filter, int size, double strength)
+void MyGraphicsScene::applyEffect(ImageFilter *filter, int size, double strength)
 {
     applyEffectList.append({filter, {size, strength}});
     setImage(image);

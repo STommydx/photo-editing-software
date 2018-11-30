@@ -13,7 +13,7 @@
 #include <QGraphicsPathItem>
 
 #include "teststicker.h"
-#include "filtereffect.h"
+#include "filter/imagefilter.h"
 
 class MyGraphicsScene : public QGraphicsScene
 {
@@ -26,7 +26,7 @@ public:
     void setImage(const QImage &image);
     QImage getImage() const;
     QImage createSnapshot();
-    void applyEffect(const FilterEffect &filter, int size, double strength);
+    void applyEffect(ImageFilter *filter, int size, double strength);
     void clearEffect();
 
 protected:
@@ -41,7 +41,7 @@ private:
     QImage image;
     QGraphicsPixmapItem *background;
     QGraphicsPixmapItem *foreground;
-    QVector<QPair<FilterEffect, QPair<int, double>>> applyEffectList;
+    QVector<QPair<ImageFilter*, QPair<int, double>>> applyEffectList;
 
 // Sticker mode and options
 public:
