@@ -11,7 +11,7 @@ QString MedianBlurFilter::getName() const
 
 int MedianBlurFilter::getMaxSize() const
 {
-    return 5;
+    return 10;
 }
 
 QImage MedianBlurFilter::apply(const QImage &img, int size) const

@@ -10,7 +10,7 @@ QString MeanBlurFilter::getName() const
 
 int MeanBlurFilter::getMaxSize() const
 {
-    return 5;
+    return 10;
 }
 
 QImage MeanBlurFilter::apply(const QImage &img, int size) const

@@ -17,7 +17,7 @@ QString GaussianBlurFilter::getName() const
 
 int GaussianBlurFilter::getMaxSize() const
 {
-    return 5;
+    return 10;
 }
 
 double GaussianBlurFilter::getNormFactor() const
