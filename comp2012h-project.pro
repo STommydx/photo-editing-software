@@ -50,7 +50,9 @@ SOURCES += \
     filter/invertfilter.cpp \
     filter/darkenfilter.cpp \
     filter/fastmeanblurfilter.cpp \
-    filter/medianblurfilter.cpp
+    filter/medianblurfilter.cpp \
+    filter/sharpenfilter.cpp \
+    filter/edgehighlightfilter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -79,7 +81,9 @@ HEADERS += \
     filter/invertfilter.h \
     filter/darkenfilter.h \
     filter/fastmeanblurfilter.h \
-    filter/medianblurfilter.h
+    filter/medianblurfilter.h \
+    filter/sharpenfilter.h \
+    filter/edgehighlightfilter.h
 
 FORMS += \
         mainwindow.ui \

@@ -14,11 +14,6 @@ QRgb *ImageUtil::getPixel(QImage &img, int x, int y)
     return reinterpret_cast<QRgb*>(img.scanLine(x)) + y;
 }
 
-QImage ImageUtil::sharpen(const QImage &img, int size)
-{
-    return ImageKernel::sharpen(size).convolution(img);
-}
-
 QImage ImageUtil::edgeDetect(const QImage &img, int size)
 {
     return ImageKernel::edgeDetect(size).convolution(img);
