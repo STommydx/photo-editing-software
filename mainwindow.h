@@ -6,8 +6,8 @@
 #include "stickerthumbnailsmodel.h"
 #include "stickerthumbnailsdelegate.h"
 #include "camerawindow.h"
-#include "filtereffect.h"
 #include "imgurwrapper.h"
+#include "filter/defaultfilterlist.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,7 +29,7 @@ private:
     StickerThumbnailsModel* model;
     StickerThumbnailsDelegate* delegate;
     CameraWindow *cw;
-    QVector<FilterEffect> effectList;
+    DefaultFilterList effectList;
     ImgurWrapper *imgur;
 
     void setupEffectList();

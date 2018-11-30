@@ -35,10 +35,18 @@ SOURCES += \
     camerawindow.cpp \
     imageutil.cpp \
     imagekernel.cpp \
-    filtereffect.cpp \
     exportdialog.cpp \
     imgurwrapper.cpp \
-    avl.tpp
+    avl.tpp \
+    filter/imagefilter.cpp \
+    filter/defaultfilterlist.cpp \
+    filter/gaussianblurfilter.cpp \
+    filter/imagesizefilter.cpp \
+    filter/meanblurfilter.cpp \
+    filter/imagestrengthfilter.cpp \
+    filter/brightenfilter.cpp \
+    filter/imagepurefilter.cpp \
+    filter/grayscalefilter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -52,10 +60,18 @@ HEADERS += \
     camerawindow.h \
     imageutil.h \
     imagekernel.h \
-    filtereffect.h \
     exportdialog.h \
     imgurwrapper.h \
-    avl.h
+    avl.h \
+    filter/imagefilter.h \
+    filter/defaultfilterlist.h \
+    filter/gaussianblurfilter.h \
+    filter/imagesizefilter.h \
+    filter/meanblurfilter.h \
+    filter/imagestrengthfilter.h \
+    filter/brightenfilter.h \
+    filter/imagepurefilter.h \
+    filter/grayscalefilter.h
 
 FORMS += \
         mainwindow.ui \

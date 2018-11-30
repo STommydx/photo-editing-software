@@ -15,17 +15,6 @@ QRgb *ImageUtil::getPixel(QImage &img, int x, int y)
     return reinterpret_cast<QRgb*>(img.scanLine(x)) + y;
 }
 
-QImage ImageUtil::grayscale(const QImage &img)
-{
-    QImage newImg{img};
-    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
-        QRgb pix = *getPixel(img, i, j);
-        int avg = (qRed(pix) + qGreen(pix) + qBlue(pix)) / 3;
-        *getPixel(newImg, i, j) = qRgba(avg, avg, avg, qAlpha(pix));
-    }
-    return newImg;
-}
-
 QImage ImageUtil::invert(const QImage &img)
 {
     QImage newImg{img};
@@ -44,26 +33,6 @@ QImage ImageUtil::darken(const QImage &img, double strength)
         *getPixel(newImg, i, j) = pix.darker(qFloor(strength * 100)).rgba();
     }
     return newImg;
-}
-
-QImage ImageUtil::brighten(const QImage &img, double strength)
-{
-    QImage newImg{img};
-    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
-        QColor pix{*getPixel(img, i, j)};
-        *getPixel(newImg, i, j) = pix.lighter(qFloor(strength * 100)).rgba();
-    }
-    return newImg;
-}
-
-QImage ImageUtil::meanBlur(const QImage &img, int size)
-{
-    return ImageKernel::meanBlur(size).convolution(img);
-}
-
-QImage ImageUtil::gaussianBlur(const QImage &img, int size, double sd)
-{
-    return ImageKernel::gaussianBlur(size, sd).convolution(img);
 }
 
 QImage ImageUtil::fastMeanBlur(const QImage &img, int size)
