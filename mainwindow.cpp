@@ -59,9 +59,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete ui;
     delete gps;
     delete cw;
+    delete ui;
 }
 
 void MainWindow::setImageLock(bool lock)
