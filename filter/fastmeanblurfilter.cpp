@@ -17,6 +17,7 @@ int FastMeanBlurFilter::getMaxSize() const
 
 QImage FastMeanBlurFilter::apply(const QImage &img, int size) const
 {
+    emit progressUpdated(0);
     typedef QVector<QVector<int>> QMat;
     QMat red(img.height(), QVector<int>(img.width()));
     QMat green(red), blue(red);
