@@ -20,7 +20,7 @@ public slots:
 private:
     static const QUrl REQUEST_URL;
     static const QString CLIENT_ID;
-    QNetworkAccessManager *accessManager;
+    QNetworkAccessManager *accessManager; /**< @brief Pointer to network access manager */
 
 };
 
