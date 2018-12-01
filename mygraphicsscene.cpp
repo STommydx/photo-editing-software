@@ -53,8 +53,8 @@ void MyGraphicsScene::setImage(const QImage &image)
     progress.setMaximum(scaledImage.height());
     for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
         progress.setLabelText("Applying " + applyFilter.first->getName() + " for foreground...");
-        connect(applyFilter.first, &ImageFilter::progressUpdated, [&](int x){
-            progress.setValue(x);
+        connect(applyFilter.first, &ImageFilter::progressUpdated, &progress, &QProgressDialog::setValue);
+        connect(applyFilter.first, &ImageFilter::progressUpdated, [](int){
             QApplication::processEvents();
         });
 
@@ -67,8 +67,8 @@ void MyGraphicsScene::setImage(const QImage &image)
         progress.setMaximum(choppedImage.height());
         for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
             progress.setLabelText("Applying " + applyFilter.first->getName() + " for background...");
-            connect(applyFilter.first, &ImageFilter::progressUpdated, [&](int x){
-                progress.setValue(x);
+            connect(applyFilter.first, &ImageFilter::progressUpdated, &progress, &QProgressDialog::setValue);
+            connect(applyFilter.first, &ImageFilter::progressUpdated, [](int){
                 QApplication::processEvents();
             });
 
@@ -78,8 +78,8 @@ void MyGraphicsScene::setImage(const QImage &image)
         // Background blurs
         FastMeanBlurFilter fmbFilter;
         progress.setLabelText("Bluring background...");
-        connect(&fmbFilter, &ImageFilter::progressUpdated, [&](int x) {
-            progress.setValue(x);
+        connect(&fmbFilter, &ImageFilter::progressUpdated, &progress, &QProgressDialog::setValue);
+        connect(&fmbFilter, &ImageFilter::progressUpdated, []() {
             QApplication::processEvents();
         });
         QImage &&processedImage = fmbFilter(choppedImage, 40, 0, 3);
