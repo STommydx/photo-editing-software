@@ -41,7 +41,6 @@ MainWindow::MainWindow(QWidget *parent) :
     tableView->setCurrentIndex(model->index(0,0));
 
     // Graphics scene
-    gps = new MyGraphicsScene(this);
     gps->setStickerPath(model->index(0,0).data().toString());
     gps->setPenColor(ui->penColor->getColor());
     gps->setStrokeWidth(ui->penSlider->value());
