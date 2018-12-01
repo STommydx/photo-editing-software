@@ -20,8 +20,8 @@ protected:
     int &data(int x, int y);
 
 private:
-    const int size;
-    QVector<QVector<int>> mat;
+    const int size; /**< @brief The radius of the kernel */
+    QVector<QVector<int>> mat; /**< @brief The 2D vector storing the matrix */
     inline QRgb convolution(const QImage &img, int x, int y, bool normalized = true);
 
 signals:
