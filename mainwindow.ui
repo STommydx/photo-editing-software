@@ -429,7 +429,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>
@@ -521,7 +521,7 @@
      <normaloff>:/toolbar/delete.png</normaloff>:/toolbar/delete.png</iconset>
    </property>
    <property name="text">
-    <string>Delete</string>
+    <string> </string>
    </property>
    <property name="toolTip">
     <string>Delete</string>
@@ -533,13 +533,17 @@
      <normaloff>:/toolbar/front.png</normaloff>:/toolbar/front.png</iconset>
    </property>
    <property name="text">
-    <string>toFront</string>
+    <string> </string>
    </property>
    <property name="toolTip">
     <string>Bring to front</string>
    </property>
   </action>
   <action name="actionShare">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/toolbar/share.png</normaloff>:/toolbar/share.png</iconset>
+   </property>
    <property name="text">
     <string>Share</string>
    </property>

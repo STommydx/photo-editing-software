@@ -12,7 +12,7 @@ class ColorDisplay : public QGraphicsView
 public:
     ColorDisplay(QColor color = Qt::black, QWidget *parent = nullptr);
     ColorDisplay(QWidget *parent);
-    virtual ~ColorDisplay() {}
+    virtual ~ColorDisplay();
     virtual void mousePressEvent(QMouseEvent *event) override;
 
     QColor getColor() const;

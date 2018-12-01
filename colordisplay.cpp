@@ -13,7 +13,11 @@ ColorDisplay::ColorDisplay(QColor color, QWidget *parent) :
 ColorDisplay::ColorDisplay(QWidget *parent) :
     ColorDisplay(Qt::black, parent)
 {
+}
 
+ColorDisplay::~ColorDisplay()
+{
+    delete scene();
 }
 
 void ColorDisplay::mousePressEvent(QMouseEvent *)
@@ -22,7 +26,6 @@ void ColorDisplay::mousePressEvent(QMouseEvent *)
     QBrush brush{color};
     setBackgroundBrush(brush);
     emit colorChanged(color);
-
 }
 
 QColor ColorDisplay::getColor() const

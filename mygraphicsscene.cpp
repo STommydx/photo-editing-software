@@ -10,7 +10,7 @@
 #include <QProgressDialog>
 #include <QApplication>
 
-#include "teststicker.h"
+#include "sticker.h"
 #include "filter/fastmeanblurfilter.h"
 
 const QString MyGraphicsScene::DEFAULT_PHOTO = ":/assets/img/default.png";
@@ -20,8 +20,8 @@ MyGraphicsScene::MyGraphicsScene(QObject *parent) :
     background(nullptr),
     foreground(nullptr),
     isSelecting(false),
-    pathSticker(nullptr),
-    mode(Mode::Sticker)
+    mode(Mode::stickerMode),
+    pathSticker(nullptr)
 {
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
@@ -132,12 +132,12 @@ void MyGraphicsScene::setMode(MyGraphicsScene::Mode mode) { this->mode = mode; }
 
 void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(mode == Mode::Pen || event->button() != Qt::RightButton) {
+    if(mode == Mode::penMode || event->button() != Qt::RightButton) {
         QGraphicsScene::mousePressEvent(event);
         return;
     }
 
-    TestSticker<QGraphicsSvgItem> *svgSticker = new TestSticker<QGraphicsSvgItem>(svgPath);
+    Sticker<QGraphicsSvgItem> *svgSticker = new Sticker<QGraphicsSvgItem>(svgPath);
     svgSticker->setPos(event->scenePos());
     addSticker(svgSticker);
 
@@ -146,7 +146,7 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(mode == Mode::Sticker || (event->buttons() & Qt::RightButton) == 0) {
+    if(mode == Mode::stickerMode || (event->buttons() & Qt::RightButton) == 0) {
         QGraphicsScene::mouseMoveEvent(event);
         return;
     }
@@ -154,7 +154,7 @@ void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QPainterPath path;
     if(pathSticker == nullptr) {
         path.moveTo(event->scenePos());
-        pathSticker = new TestSticker<QGraphicsPathItem>();
+        pathSticker = new Sticker<QGraphicsPathItem>();
         pathSticker->setPen(pen);
         pathSticker->setPath(path);
         addSticker(pathSticker);
@@ -175,7 +175,7 @@ QImage MyGraphicsScene::getImage() const
 
 void MyGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(mode == Mode::Pen)
+    if(mode == Mode::penMode)
         pathSticker = nullptr;
     QGraphicsScene::mouseReleaseEvent(event);
 }

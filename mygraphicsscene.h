@@ -12,7 +12,7 @@
 #include <QPainterPath>
 #include <QGraphicsPathItem>
 
-#include "teststicker.h"
+#include "sticker.h"
 #include "filter/imagefilter.h"
 
 class MyGraphicsScene : public QGraphicsScene
@@ -45,10 +45,10 @@ private:
 
 // Sticker mode and options
 public:
-    enum Mode { Pen, Sticker };
+    enum Mode { penMode, stickerMode };
 
     template<typename T>
-    void addSticker(TestSticker<T> *sticker);
+    void addSticker(Sticker<T> *sticker);
     void setMode(MyGraphicsScene::Mode mode);
     void setStrokeWidth(int value);
     void setPenColor(const QColor &value);
@@ -60,7 +60,7 @@ public:
 private:
     Mode mode;
     bool isSelecting;
-    TestSticker<QGraphicsPathItem>* pathSticker;
+    Sticker<QGraphicsPathItem>* pathSticker;
     QPen pen;
     QString svgPath;
 
@@ -70,7 +70,7 @@ private slots:
 };
 
 template<typename T>
-void MyGraphicsScene::addSticker(TestSticker<T> *sticker)
+void MyGraphicsScene::addSticker(Sticker<T> *sticker)
 {
     addItem(sticker);
 }

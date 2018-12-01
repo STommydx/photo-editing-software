@@ -12,6 +12,7 @@
 #include "mygraphicsscene.h"
 #include "imageutil.h"
 #include "exportdialog.h"
+#include "sticker.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -58,9 +59,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete ui;
     delete gps;
     delete cw;
+    delete ui;
 }
 
 void MainWindow::setImageLock(bool lock)
@@ -102,8 +103,8 @@ void MainWindow::on_textEnterButton_clicked()
     font.setPointSize(ui->spinBox->value());
     QColor color = ui->textColor->getColor();
 
-    TestSticker<QGraphicsTextItem> *textSticker =
-            new TestSticker<QGraphicsTextItem>(ui->textEdit->text());
+    Sticker<QGraphicsTextItem> *textSticker =
+            new Sticker<QGraphicsTextItem>(ui->textEdit->text());
 
     textSticker->setFont(font);
     textSticker->setDefaultTextColor(color);
@@ -163,11 +164,6 @@ void MainWindow::on_actionToFront_triggered()
     gps->bringToFrontSelected();
 }
 
-void MainWindow::on_actionToBack_triggered()
-{
-    gps->sendToBackSelected();
-}
-
 void MainWindow::m_on_gps_selectionChanged()
 {
     QList<QGraphicsItem *> selections = gps->selectedItems();
@@ -180,9 +176,9 @@ void MainWindow::m_on_gps_selectionChanged()
 void MainWindow::on_tabWidget_currentChanged(int tab)
 {
     if(tab == TAB_PEN)
-        gps->setMode(MyGraphicsScene::Mode::Pen);
+        gps->setMode(MyGraphicsScene::Mode::penMode);
     else if(tab == TAB_STICKER)
-        gps->setMode(MyGraphicsScene::Mode::Sticker);
+        gps->setMode(MyGraphicsScene::Mode::stickerMode);
 }
 
 void MainWindow::on_stickerTableView_clicked(const QModelIndex &index)
