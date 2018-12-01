@@ -64,6 +64,18 @@ MainWindow::~MainWindow()
     delete cw;
 }
 
+void MainWindow::setImageLock(bool lock)
+{
+    ui->actionCamera->setEnabled(!lock);
+    ui->actionOpen->setEnabled(!lock);
+    ui->clearButton->setEnabled(!lock);
+    if (lock || ui->effectList->currentRow() == -1) {
+        ui->applyButton->setEnabled(false);
+    } else {
+        ui->applyButton->setEnabled(true);
+    }
+}
+
 void MainWindow::onActionUndoTriggered()
 {
     gps->undo();
@@ -79,6 +91,7 @@ void MainWindow::on_actionSave_triggered()
 void MainWindow::on_actionCamera_triggered()
 {
     if (cw) return;
+    setImageLock(true);
     cw = new CameraWindow(this);
     cw->show();
     connect(cw, &CameraWindow::closed, this, &MainWindow::onCameraCaptured);
@@ -124,9 +137,11 @@ void MainWindow::on_penSpinner_valueChanged(int x)
 
 void MainWindow::on_actionOpen_triggered()
 {
+    setImageLock(true);
     QString fileName = QFileDialog::getOpenFileName(this, "Import Image from File System", QString(), "Images (*.png *.xpm *.jpg)");
     QImage image{fileName};
     gps->setImage(image);
+    setImageLock(false);
 }
 
 void MainWindow::on_actionShare_triggered()
@@ -181,6 +196,7 @@ void MainWindow::onCameraCaptured()
     gps->setImage(cw->result());
     cw->deleteLater();
     cw = nullptr;
+    setImageLock(false);
 }
 
 void MainWindow::on_effectList_currentRowChanged(int row)
@@ -201,20 +217,16 @@ void MainWindow::on_applyButton_clicked()
     ImageFilter *filter = effectList[ui->effectList->currentRow()];
     int size = ui->effectSizeSlider->value();
     double strength = ui->effectStrengthSlider->value() / 1000.0;
-    ui->applyButton->setEnabled(false);
-    ui->clearButton->setEnabled(false);
+    setImageLock(true);
     gps->applyEffect(filter, size, strength);
-    ui->applyButton->setEnabled(true);
-    ui->clearButton->setEnabled(true);
+    setImageLock(false);
 }
 
 void MainWindow::on_clearButton_clicked()
 {
-    ui->applyButton->setEnabled(false);
-    ui->clearButton->setEnabled(false);
+    setImageLock(true);
     gps->clearEffect();
-    ui->applyButton->setEnabled(true);
-    ui->clearButton->setEnabled(true);
+    setImageLock(false);
 }
 
 void MainWindow::onImageUploaded(QString imgId, QString imgLink)
