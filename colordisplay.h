@@ -12,13 +12,13 @@ class ColorDisplay : public QGraphicsView
 public:
     ColorDisplay(QColor color = Qt::black, QWidget *parent = nullptr);
     ColorDisplay(QWidget *parent);
-    virtual ~ColorDisplay();
+    virtual ~ColorDisplay() override;
     virtual void mousePressEvent(QMouseEvent *event) override;
 
     QColor getColor() const;
 
 private:
-    QColor color;
+    QColor color; /**< @brief The selected color */
 
 signals:
     void colorChanged(QColor color);
