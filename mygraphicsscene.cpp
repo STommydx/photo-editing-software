@@ -7,6 +7,8 @@
 #include <QFont>
 #include <QPainter>
 #include <QImage>
+#include <QProgressDialog>
+#include <QApplication>
 
 #include "teststicker.h"
 #include "filter/fastmeanblurfilter.h"
@@ -33,24 +35,62 @@ MyGraphicsScene::~MyGraphicsScene() { /* TODO */ }
 
 void MyGraphicsScene::setImage(const QImage &image)
 {
-    this->image = image;
     if (image.isNull()) return;
-    if (background) removeItem(background);
-    if (foreground) removeItem(foreground);
+    this->image = image;
 
+    // Background unprocessed image
     QImage &&enlargedImage = image.scaled(SCENE_WIDTH, SCENE_HEIGHT, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
     QImage &&choppedImage = enlargedImage.copy(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
-    for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
-        choppedImage = (*applyFilter.first)(choppedImage, applyFilter.second.first, applyFilter.second.second);
-    }
-    QImage &&processedImage = FastMeanBlurFilter{}(choppedImage, 40, 0, 3);
-    background = addPixmap(QPixmap::fromImage(processedImage));
-    background->setTransformationMode(Qt::SmoothTransformation);
-
+    // Foreground unprocessed image
     QImage &&scaledImage = image.scaled(SCENE_WIDTH, SCENE_HEIGHT, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    QProgressDialog progress;
+    progress.setMinimumDuration(500);
+    progress.setWindowTitle("Applying Filter...");
+    progress.setAutoClose(false);
+
+    // Foreground filters
+    progress.setMaximum(scaledImage.height());
     for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
+        progress.setLabelText("Applying " + applyFilter.first->getName() + " for foreground...");
+        connect(applyFilter.first, &ImageFilter::progressUpdated, &progress, &QProgressDialog::setValue);
+        connect(applyFilter.first, &ImageFilter::progressUpdated, [](int){
+            QApplication::processEvents();
+        });
+
         scaledImage = (*applyFilter.first)(scaledImage, applyFilter.second.first, applyFilter.second.second);
     }
+
+    // Background processing, only run if foreground does not cover the whole scene
+    if (scaledImage.height() != SCENE_HEIGHT || scaledImage.width() != SCENE_WIDTH) {
+        // Background filters
+        progress.setMaximum(choppedImage.height());
+        for (const QPair<ImageFilter*, QPair<int, double>> &applyFilter : applyEffectList) {
+            progress.setLabelText("Applying " + applyFilter.first->getName() + " for background...");
+            connect(applyFilter.first, &ImageFilter::progressUpdated, &progress, &QProgressDialog::setValue);
+            connect(applyFilter.first, &ImageFilter::progressUpdated, [](int){
+                QApplication::processEvents();
+            });
+
+            choppedImage = (*applyFilter.first)(choppedImage, applyFilter.second.first, applyFilter.second.second);
+        }
+
+        // Background blurs
+        FastMeanBlurFilter fmbFilter;
+        progress.setLabelText("Bluring background...");
+        connect(&fmbFilter, &ImageFilter::progressUpdated, &progress, &QProgressDialog::setValue);
+        connect(&fmbFilter, &ImageFilter::progressUpdated, []() {
+            QApplication::processEvents();
+        });
+        QImage &&processedImage = fmbFilter(choppedImage, 40, 0, 3);
+
+        if (background) removeItem(background);
+        background = addPixmap(QPixmap::fromImage(processedImage));
+        background->setTransformationMode(Qt::SmoothTransformation);
+
+    }
+
+    if (foreground) removeItem(foreground);
     foreground = addPixmap(QPixmap::fromImage(scaledImage));
     foreground->setTransformationMode(Qt::SmoothTransformation);
     foreground->setPos({SCENE_WIDTH / 2.0 - scaledImage.width() / 2.0, SCENE_HEIGHT / 2.0 - scaledImage.height() / 2.0});

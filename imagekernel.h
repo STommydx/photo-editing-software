@@ -4,25 +4,29 @@
 #include <QVector>
 #include <QColor>
 #include <QImage>
+#include <QObject>
 
 #include "imageutil.h"
 
-class ImageKernel
+class ImageKernel : public QObject
 {
+    Q_OBJECT
 public:
-    ImageKernel(int size = 1);
-    static ImageKernel meanBlur(int size = 3);
-    static ImageKernel gaussianBlur(int size = 3, double sd = 1.0);
-    static ImageKernel sharpen(int size = 2);
-    static ImageKernel edgeDetect(int size = 2);
-    static ImageKernel emboss(int size = 2);
+    ImageKernel(int size = 1, QObject *parent = nullptr);
+    virtual ~ImageKernel() = default;
     QImage convolution(const QImage &img, bool normalized = true);
+
+protected:
+    int &data(int x, int y);
 
 private:
     const int size;
     QVector<QVector<int>> mat;
-    inline int &data(int x, int y);
     inline QRgb convolution(const QImage &img, int x, int y, bool normalized = true);
+
+signals:
+    void progressUpdated(int progress);
+
 };
 
 #endif // IMAGEKERNEL_H

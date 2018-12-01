@@ -31,6 +31,7 @@ private:
     CameraWindow *cw;
     DefaultFilterList effectList;
     ImgurWrapper *imgur;
+    void setImageLock(bool lock);
 
 private slots:
     void on_actionSave_triggered();

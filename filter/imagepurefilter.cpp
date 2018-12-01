@@ -1,5 +1,7 @@
 #include "imagepurefilter.h"
 
+ImagePureFilter::ImagePureFilter(QObject *parent) : ImageSizeFilter{parent} {}
+
 int ImagePureFilter::getMaxSize() const
 {
     return 10;

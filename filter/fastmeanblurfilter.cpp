@@ -3,6 +3,8 @@
 #include <QVector>
 #include "imageutil.h"
 
+FastMeanBlurFilter::FastMeanBlurFilter(QObject *parent) : ImageSizeFilter{parent} {}
+
 QString FastMeanBlurFilter::getName() const
 {
     return "Mean Blur (Large Size)";
@@ -15,6 +17,7 @@ int FastMeanBlurFilter::getMaxSize() const
 
 QImage FastMeanBlurFilter::apply(const QImage &img, int size) const
 {
+    emit progressUpdated(0);
     typedef QVector<QVector<int>> QMat;
     QMat red(img.height(), QVector<int>(img.width()));
     QMat green(red), blue(red);
@@ -35,16 +38,20 @@ QImage FastMeanBlurFilter::apply(const QImage &img, int size) const
         blue[i][j] += blue[i - 1][j];
     }
     QImage newImg{img};
-    for (int i=0;i<img.height();i++) for (int j=0;j<img.width();j++) {
-        int lox = qMax(i - size + 1, 0), loy = qMax(j - size, 0);
-        int hix = qMin(i + size - 1, img.height() - 1), hiy = qMin(j + size - 1, img.width() - 1);
-        int normFact = (hix - lox + 1) * (hiy - loy + 1);
-        int rsum = 0, gsum = 0, bsum = 0;
-        rsum += red[hix][hiy]; gsum += green[hix][hiy]; bsum += blue[hix][hiy];
-        if (loy > 0) { rsum -= red[hix][loy - 1]; gsum -= green[hix][loy - 1]; bsum -= blue[hix][loy - 1]; }
-        if (lox > 0) { rsum -= red[lox - 1][hiy]; gsum -= green[lox - 1][hiy]; bsum -= blue[lox - 1][hiy]; }
-        if (lox > 0 && loy > 0) { rsum += red[lox - 1][loy - 1]; gsum += green[lox - 1][loy - 1]; bsum += blue[lox - 1][loy - 1]; }
-        *ImageUtil::getPixel(newImg, i, j) = qRgba(rsum / normFact, gsum / normFact, bsum / normFact, qAlpha(*ImageUtil::getPixel(img, i, j)));
+    for (int i=0;i<img.height();i++) {
+        emit progressUpdated(i);
+        for (int j=0;j<img.width();j++) {
+            int lox = qMax(i - size + 1, 0), loy = qMax(j - size, 0);
+            int hix = qMin(i + size - 1, img.height() - 1), hiy = qMin(j + size - 1, img.width() - 1);
+            int normFact = (hix - lox + 1) * (hiy - loy + 1);
+            int rsum = 0, gsum = 0, bsum = 0;
+            rsum += red[hix][hiy]; gsum += green[hix][hiy]; bsum += blue[hix][hiy];
+            if (loy > 0) { rsum -= red[hix][loy - 1]; gsum -= green[hix][loy - 1]; bsum -= blue[hix][loy - 1]; }
+            if (lox > 0) { rsum -= red[lox - 1][hiy]; gsum -= green[lox - 1][hiy]; bsum -= blue[lox - 1][hiy]; }
+            if (lox > 0 && loy > 0) { rsum += red[lox - 1][loy - 1]; gsum += green[lox - 1][loy - 1]; bsum += blue[lox - 1][loy - 1]; }
+            *ImageUtil::getPixel(newImg, i, j) = qRgba(rsum / normFact, gsum / normFact, bsum / normFact, qAlpha(*ImageUtil::getPixel(img, i, j)));
+        }
     }
+    emit progressUpdated(img.height());
     return newImg;
 }

@@ -1,5 +1,7 @@
 #include "edgehighlightfilter.h"
-#include "imagekernel.h"
+#include "edgedetectkernel.h"
+
+EdgeHighlightFilter::EdgeHighlightFilter(QObject *parent) : ImageSizeFilter{parent} {}
 
 QString EdgeHighlightFilter::getName() const
 {
@@ -13,5 +15,8 @@ int EdgeHighlightFilter::getMaxSize() const
 
 QImage EdgeHighlightFilter::apply(const QImage &img, int size) const
 {
-    return ImageKernel::edgeDetect(size).convolution(img);
+    EdgeDetectKernel kernel{size};
+    connect(&kernel, &ImageKernel::progressUpdated, this, &ImageFilter::progressUpdated);
+    return kernel.convolution(img);
 }
+

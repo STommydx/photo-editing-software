@@ -54,7 +54,12 @@ SOURCES += \
     filter/sharpenfilter.cpp \
     filter/edgehighlightfilter.cpp \
     filter/embossfilter.cpp \
-    filter/pixelizefilter.cpp
+    filter/pixelizefilter.cpp \
+    filter/meankernel.cpp \
+    filter/gaussiankernel.cpp \
+    filter/sharpenkernel.cpp \
+    filter/edgedetectkernel.cpp \
+    filter/embosskernel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -87,7 +92,12 @@ HEADERS += \
     filter/sharpenfilter.h \
     filter/edgehighlightfilter.h \
     filter/embossfilter.h \
-    filter/pixelizefilter.h
+    filter/pixelizefilter.h \
+    filter/meankernel.h \
+    filter/gaussiankernel.h \
+    filter/sharpenkernel.h \
+    filter/edgedetectkernel.h \
+    filter/embosskernel.h
 
 FORMS += \
         mainwindow.ui \
