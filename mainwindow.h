@@ -43,7 +43,6 @@ private slots:
     void m_on_gps_selectionChanged();
     void on_actionDelete_triggered();
     void on_actionToFront_triggered();
-    void on_actionToBack_triggered();
 
     // Sticker build options
     void on_stickerTableView_clicked(const QModelIndex &index);

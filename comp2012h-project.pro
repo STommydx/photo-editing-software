@@ -59,7 +59,9 @@ SOURCES += \
     filter/gaussiankernel.cpp \
     filter/sharpenkernel.cpp \
     filter/edgedetectkernel.cpp \
-    filter/embosskernel.cpp
+    filter/embosskernel.cpp \
+    sticker.tpp \
+    anchor.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -69,7 +71,6 @@ HEADERS += \
     colordisplay.h \
     stickerthumbnailsmodel.h \
     stickerthumbnailsdelegate.h \
-    teststicker.h \
     camerawindow.h \
     imageutil.h \
     imagekernel.h \
@@ -97,7 +98,8 @@ HEADERS += \
     filter/gaussiankernel.h \
     filter/sharpenkernel.h \
     filter/edgedetectkernel.h \
-    filter/embosskernel.h
+    filter/embosskernel.h \
+    sticker.h
 
 FORMS += \
         mainwindow.ui \
