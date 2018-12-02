@@ -25,7 +25,7 @@ private:
     static const int TAB_PEN = 0;
     static const int TAB_STICKER = 1;
     Ui::MainWindow *ui;
-    MyGraphicsScene *gps;
+    MyGraphicsScene *graphicsScene;
     StickerThumbnailsModel* model;
     StickerThumbnailsDelegate* delegate;
     CameraWindow *cw;
