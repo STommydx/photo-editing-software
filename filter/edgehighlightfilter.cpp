@@ -1,6 +1,20 @@
+/**
+ * @class EdgeHighlightFilter
+ * @brief The EdgeHighlightFilter class represents an edge highlight filter.
+ *
+ * This filter is implemented using kernel convolution of EdgeDetectKernel.
+ * It highlights high frequency gradient change of the image.
+ *
+ * @sa EdgeDetectKernel
+ */
+
 #include "edgehighlightfilter.h"
 #include "edgedetectkernel.h"
 
+/**
+ * @brief Constructs an edge highlight filter with the given @a parent
+ * @param parent the parent @c QObject
+ */
 EdgeHighlightFilter::EdgeHighlightFilter(QObject *parent) : ImageSizeFilter{parent} {}
 
 QString EdgeHighlightFilter::getName() const
