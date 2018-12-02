@@ -6,7 +6,7 @@
 #include "stickerthumbnailsmodel.h"
 #include "stickerthumbnailsdelegate.h"
 #include "camerawindow.h"
-#include "imgurwrapper.h"
+#include "utils/imgurwrapper.h"
 #include "filter/defaultfilterlist.h"
 
 namespace Ui {

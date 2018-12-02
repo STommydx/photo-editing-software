@@ -30,7 +30,6 @@ SOURCES += \
     colordisplay.cpp \
     camerawindow.cpp \
     exportdialog.cpp \
-    imgurwrapper.cpp \
     filter/imagefilter.cpp \
     filter/defaultfilterlist.cpp \
     filter/gaussianblurfilter.cpp \
@@ -61,14 +60,14 @@ SOURCES += \
     filter/imagekernel.cpp \
     utils/avl.tpp \
     sticker/anchor.cpp \
-    utils/imageutil.cpp
+    utils/imageutil.cpp \
+    utils/imgurwrapper.cpp
 
 HEADERS += \
         mainwindow.h \
     colordisplay.h \
     camerawindow.h \
     exportdialog.h \
-    imgurwrapper.h \
     filter/imagefilter.h \
     filter/defaultfilterlist.h \
     filter/gaussianblurfilter.h \
@@ -99,7 +98,8 @@ HEADERS += \
     filter/imagekernel.h \
     utils/avl.h \
     sticker/anchor.h \
-    utils/imageutil.h
+    utils/imageutil.h \
+    utils/imgurwrapper.h
 
 FORMS += \
         mainwindow.ui \
