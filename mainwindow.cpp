@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     graphicsScene(new MyGraphicsScene), // instantiate graphics scene for viewing
     model(new StickerThumbnailsModel(this)),
     delegate(new StickerThumbnailsDelegate(this)),
-    cw(nullptr), // initialize camera window pointer
+    cameraWindow(nullptr), // initialize camera window pointer
     imgur(new ImgurWrapper(this)) // instantiate Imgur API
 {
     ui->setupUi(this); // setup UI
@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->effectList->addItem(filter->getName()); // add each effect in default list to the ui
     }
 
-    connect(graphicsScene, SIGNAL(selectionChanged()), this, SLOT(m_on_gps_selectionChanged()));
+    connect(graphicsScene, &MyGraphicsScene::selectionChanged, this, &MainWindow::onSceneSelectionChanged); // handle selection change
 
     connect(imgur, &ImgurWrapper::imageUploaded, this, &MainWindow::onImageUploaded); // handle image upload signal
 }
@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete graphicsScene;
-    delete cw;
+    delete cameraWindow;
     delete ui;
 }
 
@@ -130,11 +130,11 @@ void MainWindow::on_actionSave_triggered()
  */
 void MainWindow::on_actionCamera_triggered()
 {
-    if (cw) return; // ignore if a camera window is already opened
+    if (cameraWindow) return; // ignore if a camera window is already opened
     setImageLock(true); // lock image buttons
-    cw = new CameraWindow(this); // create a new camera window
-    cw->show(); // show the window
-    connect(cw, &CameraWindow::closed, this, &MainWindow::onCameraCaptured); // connect the close signal to the handler
+    cameraWindow = new CameraWindow(this); // create a new camera window
+    cameraWindow->show(); // show the window
+    connect(cameraWindow, &CameraWindow::closed, this, &MainWindow::onCameraCaptured); // connect the close signal to the handler
 }
 
 /**
@@ -224,7 +224,7 @@ void MainWindow::on_actionOpen_triggered()
 }
 
 /**
- * @brief Handle the action when the user clicks on the share button.
+ * @brief Handles the action when the user clicks on the share button.
  *
  * The function call the Imgur API to share the current scene image.
  */
@@ -234,7 +234,7 @@ void MainWindow::on_actionShare_triggered()
 }
 
 /**
- * @brief Handle the action when the user changes the pen color selection.
+ * @brief Handles the action when the user changes the pen color selection.
  *
  * The function updates the pen color in the graphics scene.
  *
@@ -245,25 +245,47 @@ void MainWindow::on_penColor_colorChanged(QColor color)
     graphicsScene->setPenColor(color);
 }
 
+/**
+ * @brief Handles the action when the user clicks on the delete button.
+ *
+ * The function deletes the current selected sticker.
+ */
 void MainWindow::on_actionDelete_triggered()
 {
     graphicsScene->deleteSelected();
 }
 
+/**
+ * @brief Handles the action when the user clicks the to front button.
+ *
+ * The function brings the selected sticker to the front of the scene.
+ */
 void MainWindow::on_actionToFront_triggered()
 {
     graphicsScene->bringToFrontSelected();
 }
 
-void MainWindow::m_on_gps_selectionChanged()
+/**
+ * @brief Handles the action when the user selects a different sticker
+ *
+ * The function shows or hides the sticker toolbar according whether there exist a sticker selection.
+ */
+void MainWindow::onSceneSelectionChanged()
 {
-    QList<QGraphicsItem *> selections = graphicsScene->selectedItems();
-    if(selections.isEmpty())
+    QList<QGraphicsItem *> &&selections = graphicsScene->selectedItems();
+    if(selections.isEmpty()) // if nothing is selected
         ui->stickerToolbar->hide();
     else
         ui->stickerToolbar->show();
 }
 
+/**
+ * @brief Handles the action when the user selects a differenet tab.
+ *
+ * The function set the respective mode of the graphic scene.
+ *
+ * @param tab the new tab index
+ */
 void MainWindow::on_tabWidget_currentChanged(int tab)
 {
     if(tab == TAB_PEN)
@@ -272,49 +294,88 @@ void MainWindow::on_tabWidget_currentChanged(int tab)
         graphicsScene->setMode(MyGraphicsScene::Mode::stickerMode);
 }
 
+/**
+ * @brief Handles the action when the user clicks on a different sticker in the sticker selection tab
+ *
+ * Updates the sticker file path of graphics scene.
+ *
+ * @param index the new selection index
+ */
 void MainWindow::on_stickerTableView_clicked(const QModelIndex &index)
 {
     graphicsScene->setStickerPath(index.data().toString());
 }
 
+/**
+ * @brief Handles the action when an image has been selected from the camera capture window.
+ *
+ * The function is invoked when the camera window is closed.
+ * It sets the result image to the graphics scene.
+ * Also, it cleans up the resources used by the camera window.
+ */
 void MainWindow::onCameraCaptured()
 {
-    graphicsScene->setImage(cw->result());
-    cw->deleteLater();
-    cw = nullptr;
-    setImageLock(false);
+    graphicsScene->setImage(cameraWindow->result()); // set the result image to scene
+    cameraWindow->deleteLater(); // schedule for deletion
+    cameraWindow = nullptr; // no dangling pointer!
+    setImageLock(false); // unlock the image related buttons
 }
 
+/**
+ * @brief Handles the action when the a different effect is being selected.
+ *
+ * The function updates the apply button, effect size slider and the effect strength slider according to the settings of the filter.
+ *
+ * @param row the selected row in effect list
+ */
 void MainWindow::on_effectList_currentRowChanged(int row)
 {
-    if (row == -1) {
-        ui->applyButton->setEnabled(false);
+    if (row == -1) { // if nothing is selected
+        ui->applyButton->setEnabled(false); // disable apply button
         return;
     }
     ui->applyButton->setEnabled(true);
     ImageFilter *effect = effectList[row];
-    ui->effectSizeSlider->setEnabled(effect->sizeEnabled());
-    ui->effectSizeSlider->setMaximum(effect->getMaxSize());
-    ui->effectStrengthSlider->setEnabled(effect->strengthEnabled());
+    ui->effectSizeSlider->setEnabled(effect->sizeEnabled()); // enable size slider according to settings
+    ui->effectSizeSlider->setMaximum(effect->getMaxSize()); // set max size according to settings
+    ui->effectStrengthSlider->setEnabled(effect->strengthEnabled()); // enable strength slider according to settings
 }
 
+/**
+ * @brief Handles the action when the apply button is clicked.
+ *
+ * Apply the selected filter effect to the image.
+ */
 void MainWindow::on_applyButton_clicked()
 {
-    ImageFilter *filter = effectList[ui->effectList->currentRow()];
+    ImageFilter *filter = effectList[ui->effectList->currentRow()]; // get the current filter
     int size = ui->effectSizeSlider->value();
-    double strength = ui->effectStrengthSlider->value() / 1000.0;
-    setImageLock(true);
-    graphicsScene->applyEffect(filter, size, strength);
-    setImageLock(false);
+    double strength = ui->effectStrengthSlider->value() / 1000.0; // normalize the strength slider value
+    setImageLock(true); // lock buttons before applying
+    graphicsScene->applyEffect(filter, size, strength); // apply the effects
+    setImageLock(false); // unlock the buttons
 }
 
+/**
+ * @brief Handles the action when the clear button is clicked.
+ *
+ * Clear all the effect applied.
+ */
 void MainWindow::on_clearButton_clicked()
 {
-    setImageLock(true);
-    graphicsScene->clearEffect();
-    setImageLock(false);
+    setImageLock(true); // lock the buttons before clearing
+    graphicsScene->clearEffect(); // clear the effects
+    setImageLock(false); // unlock the buttons
 }
 
+/**
+ * @brief Handles the action when an image has been successfully uploaded to Imgur.
+ *
+ * Construct a corresponding upload finish dialog and display it to the user.
+ *
+ * @param imgId the image id
+ * @param imgLink the image link
+ */
 void MainWindow::onImageUploaded(QString imgId, QString imgLink)
 {
     ExportDialog dialog(this, imgId, imgLink);

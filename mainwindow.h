@@ -22,15 +22,15 @@ public:
     ~MainWindow();
 
 private:
-    static const int TAB_PEN = 0;
-    static const int TAB_STICKER = 1;
-    Ui::MainWindow *ui;
-    MyGraphicsScene *graphicsScene;
-    StickerThumbnailsModel* model;
-    StickerThumbnailsDelegate* delegate;
-    CameraWindow *cw;
-    DefaultFilterList effectList;
-    ImgurWrapper *imgur;
+    static const int TAB_PEN = 0; /**< @brief An integer indicating the tool (pen) tab. */
+    static const int TAB_STICKER = 1; /**< @brief An integer indicating the sticker tab. */
+    Ui::MainWindow *ui; /**< @brief The main window ui */
+    MyGraphicsScene *graphicsScene; /**< @brief The pointer to display graphic scene */
+    StickerThumbnailsModel* model; /**< @brief The pointer to sticker selection widget model */
+    StickerThumbnailsDelegate* delegate; /**< @brief The pointer to sticker selection widget delegate */
+    CameraWindow *cameraWindow; /**< @brief The pointer to camera window */
+    DefaultFilterList effectList; /**< @brief The default list of filter effects */
+    ImgurWrapper *imgur; /**< @brief The pointer to the wrapper of Imgur API */
     void setImageLock(bool lock);
 
 private slots:
@@ -40,7 +40,7 @@ private slots:
 
     // Sticker toolbars
     void onActionUndoTriggered();
-    void m_on_gps_selectionChanged();
+    void onSceneSelectionChanged();
     void on_actionDelete_triggered();
     void on_actionToFront_triggered();
 
