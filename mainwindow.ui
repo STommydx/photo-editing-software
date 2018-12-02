@@ -134,6 +134,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Right click and drag to draw. :)</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -320,6 +327,13 @@
           </property>
           <property name="lineWidth">
            <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Right click to add sticker. :)</string>
           </property>
          </widget>
         </item>
