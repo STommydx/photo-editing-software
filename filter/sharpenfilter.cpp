@@ -5,7 +5,7 @@
  * This filter is implemented using kernel convolution of SharpenKernel.
  * It is used to enhance the amptitude of high frequency image signals at edges.
  *
- * @sa SharpenFilter
+ * @sa SharpenKernel
  */
 
 #include "sharpenfilter.h"

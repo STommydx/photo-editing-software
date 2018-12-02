@@ -8,12 +8,12 @@
 #include "embosskernel.h"
 
 /**
- * @brief Construct an edge detect kernel with a radius of @a size.
+ * @brief Construct an emboss kernel with a radius of @a size.
  *
  * An identity kernel with a dimension ( @a size * @c 2 - @c 1) * ( @a size * @c 2 - @c 1) is constructed.
  * The center pixel weight will be the 1 and all other weights will be the distance to the center cell.
  *
- * For example, the edge detect kernel with @c size = @c 2 is recreated below.
+ * For example, the emboss kernel with @c size = @c 2 is recreated below.
  *
  *     -2 -1  0
  *     -1  1  1
