@@ -21,7 +21,7 @@ class EditorGraphicsScene : public QGraphicsScene
 
 public:
     EditorGraphicsScene(QObject *parent = nullptr);
-    virtual ~EditorGraphicsScene() override;
+    virtual ~EditorGraphicsScene() override = default;
     void undo();
     void setImage(const QImage &image);
     QImage getImage() const;
@@ -35,18 +35,21 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
-    static const int SCENE_WIDTH = 1080;
-    static const int SCENE_HEIGHT = 1920;
+    static const int SCENE_WIDTH = 1080; /**< @brief The width of the editor */
+    static const int SCENE_HEIGHT = 1920; /**< @brief The height of the editor */
     static const double BACKGROUND_Z_VALUE;
     static const double FOREGROUND_Z_VALUE;
     static const QString DEFAULT_PHOTO;
-    QImage image;
-    QGraphicsPixmapItem *background;
-    QGraphicsPixmapItem *foreground;
-    QVector<QPair<ImageFilter*, QPair<int, double>>> applyEffectList;
+    QImage image; /**< @brief The unmodified background and foreground image */
+    QGraphicsPixmapItem *background; /**< @brief The pointer to background image item */
+    QGraphicsPixmapItem *foreground; /**< @brief The pointer to foreground image item */
+    QVector<QPair<ImageFilter*, QPair<int, double>>> applyEffectList; /**< @brief The list storing the applied filters and options */
 
 // Sticker mode and options
 public:
+    /**
+     * @brief The Mode enum represents the modes of the editor scene
+     */
     enum Mode { penMode, stickerMode };
 
     template<typename T>
@@ -60,17 +63,21 @@ public:
     void setStickerPath(const QString &value);
 
 private:
-    Mode mode;
-    bool isSelecting;
-    Sticker<QGraphicsPathItem>* pathSticker;
-    QPen pen;
-    QString svgPath;
+    Mode mode; /**< @brief The current mode of the editor */
+    bool isSelecting; /**< @brief A boolean indicating whether there is a item selected */
+    Sticker<QGraphicsPathItem>* pathSticker; /**< @brief The currently drawing path sticker */
+    QPen pen; /**< @brief Pen for drawing paths */
+    QString svgPath; /**< @brief The string representing the location of svg sticker */
 
 private slots:
     void onSelectionChanged();
 
 };
 
+/**
+ * @brief Add @a sticker to the editor scene.
+ * @param sticker the sticker to be added to the scene
+ */
 template<typename T>
 void EditorGraphicsScene::addSticker(Sticker<T> *sticker)
 {

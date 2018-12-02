@@ -1,3 +1,10 @@
+/**
+ * @class EditorGraphicsScene
+ * @brief The EditorGraphicsScene class provides the editor scene of the image editor.
+ *
+ * The class handles most of the functionality of the photo editor, including adding stickers, applying filter effects and the pen drawing.
+ * It also provides functionality to load images for background and export the current scene image.
+ */
 #include "editorgraphicsscene.h"
 #include <QGraphicsTextItem>
 #include <QGraphicsSvgItem>
@@ -13,10 +20,23 @@
 #include "sticker.h"
 #include "filter/fastmeanblurfilter.h"
 
+/**
+ * @brief Path to default photo
+ */
 const QString EditorGraphicsScene::DEFAULT_PHOTO = ":/assets/img/default.png";
+/**
+ * @brief Default z-value of background image
+ */
 const double EditorGraphicsScene::BACKGROUND_Z_VALUE = -2000.0;
+/**
+ * @brief Default z-value of foreground image
+ */
 const double EditorGraphicsScene::FOREGROUND_Z_VALUE = -1000.0;
 
+/**
+ * @brief Constructs a graphics scene for photo editing
+ * @param parent the parent qobject
+ */
 EditorGraphicsScene::EditorGraphicsScene(QObject *parent) :
     QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent),
     background(nullptr),
@@ -32,8 +52,6 @@ EditorGraphicsScene::EditorGraphicsScene(QObject *parent) :
 
     setImage(QImage(DEFAULT_PHOTO));
 }
-
-EditorGraphicsScene::~EditorGraphicsScene() { /* TODO */ }
 
 void EditorGraphicsScene::setImage(const QImage &image)
 {
