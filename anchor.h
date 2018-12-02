@@ -18,8 +18,17 @@ protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
+    /**
+     * @brief radius of anchor
+     */
     static const int RADIUS = 8;
+    /**
+     * @brief minimum sticker scale allowed
+     */
     constexpr static const double MIN_SCALE = 0.2;
+    /**
+     * @brief anchor type
+     */
     const int type;
     void dragScale(QPointF scenePos);
     void dragRotate(QPointF pos);

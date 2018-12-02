@@ -21,6 +21,9 @@ protected:
     virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
 
 private:
+    /**
+     * @brief minimum default size of a svg sticker
+     */
     static const int MIN_SIZE = 200;
     Anchor resizeAnchor;
 };

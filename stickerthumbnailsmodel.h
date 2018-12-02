@@ -16,6 +16,9 @@ public:
 
 private:
     static const QString BASE_PATH;
+    /**
+     * @brief file paths to all svg
+     */
     QStringList paths;
 };
 
