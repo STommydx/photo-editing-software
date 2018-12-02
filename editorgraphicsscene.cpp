@@ -53,6 +53,17 @@ EditorGraphicsScene::EditorGraphicsScene(QObject *parent) :
     setImage(QImage(DEFAULT_PHOTO));
 }
 
+/**
+ * @brief Sets the background and foreground to the given image
+ *
+ * The function first scales the image to fit the scene.
+ * Then, it applys all the image filter to the image.
+ * Lastly, it blurs the background for three times using mean blur.
+ *
+ * The function reproduces a background and forground scene with a effect similar to Instagram.
+ *
+ * @param image the image to be set
+ */
 void EditorGraphicsScene::setImage(const QImage &image)
 {
     if (image.isNull()) return;
@@ -64,6 +75,7 @@ void EditorGraphicsScene::setImage(const QImage &image)
     // Foreground unprocessed image
     QImage &&scaledImage = image.scaled(SCENE_WIDTH, SCENE_HEIGHT, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
+    // Setup progress dialog
     QProgressDialog progress;
     progress.setMinimumDuration(500);
     progress.setWindowTitle("Applying Filter...");
@@ -117,26 +129,39 @@ void EditorGraphicsScene::setImage(const QImage &image)
     foreground->setZValue(FOREGROUND_Z_VALUE);
 }
 
+/**
+ * @brief Returns an image snapshot of the current scene
+ * @return an image snapshot if the current scene
+ */
 QImage EditorGraphicsScene::createSnapshot()
 {
-    QImage img(SCENE_WIDTH, SCENE_HEIGHT, QImage::Format_ARGB32_Premultiplied);
+    QImage img(SCENE_WIDTH, SCENE_HEIGHT, QImage::Format_ARGB32_Premultiplied); // construct empty image
     QPainter qp;
     qp.begin(&img);
-    render(&qp);
+    render(&qp); // render the scene to the image
     qp.end();
     return img;
 }
 
+/**
+ * @brief Applys the specified @a filter with specified size and strength option
+ * @param filter the pointer to the filter
+ * @param size the size option
+ * @param strength the strength option, scaled for @c 0.0 to @c 1.0
+ */
 void EditorGraphicsScene::applyEffect(ImageFilter *filter, int size, double strength)
 {
-    applyEffectList.append({filter, {size, strength}});
-    setImage(image);
+    applyEffectList.append({filter, {size, strength}}); // add the effect to the list
+    setImage(image); // regenerate background and foreground
 }
 
+/**
+ * @brief Clears all effects previously applied.
+ */
 void EditorGraphicsScene::clearEffect()
 {
-    applyEffectList.clear();
-    setImage(image);
+    applyEffectList.clear(); // clear the effect list
+    setImage(image); // regenerate background and foreground
 }
 
 /* Sticker build options */
@@ -189,6 +214,10 @@ void EditorGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsScene::mouseMoveEvent(event);
 }
 
+/**
+ * @brief Returns the original unprocessed image of the scene
+ * @return original unprocessed image
+ */
 QImage EditorGraphicsScene::getImage() const
 {
     return image;
