@@ -1,7 +1,19 @@
+/**
+ * @class DarkenFilter
+ * @brief The DarkenFilter class represents a darken filter.
+ *
+ * The filter darken each pixel of the image.
+ * It is used to decrease the overall brightness of the image.
+ */
+
 #include "darkenfilter.h"
 #include <QtMath>
 #include "imageutil.h"
 
+/**
+ * @brief Construct a darken filter with the given parent
+ * @param parent the parent @c QObject
+ */
 DarkenFilter::DarkenFilter(QObject *parent) : ImageStrengthFilter{parent} {}
 
 QString DarkenFilter::getName() const

@@ -1,3 +1,10 @@
+/**
+ * @class DefaultFilterList
+ * @brief The DefaultFilterList class provides a default list of filters.
+ *
+ * The list cantain the pointers to all ImageFilter included in the PES.
+ * The class inherits @c QVector hence it can be used to add and change filters like normal vector.
+ */
 #include "defaultfilterlist.h"
 
 #include "grayscalefilter.h"
@@ -13,6 +20,9 @@
 #include "pixelizefilter.h"
 #include "edgehighlightfilter.h"
 
+/**
+ * @brief Constructs a default list of filters.
+ */
 DefaultFilterList::DefaultFilterList()
 {
     append(new GrayscaleFilter);
@@ -29,6 +39,9 @@ DefaultFilterList::DefaultFilterList()
     append(new EdgeHighlightFilter);
 }
 
+/**
+ * @brief Destructs the filter list and all the filters inside.
+ */
 DefaultFilterList::~DefaultFilterList()
 {
     while (!empty()) delete takeLast();

@@ -1,3 +1,9 @@
+/**
+ * @class EdgeDetectKernel
+ * @brief The EdgeDetectKernel represents a edge detection kernel for edge highlighting filter.
+ *
+ */
+
 #include "edgedetectkernel.h"
 
 EdgeDetectKernel::EdgeDetectKernel(int size, QObject *parent) : ImageKernel{size, parent}
