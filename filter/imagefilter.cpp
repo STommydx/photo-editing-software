@@ -1,6 +1,6 @@
 /**
  * @class ImageFilter
- * @brief The ImageFilter class provide a base class interface of all filters.
+ * @brief The ImageFilter class provides a base class interface of all filters.
  *
  * This class is an abstract base class.
  * All filters should inherit this class or its subclass and implement the actual filter in ImageFilter::apply(const QImage &, int, double) const.
@@ -80,7 +80,7 @@ bool ImageFilter::strengthEnabled() const
 
 /**
  * @fn double ImageFilter::getNormFactor() const
- * @brief Returns the normalizeation factor when applying the filter
+ * @brief Returns the normalization factor when applying the filter
  *
  * When applying the filter, the stength will be scaled up by this factor.
  * To be specific, if the filter is applied with a strength of @c x (ranged from @c 0.0 - @c 1.0), the actual strength when applying the filter will be ImageFilter::getNormFactor() * @c x.
