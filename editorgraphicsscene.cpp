@@ -164,25 +164,45 @@ void EditorGraphicsScene::clearEffect()
     setImage(image); // regenerate background and foreground
 }
 
-/* Sticker build options */
-
+/**
+ * @brief Set the path of the selected sticker
+ * @param value file path to a svg image
+ */
 void EditorGraphicsScene::setStickerPath(const QString &value) { svgPath = value; }
 
+/**
+ * @brief Set the stroke width of the pen tool
+ * @param value stroke width
+ */
 void EditorGraphicsScene::setStrokeWidth(int value) { pen.setWidth(value); }
 
+/**
+ * @brief Set the color of the pen tool
+ * @param value color of the pen tool
+ */
 void EditorGraphicsScene::setPenColor(const QColor &value) { pen.setColor(value); }
 
+/**
+ * @brief Set canvas mode
+ * @param mode @c EditorGraphicsScene::Mode::penMode or @c EditorGraphicsScene::Mode::stickerMode
+ */
 void EditorGraphicsScene::setMode(EditorGraphicsScene::Mode mode) { this->mode = mode; }
 
-/* Process sticker actions */
-
+/**
+ * @brief Defines canvas behavior on mouse clicked
+ * @param event Mouse press event
+ *
+ * Add svg sticker if current mode is @c EditorGraphicsScene::Mode::stickerMode
+ */
 void EditorGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    // Let base class handle mouse event if current mode is pen mode or received a right click
     if(mode == Mode::penMode || event->button() != Qt::RightButton) {
         QGraphicsScene::mousePressEvent(event);
         return;
     }
 
+    // Adds a new sticker
     Sticker<QGraphicsSvgItem> *svgSticker = new Sticker<QGraphicsSvgItem>(svgPath);
     svgSticker->setPos(event->scenePos());
     addSticker(svgSticker);
@@ -190,24 +210,32 @@ void EditorGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsScene::mousePressEvent(event);
 }
 
+/**
+ * @brief Define canvas behavior on mouse moved
+ * @param event Mouse move event
+ *
+ * Append to pen path or drag sticker depending on current mode and @a event
+ */
 void EditorGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    // Let base class handle event if current mode is sticker mode or event is initiated with right click
     if(mode == Mode::stickerMode || (event->buttons() & Qt::RightButton) == 0) {
         QGraphicsScene::mouseMoveEvent(event);
         return;
     }
 
     QPainterPath path;
+    // If first move event after press event, set current processing pathSticker to a new path sticker
     if(pathSticker == nullptr) {
-        path.moveTo(event->scenePos());
-        pathSticker = new Sticker<QGraphicsPathItem>();
-        pathSticker->setPen(pen);
-        pathSticker->setPath(path);
-        addSticker(pathSticker);
+        path.moveTo(event->scenePos());					// move path to event scene position
+        pathSticker = new Sticker<QGraphicsPathItem>();	// create a new path sticker
+        pathSticker->setPen(pen);						// set sticker pen to default pen
+        pathSticker->setPath(path);						// set sticker path to the new path
+        addSticker(pathSticker);						// add sticker to canvas
     }
 
-    path = pathSticker->path();
-    path.lineTo(event->scenePos());
+    path = pathSticker->path();							// get path from sticker
+    path.lineTo(event->scenePos());						// draw line from last event pos to current pos
     pathSticker->setPath(path);
     pathSticker->update();
 
@@ -223,6 +251,12 @@ QImage EditorGraphicsScene::getImage() const
     return image;
 }
 
+/**
+ * @brief Define behavior of canvas when mouse released
+ * @param event Mouse release event
+ *
+ * Set current processing path sticker to nullptr if current mode is pen mode
+ */
 void EditorGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if(mode == Mode::penMode)
@@ -235,13 +269,18 @@ void EditorGraphicsScene::onSelectionChanged()
     isSelecting = !selectedItems().isEmpty();
 }
 
-/* Sticker toolbar */
+/**
+ * @brief Delete selected item
+ */
 void EditorGraphicsScene::deleteSelected()
 {
     if(!selectedItems().isEmpty())
         removeItem(selectedItems().first());
 }
 
+/**
+ * @brief Bring selected item to top in canvas
+ */
 void EditorGraphicsScene::bringToFrontSelected()
 {
     if(selectedItems().isEmpty()) return;
