@@ -15,13 +15,13 @@
 #include "sticker.h"
 #include "filter/imagefilter.h"
 
-class MyGraphicsScene : public QGraphicsScene
+class EditorGraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
 
 public:
-    MyGraphicsScene(QObject *parent = nullptr);
-    virtual ~MyGraphicsScene();
+    EditorGraphicsScene(QObject *parent = nullptr);
+    virtual ~EditorGraphicsScene() override;
     void undo();
     void setImage(const QImage &image);
     QImage getImage() const;
@@ -37,6 +37,8 @@ protected:
 private:
     static const int SCENE_WIDTH = 1080;
     static const int SCENE_HEIGHT = 1920;
+    static const double BACKGROUND_Z_VALUE;
+    static const double FOREGROUND_Z_VALUE;
     static const QString DEFAULT_PHOTO;
     QImage image;
     QGraphicsPixmapItem *background;
@@ -49,7 +51,7 @@ public:
 
     template<typename T>
     void addSticker(Sticker<T> *sticker);
-    void setMode(MyGraphicsScene::Mode mode);
+    void setMode(EditorGraphicsScene::Mode mode);
     void setStrokeWidth(int value);
     void setPenColor(const QColor &value);
     void deleteSelected();
@@ -70,7 +72,7 @@ private slots:
 };
 
 template<typename T>
-void MyGraphicsScene::addSticker(Sticker<T> *sticker)
+void EditorGraphicsScene::addSticker(Sticker<T> *sticker)
 {
     addItem(sticker);
 }

@@ -1,4 +1,4 @@
-#include "mygraphicsscene.h"
+#include "editorgraphicsscene.h"
 #include <QGraphicsTextItem>
 #include <QGraphicsSvgItem>
 #include <QGraphicsPathItem>
@@ -13,14 +13,16 @@
 #include "sticker.h"
 #include "filter/fastmeanblurfilter.h"
 
-const QString MyGraphicsScene::DEFAULT_PHOTO = ":/assets/img/default.png";
+const QString EditorGraphicsScene::DEFAULT_PHOTO = ":/assets/img/default.png";
+const double EditorGraphicsScene::BACKGROUND_Z_VALUE = -2000.0;
+const double EditorGraphicsScene::FOREGROUND_Z_VALUE = -1000.0;
 
-MyGraphicsScene::MyGraphicsScene(QObject *parent) :
+EditorGraphicsScene::EditorGraphicsScene(QObject *parent) :
     QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent),
     background(nullptr),
     foreground(nullptr),
-    isSelecting(false),
     mode(Mode::stickerMode),
+    isSelecting(false),
     pathSticker(nullptr)
 {
     pen.setCapStyle(Qt::RoundCap);
@@ -31,9 +33,9 @@ MyGraphicsScene::MyGraphicsScene(QObject *parent) :
     setImage(QImage(DEFAULT_PHOTO));
 }
 
-MyGraphicsScene::~MyGraphicsScene() { /* TODO */ }
+EditorGraphicsScene::~EditorGraphicsScene() { /* TODO */ }
 
-void MyGraphicsScene::setImage(const QImage &image)
+void EditorGraphicsScene::setImage(const QImage &image)
 {
     if (image.isNull()) return;
     this->image = image;
@@ -87,16 +89,17 @@ void MyGraphicsScene::setImage(const QImage &image)
         if (background) removeItem(background);
         background = addPixmap(QPixmap::fromImage(processedImage));
         background->setTransformationMode(Qt::SmoothTransformation);
-
+        background->setZValue(BACKGROUND_Z_VALUE);
     }
 
     if (foreground) removeItem(foreground);
     foreground = addPixmap(QPixmap::fromImage(scaledImage));
     foreground->setTransformationMode(Qt::SmoothTransformation);
     foreground->setPos({SCENE_WIDTH / 2.0 - scaledImage.width() / 2.0, SCENE_HEIGHT / 2.0 - scaledImage.height() / 2.0});
+    foreground->setZValue(FOREGROUND_Z_VALUE);
 }
 
-QImage MyGraphicsScene::createSnapshot()
+QImage EditorGraphicsScene::createSnapshot()
 {
     QImage img(SCENE_WIDTH, SCENE_HEIGHT, QImage::Format_ARGB32_Premultiplied);
     QPainter qp;
@@ -106,13 +109,13 @@ QImage MyGraphicsScene::createSnapshot()
     return img;
 }
 
-void MyGraphicsScene::applyEffect(ImageFilter *filter, int size, double strength)
+void EditorGraphicsScene::applyEffect(ImageFilter *filter, int size, double strength)
 {
     applyEffectList.append({filter, {size, strength}});
     setImage(image);
 }
 
-void MyGraphicsScene::clearEffect()
+void EditorGraphicsScene::clearEffect()
 {
     applyEffectList.clear();
     setImage(image);
@@ -120,17 +123,17 @@ void MyGraphicsScene::clearEffect()
 
 /* Sticker build options */
 
-void MyGraphicsScene::setStickerPath(const QString &value) { svgPath = value; }
+void EditorGraphicsScene::setStickerPath(const QString &value) { svgPath = value; }
 
-void MyGraphicsScene::setStrokeWidth(int value) { pen.setWidth(value); }
+void EditorGraphicsScene::setStrokeWidth(int value) { pen.setWidth(value); }
 
-void MyGraphicsScene::setPenColor(const QColor &value) { pen.setColor(value); }
+void EditorGraphicsScene::setPenColor(const QColor &value) { pen.setColor(value); }
 
-void MyGraphicsScene::setMode(MyGraphicsScene::Mode mode) { this->mode = mode; }
+void EditorGraphicsScene::setMode(EditorGraphicsScene::Mode mode) { this->mode = mode; }
 
 /* Process sticker actions */
 
-void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void EditorGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if(mode == Mode::penMode || event->button() != Qt::RightButton) {
         QGraphicsScene::mousePressEvent(event);
@@ -144,7 +147,7 @@ void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsScene::mousePressEvent(event);
 }
 
-void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void EditorGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if(mode == Mode::stickerMode || (event->buttons() & Qt::RightButton) == 0) {
         QGraphicsScene::mouseMoveEvent(event);
@@ -168,31 +171,31 @@ void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsScene::mouseMoveEvent(event);
 }
 
-QImage MyGraphicsScene::getImage() const
+QImage EditorGraphicsScene::getImage() const
 {
     return image;
 }
 
-void MyGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void EditorGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if(mode == Mode::penMode)
         pathSticker = nullptr;
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
-void MyGraphicsScene::onSelectionChanged()
+void EditorGraphicsScene::onSelectionChanged()
 {
     isSelecting = !selectedItems().isEmpty();
 }
 
 /* Sticker toolbar */
-void MyGraphicsScene::deleteSelected()
+void EditorGraphicsScene::deleteSelected()
 {
     if(!selectedItems().isEmpty())
         removeItem(selectedItems().first());
 }
 
-void MyGraphicsScene::bringToFrontSelected()
+void EditorGraphicsScene::bringToFrontSelected()
 {
     if(selectedItems().isEmpty()) return;
     QGraphicsItem* selected = selectedItems().first();
@@ -204,7 +207,7 @@ void MyGraphicsScene::bringToFrontSelected()
     selected->setZValue(zValue);
 }
 
-void MyGraphicsScene::sendToBackSelected()
+void EditorGraphicsScene::sendToBackSelected()
 {
     if(selectedItems().isEmpty()) return;
     QGraphicsItem* selected = selectedItems().first();
@@ -216,7 +219,7 @@ void MyGraphicsScene::sendToBackSelected()
     selected->setZValue(zValue);
 }
 
-void MyGraphicsScene::undo()
+void EditorGraphicsScene::undo()
 {
 }
 

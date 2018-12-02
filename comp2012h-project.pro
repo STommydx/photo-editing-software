@@ -27,8 +27,6 @@ INCLUDEPATH += sticker ui
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    mygraphicsview.cpp \
-    mygraphicsscene.cpp \
     stickerthumbnailsmodel.cpp \
     stickerthumbnailsdelegate.cpp \
     colordisplay.cpp \
@@ -61,12 +59,12 @@ SOURCES += \
     filter/edgedetectkernel.cpp \
     filter/embosskernel.cpp \
     sticker.tpp \
-    anchor.cpp
+    anchor.cpp \
+    editorgraphicsscene.cpp \
+    editorgraphicsview.cpp
 
 HEADERS += \
         mainwindow.h \
-    mygraphicsview.h \
-    mygraphicsscene.h \
     anchor.h \
     colordisplay.h \
     stickerthumbnailsmodel.h \
@@ -99,7 +97,9 @@ HEADERS += \
     filter/sharpenkernel.h \
     filter/edgedetectkernel.h \
     filter/embosskernel.h \
-    sticker.h
+    sticker.h \
+    editorgraphicsscene.h \
+    editorgraphicsview.h
 
 FORMS += \
         mainwindow.ui \

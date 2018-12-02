@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "mygraphicsscene.h"
+#include "editorgraphicsscene.h"
 #include "stickerthumbnailsmodel.h"
 #include "stickerthumbnailsdelegate.h"
 #include "camerawindow.h"
@@ -25,7 +25,7 @@ private:
     static const int TAB_PEN = 0; /**< @brief An integer indicating the tool (pen) tab. */
     static const int TAB_STICKER = 1; /**< @brief An integer indicating the sticker tab. */
     Ui::MainWindow *ui; /**< @brief The main window ui */
-    MyGraphicsScene *graphicsScene; /**< @brief The pointer to display graphic scene */
+    EditorGraphicsScene *graphicsScene; /**< @brief The pointer to display graphic scene */
     StickerThumbnailsModel* model; /**< @brief The pointer to sticker selection widget model */
     StickerThumbnailsDelegate* delegate; /**< @brief The pointer to sticker selection widget delegate */
     CameraWindow *cameraWindow; /**< @brief The pointer to camera window */

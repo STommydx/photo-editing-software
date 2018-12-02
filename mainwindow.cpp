@@ -17,7 +17,7 @@
 #include <QTableView>
 #include <QtMath>
 
-#include "mygraphicsscene.h"
+#include "editorgraphicsscene.h"
 #include "imageutil.h"
 #include "exportdialog.h"
 #include "sticker.h"
@@ -32,7 +32,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), // parent class constructor
     ui(new Ui::MainWindow), // instantiate ui
-    graphicsScene(new MyGraphicsScene), // instantiate graphics scene for viewing
+    graphicsScene(new EditorGraphicsScene), // instantiate graphics scene for viewing
     model(new StickerThumbnailsModel(this)),
     delegate(new StickerThumbnailsDelegate(this)),
     cameraWindow(nullptr), // initialize camera window pointer
@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->effectList->addItem(filter->getName()); // add each effect in default list to the ui
     }
 
-    connect(graphicsScene, &MyGraphicsScene::selectionChanged, this, &MainWindow::onSceneSelectionChanged); // handle selection change
+    connect(graphicsScene, &EditorGraphicsScene::selectionChanged, this, &MainWindow::onSceneSelectionChanged); // handle selection change
 
     connect(imgur, &ImgurWrapper::imageUploaded, this, &MainWindow::onImageUploaded); // handle image upload signal
 }
@@ -289,9 +289,9 @@ void MainWindow::onSceneSelectionChanged()
 void MainWindow::on_tabWidget_currentChanged(int tab)
 {
     if(tab == TAB_PEN)
-        graphicsScene->setMode(MyGraphicsScene::Mode::penMode);
+        graphicsScene->setMode(EditorGraphicsScene::Mode::penMode);
     else if(tab == TAB_STICKER)
-        graphicsScene->setMode(MyGraphicsScene::Mode::stickerMode);
+        graphicsScene->setMode(EditorGraphicsScene::Mode::stickerMode);
 }
 
 /**

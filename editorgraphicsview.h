@@ -5,11 +5,11 @@
 #include <QWidget>
 #include <QGraphicsView>
 
-class MyGraphicsView : public QGraphicsView
+class EditorGraphicsView : public QGraphicsView
 {
 
 public:
-    MyGraphicsView(QWidget *parent = nullptr);
+    EditorGraphicsView(QWidget *parent = nullptr);
 
 protected:
     virtual void resizeEvent(QResizeEvent *) override;    
