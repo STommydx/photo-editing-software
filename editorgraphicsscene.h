@@ -22,7 +22,6 @@ class EditorGraphicsScene : public QGraphicsScene
 public:
     EditorGraphicsScene(QObject *parent = nullptr);
     virtual ~EditorGraphicsScene() override = default;
-    void undo();
     void setImage(const QImage &image);
     QImage getImage() const;
     QImage createSnapshot();
@@ -59,18 +58,13 @@ public:
     void setPenColor(const QColor &value);
     void deleteSelected();
     void bringToFrontSelected();
-    void sendToBackSelected();
     void setStickerPath(const QString &value);
 
 private:
     Mode mode; /**< @brief The current mode of the editor */
-    bool isSelecting; /**< @brief A boolean indicating whether there is a item selected */
     Sticker<QGraphicsPathItem>* pathSticker; /**< @brief The currently drawing path sticker */
     QPen pen; /**< @brief Pen for drawing paths */
     QString svgPath; /**< @brief The string representing the location of svg sticker */
-
-private slots:
-    void onSelectionChanged();
 
 };
 

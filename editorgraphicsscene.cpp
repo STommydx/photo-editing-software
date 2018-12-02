@@ -42,13 +42,10 @@ EditorGraphicsScene::EditorGraphicsScene(QObject *parent) :
     background(nullptr),
     foreground(nullptr),
     mode(Mode::stickerMode),
-    isSelecting(false),
     pathSticker(nullptr)
 {
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
-
-    connect(this, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
     setImage(QImage(DEFAULT_PHOTO));
 }
@@ -264,11 +261,6 @@ void EditorGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
-void EditorGraphicsScene::onSelectionChanged()
-{
-    isSelecting = !selectedItems().isEmpty();
-}
-
 /**
  * @brief Delete selected item
  */
@@ -292,20 +284,3 @@ void EditorGraphicsScene::bringToFrontSelected()
     }
     selected->setZValue(zValue);
 }
-
-void EditorGraphicsScene::sendToBackSelected()
-{
-    if(selectedItems().isEmpty()) return;
-    QGraphicsItem* selected = selectedItems().first();
-    qreal zValue = 0;
-    for(QGraphicsItem *item : selected->collidingItems()) {
-        if (item->zValue() <= zValue)
-            zValue = item->zValue() - 0.1;
-    }
-    selected->setZValue(zValue);
-}
-
-void EditorGraphicsScene::undo()
-{
-}
-

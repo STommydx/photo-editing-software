@@ -28,7 +28,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="MyGraphicsView" name="graphicsView">
+     <widget class="EditorGraphicsView" name="graphicsView">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -452,7 +452,6 @@
    </attribute>
    <addaction name="actionOpen"/>
    <addaction name="actionCamera"/>
-   <addaction name="actionUndo"/>
    <addaction name="actionSave"/>
    <addaction name="actionShare"/>
   </widget>
@@ -476,15 +475,6 @@
    <addaction name="actionDelete"/>
    <addaction name="actionToFront"/>
   </widget>
-  <action name="actionUndo">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/toolbar/undo.png</normaloff>:/toolbar/undo.png</iconset>
-   </property>
-   <property name="text">
-    <string>Undo</string>
-   </property>
-  </action>
   <action name="actionSave">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -521,7 +511,7 @@
      <normaloff>:/toolbar/delete.png</normaloff>:/toolbar/delete.png</iconset>
    </property>
    <property name="text">
-    <string> </string>
+    <string/>
    </property>
    <property name="toolTip">
     <string>Delete</string>
@@ -533,7 +523,7 @@
      <normaloff>:/toolbar/front.png</normaloff>:/toolbar/front.png</iconset>
    </property>
    <property name="text">
-    <string> </string>
+    <string/>
    </property>
    <property name="toolTip">
     <string>Bring to front</string>
@@ -555,14 +545,14 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>MyGraphicsView</class>
-   <extends>QGraphicsView</extends>
-   <header>mygraphicsview.h</header>
-  </customwidget>
-  <customwidget>
    <class>ColorDisplay</class>
    <extends>QGraphicsView</extends>
    <header>colordisplay.h</header>
+  </customwidget>
+  <customwidget>
+   <class>EditorGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>editorgraphicsview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -69,7 +69,6 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     connect(graphicsScene, &EditorGraphicsScene::selectionChanged, this, &MainWindow::onSceneSelectionChanged); // handle selection change
-
     connect(imgur, &ImgurWrapper::imageUploaded, this, &MainWindow::onImageUploaded); // handle image upload signal
 }
 
@@ -103,11 +102,6 @@ void MainWindow::setImageLock(bool lock)
     } else {
         ui->applyButton->setEnabled(true);
     }
-}
-
-void MainWindow::onActionUndoTriggered()
-{
-    graphicsScene->undo();
 }
 
 /**
