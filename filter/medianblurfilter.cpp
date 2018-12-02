@@ -16,8 +16,8 @@
  */
 
 #include "medianblurfilter.h"
-#include "avl.h"
-#include "imageutil.h"
+#include "utils/avl.h"
+#include "utils/imageutil.h"
 
 MedianBlurFilter::MedianBlurFilter(QObject *parent) : ImageSizeFilter{parent} {}
 

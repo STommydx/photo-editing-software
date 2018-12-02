@@ -6,7 +6,7 @@
  */
 
 #include "invertfilter.h"
-#include "imageutil.h"
+#include "utils/imageutil.h"
 
 /**
  * @brief Constructs an invert filter with the given parent

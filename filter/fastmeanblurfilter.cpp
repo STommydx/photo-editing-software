@@ -11,7 +11,7 @@
 #include "fastmeanblurfilter.h"
 
 #include <QVector>
-#include "imageutil.h"
+#include "utils/imageutil.h"
 
 /**
  * @brief Constructs an efficient mean blur filter

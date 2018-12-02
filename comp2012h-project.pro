@@ -27,15 +27,10 @@ INCLUDEPATH += sticker ui
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    stickerthumbnailsmodel.cpp \
-    stickerthumbnailsdelegate.cpp \
     colordisplay.cpp \
     camerawindow.cpp \
-    imageutil.cpp \
-    imagekernel.cpp \
     exportdialog.cpp \
     imgurwrapper.cpp \
-    avl.tpp \
     filter/imagefilter.cpp \
     filter/defaultfilterlist.cpp \
     filter/gaussianblurfilter.cpp \
@@ -58,23 +53,22 @@ SOURCES += \
     filter/sharpenkernel.cpp \
     filter/edgedetectkernel.cpp \
     filter/embosskernel.cpp \
-    sticker.tpp \
-    anchor.cpp \
     editorgraphicsscene.cpp \
-    editorgraphicsview.cpp
+    editorgraphicsview.cpp \
+    sticker/sticker.tpp \
+    sticker/stickerthumbnailsdelegate.cpp \
+    sticker/stickerthumbnailsmodel.cpp \
+    filter/imagekernel.cpp \
+    utils/avl.tpp \
+    sticker/anchor.cpp \
+    utils/imageutil.cpp
 
 HEADERS += \
         mainwindow.h \
-    anchor.h \
     colordisplay.h \
-    stickerthumbnailsmodel.h \
-    stickerthumbnailsdelegate.h \
     camerawindow.h \
-    imageutil.h \
-    imagekernel.h \
     exportdialog.h \
     imgurwrapper.h \
-    avl.h \
     filter/imagefilter.h \
     filter/defaultfilterlist.h \
     filter/gaussianblurfilter.h \
@@ -97,9 +91,15 @@ HEADERS += \
     filter/sharpenkernel.h \
     filter/edgedetectkernel.h \
     filter/embosskernel.h \
-    sticker.h \
     editorgraphicsscene.h \
-    editorgraphicsview.h
+    editorgraphicsview.h \
+    sticker/sticker.h \
+    sticker/stickerthumbnailsdelegate.h \
+    sticker/stickerthumbnailsmodel.h \
+    filter/imagekernel.h \
+    utils/avl.h \
+    sticker/anchor.h \
+    utils/imageutil.h
 
 FORMS += \
         mainwindow.ui \

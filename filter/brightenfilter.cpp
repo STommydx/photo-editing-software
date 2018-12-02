@@ -8,7 +8,7 @@
 
 #include "brightenfilter.h"
 #include <QtMath>
-#include "imageutil.h"
+#include "utils/imageutil.h"
 
 /**
  * @brief Construct a brighten filter with the given parent

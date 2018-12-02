@@ -8,7 +8,7 @@
 
 #include "darkenfilter.h"
 #include <QtMath>
-#include "imageutil.h"
+#include "utils/imageutil.h"
 
 /**
  * @brief Construct a darken filter with the given parent

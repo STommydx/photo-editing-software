@@ -6,8 +6,6 @@
 #include <QImage>
 #include <QObject>
 
-#include "imageutil.h"
-
 class ImageKernel : public QObject
 {
     Q_OBJECT

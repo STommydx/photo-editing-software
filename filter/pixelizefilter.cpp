@@ -4,7 +4,7 @@
  */
 
 #include "pixelizefilter.h"
-#include "imageutil.h"
+#include "utils/imageutil.h"
 
 /**
  * @brief Constructs a pixelize filter with the given parent.

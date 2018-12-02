@@ -6,7 +6,7 @@
  */
 
 #include "grayscalefilter.h"
-#include "imageutil.h"
+#include "utils/imageutil.h"
 
 /**
  * @brief Constructs a grayscale filter with the given parent

@@ -8,6 +8,7 @@
 #include <QtMath>
 
 #include "imagekernel.h"
+#include "utils/imageutil.h"
 
 /**
  * @brief Construct an identity kernel with a radius of @a size.

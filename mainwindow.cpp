@@ -18,7 +18,7 @@
 #include <QtMath>
 
 #include "editorgraphicsscene.h"
-#include "imageutil.h"
+#include "utils/imageutil.h"
 #include "exportdialog.h"
 #include "sticker.h"
 
