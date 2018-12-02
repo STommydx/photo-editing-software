@@ -49,7 +49,7 @@ public:
     /**
      * @brief The Mode enum represents the modes of the editor scene
      */
-    enum Mode { penMode, stickerMode };
+    enum Mode { penMode, stickerMode, effectMode };
 
     template<typename T>
     void addSticker(Sticker<T> *sticker);

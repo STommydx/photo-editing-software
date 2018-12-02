@@ -286,6 +286,8 @@ void MainWindow::on_tabWidget_currentChanged(int tab)
         graphicsScene->setMode(EditorGraphicsScene::Mode::penMode);
     else if(tab == TAB_STICKER)
         graphicsScene->setMode(EditorGraphicsScene::Mode::stickerMode);
+    else if(tab == TAB_EFFECT)
+        graphicsScene->setMode(EditorGraphicsScene::Mode::effectMode);
 }
 
 /**

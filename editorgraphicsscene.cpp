@@ -41,7 +41,7 @@ EditorGraphicsScene::EditorGraphicsScene(QObject *parent) :
     QGraphicsScene(0, 0, SCENE_WIDTH, SCENE_HEIGHT, parent),
     background(nullptr),
     foreground(nullptr),
-    mode(Mode::stickerMode),
+    mode(Mode::penMode),
     pathSticker(nullptr)
 {
     pen.setCapStyle(Qt::RoundCap);
@@ -186,15 +186,17 @@ void EditorGraphicsScene::setPenColor(const QColor &value) { pen.setColor(value)
 void EditorGraphicsScene::setMode(EditorGraphicsScene::Mode mode) { this->mode = mode; }
 
 /**
- * @brief Defines canvas behavior on mouse clicked
+ * @brief Handles canvas behavior on mouse clicked
  * @param event Mouse press event
  *
  * Add svg sticker if current mode is @c EditorGraphicsScene::Mode::stickerMode
  */
 void EditorGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // Let base class handle mouse event if current mode is pen mode or received a right click
-    if(mode == Mode::penMode || event->button() != Qt::RightButton) {
+    // Let base class handle mouse event if current mode is not sticker mode or received a right click
+    if(mode == Mode::penMode
+            || mode == Mode::effectMode
+            || event->button() != Qt::RightButton) {
         QGraphicsScene::mousePressEvent(event);
         return;
     }
@@ -208,7 +210,7 @@ void EditorGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 }
 
 /**
- * @brief Define canvas behavior on mouse moved
+ * @brief Handles canvas behavior on mouse moved
  * @param event Mouse move event
  *
  * Append to pen path or drag sticker depending on current mode and @a event
@@ -216,7 +218,9 @@ void EditorGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void EditorGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     // Let base class handle event if current mode is sticker mode or event is initiated with right click
-    if(mode == Mode::stickerMode || (event->buttons() & Qt::RightButton) == 0) {
+    if(mode == Mode::stickerMode
+            || mode == Mode::effectMode
+            || (event->buttons() & Qt::RightButton) == 0) {
         QGraphicsScene::mouseMoveEvent(event);
         return;
     }
@@ -249,7 +253,7 @@ QImage EditorGraphicsScene::getImage() const
 }
 
 /**
- * @brief Define behavior of canvas when mouse released
+ * @brief Handles behavior of canvas when mouse released
  * @param event Mouse release event
  *
  * Set current processing path sticker to nullptr if current mode is pen mode
