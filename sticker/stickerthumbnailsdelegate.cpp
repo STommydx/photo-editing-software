@@ -45,7 +45,7 @@ void StickerThumbnailsDelegate::paint(QPainter *painter,
     }
 }
 
-QSize StickerThumbnailsDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize StickerThumbnailsDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const
 {
     return QSize(option.rect.width() * 0.8, option.rect.width() * 0.8);
 }

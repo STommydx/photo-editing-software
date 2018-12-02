@@ -31,7 +31,7 @@ StickerThumbnailsModel::StickerThumbnailsModel(QObject *parent) :
  * @param parent
  * @return the total number of rows of the view
  */
-int StickerThumbnailsModel::rowCount(const QModelIndex &parent) const
+int StickerThumbnailsModel::rowCount(const QModelIndex &) const
 {
     return (paths.size() + 1) / 2;
 }
@@ -41,7 +41,7 @@ int StickerThumbnailsModel::rowCount(const QModelIndex &parent) const
  * @param parent
  * @return the total number of columns of the view
  */
-int StickerThumbnailsModel::columnCount(const QModelIndex &parent) const
+int StickerThumbnailsModel::columnCount(const QModelIndex &) const
 {
     return 2;
 }

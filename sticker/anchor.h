@@ -31,7 +31,6 @@ private:
      */
     const int type;
     void dragScale(QPointF scenePos);
-    void dragRotate(QPointF pos);
 };
 
 

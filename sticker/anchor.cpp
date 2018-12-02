@@ -42,19 +42,13 @@ void Anchor::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * @brief Handles the behavior of parent sticker when dragged
  * @param event The mouse drag event
  *
- * Calls to appropriate handler function according to the type of this anchor.
+ * Calls handler function to scale parent sticker
  * Afterwards, consume the mouse event such that it will not be propagated to underlying graphics items.
  */
 void Anchor::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     parentItem()->setVisible(true);
-    switch(type)
-    {
-    case RESIZE:
-        dragScale(event->scenePos()); break;
-    case ROTATE:
-        dragRotate(event->scenePos()); break;
-    }
+    dragScale(event->scenePos());
     event->accept();
 }
 
@@ -73,5 +67,3 @@ void Anchor::dragScale(QPointF scenePos)
     if(scale1 > MIN_SCALE)	// if new scale is larger than minimum scale, set parent sticker to this new scale
         parentItem()->setScale(scale1);
 }
-
-void Anchor::dragRotate(QPointF pos) { /* TODO */ }

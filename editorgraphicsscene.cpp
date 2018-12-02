@@ -270,8 +270,9 @@ void EditorGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
  */
 void EditorGraphicsScene::deleteSelected()
 {
-    if(!selectedItems().isEmpty())
-        removeItem(selectedItems().first());
+    QGraphicsItem* item = selectedItems().first();
+    removeItem(item);
+    delete item;
 }
 
 /**
