@@ -113,13 +113,13 @@ void EditorGraphicsScene::setImage(const QImage &image)
         });
         QImage &&processedImage = fmbFilter(choppedImage, 40, 0, 3);
 
-        if (background) removeItem(background);
+        if (background) { removeItem(background); delete background; }
         background = addPixmap(QPixmap::fromImage(processedImage));
         background->setTransformationMode(Qt::SmoothTransformation);
         background->setZValue(BACKGROUND_Z_VALUE);
     }
 
-    if (foreground) removeItem(foreground);
+    if (foreground) { removeItem(foreground); delete foreground; }
     foreground = addPixmap(QPixmap::fromImage(scaledImage));
     foreground->setTransformationMode(Qt::SmoothTransformation);
     foreground->setPos({SCENE_WIDTH / 2.0 - scaledImage.width() / 2.0, SCENE_HEIGHT / 2.0 - scaledImage.height() / 2.0});
