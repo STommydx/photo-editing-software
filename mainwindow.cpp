@@ -16,6 +16,8 @@
 #include <QFileDialog>
 #include <QTableView>
 #include <QtMath>
+#include <QPixmap>
+#include <QBitmap>
 
 #include "editorgraphicsscene.h"
 #include "utils/imageutil.h"
@@ -70,6 +72,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(graphicsScene, &EditorGraphicsScene::selectionChanged, this, &MainWindow::onSceneSelectionChanged); // handle selection change
     connect(imgur, &ImgurWrapper::imageUploaded, this, &MainWindow::onImageUploaded); // handle image upload signal
+
+    // hack fixes for icon colors
+    auto hackfix = [&](QAction *action, QString file) {
+        QPixmap icon(file);
+        QBitmap iconMask = icon.createMaskFromColor(Qt::transparent);
+        icon.fill(ui->mainToolBar->palette().toolTipText().color());
+        icon.setMask(iconMask);
+        action->setIcon(QIcon{icon});
+    };
+    hackfix(ui->actionCamera, ":/toolbar/camera.png");
+    hackfix(ui->actionDelete, ":/toolbar/delete.png");
+    hackfix(ui->actionOpen, ":/toolbar/open.png");
+    hackfix(ui->actionSave, ":/toolbar/save.png");
+    hackfix(ui->actionShare, ":/toolbar/share.png");
+    hackfix(ui->actionToFront, ":/toolbar/front.png");
+
 }
 
 /**
