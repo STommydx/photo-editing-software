@@ -109,4 +109,6 @@ FORMS += \
 RESOURCES += \
     resources.qrc
 
-QMAKE_CXXFLAGS_DEBUG += -O2
+target.path = /opt/photo-editing-software
+INSTALLS += target
+
