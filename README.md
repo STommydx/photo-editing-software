@@ -13,7 +13,14 @@ $ qmake
 $ make
 ```
 
-We have plans to package this as an Arch Linux PKGBUILD package. Stay tuned! :)
+### Installing
+
+We have an [Arch Linux package](https://github.com/STommydx/photo-editing-software-pkg) availiable :)
+
+Alternatively, you can install it using after building the binaries.
+```
+# make install
+```
 
 ### Documentation
 
