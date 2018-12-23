@@ -12,6 +12,7 @@
 #include "brightenfilter.h"
 #include "darkenfilter.h"
 #include "gaussianblurfilter.h"
+#include "fastgaussianfilter.h"
 #include "meanblurfilter.h"
 #include "fastmeanblurfilter.h"
 #include "medianblurfilter.h"
@@ -30,6 +31,7 @@ DefaultFilterList::DefaultFilterList()
     append(new BrightenFilter);
     append(new DarkenFilter);
     append(new GaussianBlurFilter);
+    append(new FastGaussianFilter);
     append(new MeanBlurFilter);
     append(new FastMeanBlurFilter);
     append(new MedianBlurFilter);
