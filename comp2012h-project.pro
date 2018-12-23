@@ -61,7 +61,8 @@ SOURCES += \
     utils/avl.tpp \
     sticker/anchor.cpp \
     utils/imageutil.cpp \
-    utils/imgurwrapper.cpp
+    utils/imgurwrapper.cpp \
+    filter/fastgaussianfilter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -99,7 +100,8 @@ HEADERS += \
     utils/avl.h \
     sticker/anchor.h \
     utils/imageutil.h \
-    utils/imgurwrapper.h
+    utils/imgurwrapper.h \
+    filter/fastgaussianfilter.h
 
 FORMS += \
         mainwindow.ui \

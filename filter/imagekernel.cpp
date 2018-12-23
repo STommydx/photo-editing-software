@@ -16,6 +16,31 @@
  * An identity kernel with a dimension (size * 2 - 1) * (size * 2 - 1) is constructed.
  * The center pixel weight will be @c 1 and all other weights will be @c 0.
  *
+ * For example, the identity kernel with @a sizeX = @c 2 and @a sizeY = @c 3 is recreated below.
+ *
+ *    0 0 0 0 0
+ *    0 0 1 0 0
+ *    0 0 0 0 0
+ *
+ * @param sizeX radius of the kernel x-dimension
+ * @param sizeY radius of the kernel y-dimension
+ * @param parent the parent @c QObject
+ */
+ImageKernel::ImageKernel(int sizeX, int sizeY, QObject *parent) :
+    QObject{parent}, // initialize the parent
+    sizeX(sizeX), // set the kernel radius
+    sizeY(sizeY),
+    mat(sizeX * 2 - 1, QVector<int>(sizeY * 2 - 1, 0)) // initialize the 2D matrix filled with zero
+{
+    data(0, 0) = 1; // center pixel = 1 for identity kernel
+}
+
+/**
+ * @brief Construct an identity kernel with a radius of @a size.
+ *
+ * An identity kernel with a dimension (size * 2 - 1) * (size * 2 - 1) is constructed.
+ * The center pixel weight will be @c 1 and all other weights will be @c 0.
+ *
  * For example, the identity kernel with @c size = @c 2 is recreated below.
  *
  *     0 0 0
@@ -26,11 +51,9 @@
  * @param parent the parent @c QObject
  */
 ImageKernel::ImageKernel(int size, QObject *parent) :
-    QObject{parent}, // initialize the parent
-    size(size), // set the kernel radius
-    mat(size * 2 - 1, QVector<int>(size * 2 - 1, 0)) // initialize the 2D matrix filled with zero
+    ImageKernel(size, size, parent)
 {
-    data(0, 0) = 1; // center pixel = 1 for identity kernel
+
 }
 
 /**
@@ -71,7 +94,7 @@ QRgb ImageKernel::convolution(const QImage &img, int x, int y, bool normalized)
 {
     int normFact = 0; // normalization factor, storing the sum of weights
     int rsum = 0, gsum = 0, bsum = 0; // sum of each colour
-    for (int dx=-size+1;dx<size;dx++) for (int dy=-size+1;dy<size;dy++) { // for a given offset in size
+    for (int dx=-sizeX+1;dx<sizeX;dx++) for (int dy=-sizeY+1;dy<sizeY;dy++) { // for a given offset in size
         int nx = x + dx, ny = y + dy; // the coordinates of the offset pixel
         if (nx < 0 || nx >= img.height() || ny < 0 || ny >= img.width()) continue; // consider next if out of bound
         normFact += data(dx, dy); // add the weight to the normalization factor
@@ -99,7 +122,7 @@ QRgb ImageKernel::convolution(const QImage &img, int x, int y, bool normalized)
  */
 int &ImageKernel::data(int x, int y)
 {
-    return mat[x + size - 1][y + size - 1]; // add back the offset for storage or access
+    return mat[x + sizeX - 1][y + sizeY - 1]; // add back the offset for storage or access
 }
 
 /**

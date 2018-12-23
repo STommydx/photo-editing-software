@@ -10,6 +10,7 @@ class GaussianKernel : public ImageKernel
     Q_OBJECT
 public:
     explicit GaussianKernel(int size = 3, double sd = 1.0, QObject *parent = nullptr);
+    explicit GaussianKernel(int sizeX = 3, int sizeY = 3, double sd = 1.0, QObject *parent = nullptr);
 
 };
 
