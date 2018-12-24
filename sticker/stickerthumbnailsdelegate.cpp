@@ -16,7 +16,7 @@
  * @param parent Owner of this delegate
  */
 StickerThumbnailsDelegate::StickerThumbnailsDelegate(QObject *parent) :
-    QAbstractItemDelegate(parent),
+    QStyledItemDelegate(parent),
     renderer(new QSvgRenderer())
 {
 }
@@ -33,6 +33,12 @@ void StickerThumbnailsDelegate::paint(QPainter *painter,
                                       const QStyleOptionViewItem &option,
                                       const QModelIndex &index) const
 {
+    // super hackfix for highlight box not rendering
+    QStyleOptionViewItem optionItem{option};
+    optionItem.font.setPixelSize(1);
+    optionItem.displayAlignment = Qt::AlignCenter;
+    QStyledItemDelegate::paint(painter, optionItem, index);
+
     QRect rect = option.rect;			// get rect of the view to be rendered
     QMargins margins;
     margins += option.rect.width() * 0.1;	// create a margin with 0.1 width of the item
