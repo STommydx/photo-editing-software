@@ -1,10 +1,10 @@
 #ifndef STICKERTHUMBNAILSDELEGATE_H
 #define STICKERTHUMBNAILSDELEGATE_H
 
-#include <QAbstractItemDelegate>
+#include <QStyledItemDelegate>
 #include <QSvgRenderer>
 
-class StickerThumbnailsDelegate : public QAbstractItemDelegate
+class StickerThumbnailsDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
