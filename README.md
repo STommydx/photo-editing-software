@@ -4,6 +4,10 @@ Photo Editing Software (PES) is a multifunctional photo editor with an intuitive
 
 This project is created for partial fufillment of the requirements of the course COMP 2012H Fall 2018. The repository was originally hosted privately in GitLab while developing.
 
+### Screenshot
+
+![](https://raw.githubusercontent.com/STommydx/photo-editing-software/master/screenshot.png)
+
 ### Building
 
 Run qmake to generate the make file and use make to build the binary.
